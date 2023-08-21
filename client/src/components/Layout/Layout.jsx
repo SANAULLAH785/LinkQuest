@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
       <Container
         maxWidth="xl"
         sx={{ display: "flex", justifyContent: "center" }}
-        padding={0}
+        disableGutters
       >
         {children}
       </Container>
