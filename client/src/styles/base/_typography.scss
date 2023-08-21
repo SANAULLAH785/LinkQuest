@@ -1,7 +1,16 @@
+@font-face {
+  font-family: "Arial";
+  src: url(../../fonts/Arial/ARIBL0.ttf);
+  font-weight: normal;
+  font-style: normal;
+
+  font-family: "Lato";
+  src: url(../../fonts/Lato/Lato-Black.ttf);
+}
+
 $base-font-size: 16px;
-$heading-font-family: "Helvetica", sans-serif;
-$body-font-family: "Arial", sans-serif;
-$font-color: #333;
+$heading-font-family: "Lato", sans-serif;
+$body-font-family: "Lato", sans-serif;
 
 $heading-1-size: 2.5rem;
 $heading-2-size: 2rem;
@@ -12,12 +21,11 @@ $heading-6-size: 1rem;
 
 @mixin base-text {
   font-size: $base-font-size;
-  font-family: $body-font-family;
-  color: $font-color;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @mixin heading-text {
-  font-family: $heading-font-family;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -25,8 +33,9 @@ body {
 }
 
 h1 {
-  @include heading-text;
+  // @include heading-text;
   font-size: $heading-1-size;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 
   @media (max-width: 540px) {
     font-size: $heading-1-size * 0.9;
