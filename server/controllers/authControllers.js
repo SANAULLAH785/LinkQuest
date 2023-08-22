@@ -1,5 +1,10 @@
 const authControllers = {};
 const User = require("../modals/userSchema");
+const bcrypt=require('bcrypt');
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const jstsecret = process.env.jwtSecret;
+
 
 authControllers.SignUp = async (req, res) => {
   try {
@@ -10,10 +15,11 @@ authControllers.SignUp = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
 
+    const hashPassword= await bcrypt.hash(password,10);
     const newUser = new User({
       name,
       email,
-      password,
+      password:hashPassword,
     });
 
     const savedUser = await newUser.save();
@@ -27,8 +33,24 @@ authControllers.SignUp = async (req, res) => {
   }
 };
 
-authControllers.SignIn = (req, res) => {
-  res.send("hello");
+authControllers.SignIn = async(req, res) => {
+  try{
+    const {email,password}=req.body;
+    const existinguser=await User.findOne({email});
+    if(!existinguser){
+     return res.status(400).send("user with this email does not exist");
+    }
+    const ispassword=await bcrypt.compare(password,existinguser.password);
+    if(!ispassword){
+      console.log(existinguser.password);
+     return res.status(401).send( "Incorrect password." );
+    }
+    const token=jwt.sign({userId:existinguser._id,username:existinguser.name},jstsecret)
+    res.status(200).send(token);
+}catch(error){
+  res.status(500).send('Internal Server Error');
+
+}
 };
 
 module.exports = authControllers;

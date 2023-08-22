@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const jstsecret = process.env.jwtSecret;
 
 const auth = (req, res, next) => {
   const token = req.header("token");
@@ -8,8 +10,8 @@ const auth = (req, res, next) => {
     return res.status(401).json({ error: "Unauthorized. Missing token." });
   }
   try {
-    const decodedToken = jwt.verify(token, "Secret-Key");
-    req.userId = decodedToken.id;
+    const decodedToken = jwt.verify(token, jstsecret);
+    req.userId = decodedToken.userId;
     next();
   } catch (error) {
     console.error(error);
