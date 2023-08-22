@@ -1,3 +1,4 @@
+const Post=require('../modals/postSchema');
 const postControllers = {};
 
 postControllers.GetAllPosts = (req, res) => {
@@ -11,9 +12,22 @@ postControllers.GetSinglePost = (req, res) => {
 postControllers.EditVotes = (req, res) => {
   res.send("Get Votes of Post");
 };
+// post with image
+postControllers.AddPost = async(req, res) => {
+  try {
+    const { caption } = req.body;
+    const newPost = new Post({
+      caption: caption,
+      imageUrl: req.imageUrl, 
+      user: req.userId, 
+    });
 
-postControllers.AddPost = (req, res) => {
-  res.send("Add Post");
+    await newPost.save();
+    res.status(201).json({ message: 'Post created successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
 };
 
 postControllers.GetComments = (req, res) => {

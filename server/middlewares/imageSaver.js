@@ -2,12 +2,16 @@ const { v2 } = require("cloudinary");
 const cloudinary = v2;
 const multer = require("multer");
 const crypto = require("crypto");
+require("dotenv").config();
+const cloudname=process.env.cloud_name;
+const apikey=process.env.api_key;
+const apisecret=process.env.api_secret;
 
 // Cloudinary configuration
 cloudinary.config({
-  cloud_name: "djjn4dxpu",
-  api_key: "435913532677436",
-  api_secret: "fz83D8iflwaBX6v3ugmU_Ce2wMw",
+  cloud_name:cloudname,
+  api_key:apikey,
+  api_secret:apisecret
 });
 
 const imageUploader = multer().single("image");
