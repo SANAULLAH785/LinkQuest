@@ -15,23 +15,26 @@ const Homepage = () => {
     <>
       <Box className="homepage">
         <Header />
-        <Grid container spacing={2}>
-          <Grid item md={isOpenSideBar ? 2 : 1} className="sidebar">
-            <Sidebar
-              isOpenSideBar={isOpenSideBar}
-              sideBarHandler={sideBarHandler}
-            />
+
+        <Box className="app-section">
+          <Grid container spacing={2}>
+            <Grid item md={isOpenSideBar ? 2 : 1} className="sidebar">
+              <Sidebar
+                isOpenSideBar={isOpenSideBar}
+                sideBarHandler={sideBarHandler}
+              />
+            </Grid>
+            <Grid item md={isOpenSideBar ? 7 : 8} className="sidebar">
+              <PostSection />
+            </Grid>
+            <Grid item md={3} className="sidebar">
+              <Sidebar
+                isOpenSideBar={isOpenSideBar}
+                sideBarHandler={sideBarHandler}
+              />
+            </Grid>
           </Grid>
-          <Grid item md={isOpenSideBar ? 7 : 8} className="sidebar">
-            <PostSection />
-          </Grid>
-          <Grid item md={3} className="sidebar">
-            <Sidebar
-              isOpenSideBar={isOpenSideBar}
-              sideBarHandler={sideBarHandler}
-            />
-          </Grid>
-        </Grid>
+        </Box>
       </Box>
     </>
   );

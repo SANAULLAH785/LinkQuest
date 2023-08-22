@@ -1,10 +1,11 @@
 .sidebar-container {
-  position: relative;
+  position: sticky;
+  top: 80px;
   display: flex;
   flex-direction: column;
   height: 80vh;
   border-radius: 15px;
-  border: 1px #808080 solid;
+  // border: 1px #808080 solid;
   transition: all 0.3s ease;
 
   .close-button {
