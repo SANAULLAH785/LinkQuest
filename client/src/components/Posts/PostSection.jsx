@@ -2,6 +2,7 @@ import React from "react";
 import PostCard from "./PostCard";
 import { Box, Grid } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
+import postData from "../../lib/postsData";
 import "./PostSection.scss";
 
 const PostSection = () => {
@@ -21,7 +22,15 @@ const PostSection = () => {
         </Box>
       </Grid>
       <Grid item md={12}>
-        <PostCard />
+        {postData.map((post) => (
+          <PostCard
+            caption={post.caption}
+            description={post.description}
+            imageUrl={post.imageUrl}
+            username={post.username}
+            date={post.date}
+          />
+        ))}
       </Grid>
     </Grid>
   );
