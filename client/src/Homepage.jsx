@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
+import PostSection from "./components/Posts/PostSection";
 import { Grid, Box } from "@mui/material";
 
 const Homepage = () => {
@@ -15,7 +16,16 @@ const Homepage = () => {
       <Box className="homepage">
         <Header />
         <Grid container spacing={2}>
-          <Grid item xs={6} md={isOpenSideBar ? 2 : 1}>
+          <Grid item md={isOpenSideBar ? 2 : 1} className="sidebar">
+            <Sidebar
+              isOpenSideBar={isOpenSideBar}
+              sideBarHandler={sideBarHandler}
+            />
+          </Grid>
+          <Grid item md={isOpenSideBar ? 7 : 8} className="sidebar">
+            <PostSection />
+          </Grid>
+          <Grid item md={3} className="sidebar">
             <Sidebar
               isOpenSideBar={isOpenSideBar}
               sideBarHandler={sideBarHandler}

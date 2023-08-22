@@ -1,0 +1,20 @@
+const postData = [
+  {
+    user: "Awais",
+    userImage:
+      "https://media.licdn.com/dms/image/D4D03AQFmRxQfBU-nIQ/profile-displayphoto-shrink_800_800/0/1671643608291?e=2147483647&v=beta&t=FKCGs1lq--wtDkHTqFCIXlZkUeKFbAm4oSQBVNS4oVQ",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattis. Ut vulputate eros sed felis sodales nec vulputate justo hendrerit. Vivamus varius pretium ligula, a aliquam odio euismod sit amet. Quisque laoreet sem sit amet orci ullamcorper at ultricies metus viverra. Pellentesque arcu mauris, malesuada quis ornare accumsan, blandit sed diam.",
+  },
+  {
+    user: "Awais",
+    userImage:
+      "https://media.licdn.com/dms/image/D4D03AQFmRxQfBU-nIQ/profile-displayphoto-shrink_800_800/0/1671643608291?e=2147483647&v=beta&t=FKCGs1lq--wtDkHTqFCIXlZkUeKFbAm4oSQBVNS4oVQ",
+
+    caption: "Starting React",
+    imageUrl:
+      "https://bs-uploads.toptal.io/blackfish-uploads/components/seo/content/og_image_file/og_image/1294619/secure-rest-api-in-nodejs-18f43b3033c239da5d2525cfd9fdc98f.png",
+  },
+];
+
+export default postData;
