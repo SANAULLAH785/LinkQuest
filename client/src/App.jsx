@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./components/Layout/Layout";
-import Homepage from "./Homepage";
+import MainWrapper from "./MainWrapper";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
@@ -21,7 +21,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <Layout>
-          <Homepage />
+          <MainWrapper />
         </Layout>
       </Provider>
     </ThemeProvider>

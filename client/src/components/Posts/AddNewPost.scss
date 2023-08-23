@@ -119,6 +119,11 @@
     align-items: center;
     padding: 10px;
 
+    .error {
+      font-size: 12px;
+      color: tomato;
+    }
+
     .image-preview {
       position: relative;
       margin-bottom: 10px;
@@ -137,28 +142,6 @@
       }
     }
 
-    // .input-image {
-    //   display: flex;
-    //   flex-direction: row;
-    //   font-size: 20px;
-    //   justify-content: center;
-    //   align-items: center;
-    //   //   display: inline-block;
-    //   width: 100%;
-    //   //   border: 1px gray solid;
-    //   display: inline-block;
-    //   padding: 6px 12px;
-    //   cursor: pointer;
-
-    //   p {
-    //     margin-left: 10px;
-    //   }
-    //   input[type="file"] {
-    //     display: none;
-    //     background-color: transparent;
-    //     margin-bottom: 10px;
-    //   }
-    // }
     .input-image {
       display: inline-block;
       //   border: 2px solid #ccc;
@@ -171,6 +154,11 @@
 
       &:hover {
         // background-color: #f5f5f5;
+      }
+
+      .error {
+        font-size: 12px;
+        color: tomato;
       }
 
       .icon-wrapper {

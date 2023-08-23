@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addNewPostHandler } from "./Store/Slices/postSlice";
 import { Grid, Box } from "@mui/material";
 
-const Homepage = () => {
+const MainWrapper = () => {
   const dispatch = useDispatch();
   const postStateBar = useSelector((state) => state.postState.addNewPost);
   const [isOpenSideBar, setIsOpenSideBar] = useState(true);
@@ -75,4 +75,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default MainWrapper;

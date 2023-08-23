@@ -1,33 +1,99 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { Grid, Box, TextField } from "@mui/material";
 import { BiImageAdd } from "react-icons/bi";
-import { BsTextLeft } from "react-icons/bs";
+import { BsBox2HeartFill, BsTextLeft } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
+import { ApiCallPost } from "../Api/ApiCall";
 import "./AddNewPost.scss";
 
 const AddNewPost = () => {
   const dispatch = useDispatch();
   const [imageSection, setImageSection] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
+      setImageFile(file);
     }
   };
 
   const clearSelectedImage = () => {
     setSelectedImage(null);
+    setImageFile(null);
+    formik.setFieldValue("image", null);
   };
 
   const buttonHandler = (check) => {
     setImageSection(check);
   };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const caption = event.target.elements.caption.value;
+    const image = imageFile;
+
+    const data = {
+      caption,
+      image,
+    };
+    console.log(data);
+    setSelectedImage(null);
+    event.target.reset();
+  };
+
+  const descriptionInitialValue = {
+    description: "",
+  };
+
+  const descriptionValidation = {
+    description: Yup.string().required("Textfield is required"),
+  };
+
+  const descriptionFormik = useFormik({
+    initialValues: descriptionInitialValue,
+    validationSchema: Yup.object(descriptionValidation),
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  const initialValues = {
+    image: null,
+    caption: "",
+  };
+
+  const validationSchema = Yup.object({
+    image: Yup.mixed()
+      .required("An image is required")
+      .test("fileType", "Only image files are allowed", (value) => {
+        return value && value.type.startsWith("image/");
+      }),
+    caption: Yup.string().required("A caption is required"),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      console.log("Form values:", values);
+      await ApiCallPost("/post", values)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
 
   return (
     <Box className="new-post-container">
@@ -64,7 +130,7 @@ const AddNewPost = () => {
       <Box>
         {imageSection ? (
           <Box className="image-section">
-            <form action="">
+            <form onSubmit={formik.handleSubmit}>
               {selectedImage && (
                 <Box className="image-preview">
                   <img src={selectedImage} alt="Selected" />
@@ -74,33 +140,54 @@ const AddNewPost = () => {
                 </Box>
               )}
               {!selectedImage && (
-                <label htmlFor="image-input" className="input-image">
+                <label htmlFor="image" className="input-image">
                   <div className="icon-wrapper">
                     <BsCardImage size={35} />
                   </div>
                   <p>Add Image</p>
                   <input
                     type="file"
-                    id="image-input"
+                    id="image"
+                    name="image"
                     accept="image/*"
-                    onChange={handleImageChange}
+                    onChange={(event) => {
+                      formik.setFieldValue(
+                        "image",
+                        event.currentTarget.files[0]
+                      );
+                      handleImageChange(event);
+                    }}
                   />
+                  {formik.errors.image && formik.touched.image && (
+                    <p className="error">{formik.errors.image}</p>
+                  )}
                 </label>
               )}
 
-              <textarea name="" id="" placeholder="add caption..."></textarea>
+              <textarea
+                name="caption"
+                id="caption"
+                placeholder="add caption..."
+                onChange={formik.handleChange}
+              ></textarea>
+              {formik.errors.caption && formik.touched.caption && (
+                <p className="error">{formik.errors.caption}</p>
+              )}
 
-              <button>Post</button>
+              <button type="submit">Post</button>
             </form>
           </Box>
         ) : (
           <Box className="text-container">
-            <textarea
-              name=""
-              id=""
-              placeholder="add your thoughts..."
-            ></textarea>
-            <button>Post</button>
+            <form onSubmit={descriptionFormik.handleSubmit}>
+              <textarea
+                name="description"
+                id="description"
+                placeholder="add your thoughts..."
+                onChange={descriptionFormik.handleChange}
+              ></textarea>
+              <button type="submit">Post</button>
+            </form>
           </Box>
         )}
       </Box>
