@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const postControllers = require("../controllers/postControllers");
-const auth =require('../middlewares/auth');
-const imagesaver= require('../middlewares/imageSaver');
+const auth = require("../middlewares/auth");
+const imagesaver = require("../middlewares/imageSaver");
 
 router.get("/posts", postControllers.GetAllPosts);
 
@@ -10,7 +10,7 @@ router.get("/post/:id", postControllers.GetSinglePost);
 
 router.put("/post/:id", postControllers.EditVotes);
 
-router.post("/post",auth,imagesaver, postControllers.AddPost);
+router.post("/post", imagesaver, postControllers.AddPost);
 
 router.get("/post/comments", postControllers.GetComments);
 
