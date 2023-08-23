@@ -12,6 +12,8 @@ router.put("/post/:id", postControllers.EditVotes);
 
 router.post("/post", imagesaver, postControllers.AddPost);
 
+router.post("/textpost", auth, postControllers.AddTextPost);
+
 router.get("/post/comments", postControllers.GetComments);
 
 router.post("/post/comment", postControllers.AddComment);

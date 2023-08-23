@@ -33,6 +33,22 @@ postControllers.AddPost = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+//textual posts
+postControllers.AddTextPost = async (req, res) => {
+  try {
+    const { description } = req.body;
+    const newPost = new Post({
+      description: description,
+      user: req.userId,
+    });
+
+    await newPost.save();
+    res.status(201).json({ message: "Post created successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal server error");
+  }
+};
 
 postControllers.GetComments = (req, res) => {
   res.send("Get Comments by the ID of Post");
