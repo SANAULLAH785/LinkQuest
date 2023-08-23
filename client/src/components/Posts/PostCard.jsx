@@ -17,25 +17,10 @@ const PostCard = ({ description, imageUrl, caption, username, date }) => {
         </Box>
         <p classname="date-section">{date}</p>
       </Box>
-      <p>
-        {description}
-        {/* Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente
-        blanditiis eum quam cumque beatae eligendi veritatis ex atque! Nulla
-        rerum neque ab laudantium, veniam magni molestiae aliquam? Commodi,
-        recusandae iure? Lorem ipsum dolor sit amet consectetur, adipisicing
-        elit. Non error, dignissimos ab cupiditate alias perspiciatis
-        consequuntur maiores sit? Tenetur ullam, voluptas obcaecati soluta
-        molestiae perferendis doloribus inventore enim corrupti accusantium? */}
-      </p>
+      <p>{description}</p>
       <img src={imageUrl} alt="" />
       <Box className="footer">
-        <p className="caption">
-          {caption}
-          {/* Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium
-          laborum, veniam voluptas nesciunt omnis consectetur similique
-          exercitationem architecto corrupti rem maxime minima, iure rerum quia
-          velit soluta possimus pariatur! Dolor? */}
-        </p>
+        <p className="caption">{caption}</p>
         <Box className="votes">
           <BsArrowUpShort size={25} />
           <p>102</p>
