@@ -10,7 +10,9 @@ router.get("/post/:id", postControllers.GetSinglePost);
 
 router.put("/post/:id", postControllers.EditVotes);
 
-router.post("/post",auth,imagesaver, postControllers.AddPost);
+router.post("/post",imagesaver, postControllers.AddPost);
+
+router.post("/textpost",auth, postControllers.AddTextPost);
 
 router.get("/post/comments", postControllers.GetComments);
 
