@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connectDB = require("./db/connect");
-const url = "mongodb://127.0.0.1:27017/LinkQuest";
+require("dotenv").config();
+// const url = "mongodb://127.0.0.1:27017/LinkQuest";
+const url=process.env.url;
 const port = 8000;
 
 const routes = require("./routes");
