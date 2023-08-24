@@ -10,11 +10,11 @@ router.get("/post/:id", postControllers.GetSinglePost);
 
 router.put("/post/:id", postControllers.EditVotes);
 
-router.post("/post", imagesaver, postControllers.AddPost);
+router.post("/post", auth, imagesaver, postControllers.AddPost);
 
 router.post("/textpost", auth, postControllers.AddTextPost);
 
-router.delete("/delete/post/:id",  postControllers.DeletePost);
+router.delete("/delete/post/:id", postControllers.DeletePost);
 
 router.put("/edit/post/:id", postControllers.EditPost);
 

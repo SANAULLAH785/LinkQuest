@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Grid, Box, TextField } from "@mui/material";
@@ -61,15 +62,15 @@ const AddNewPost = () => {
   const descriptionFormik = useFormik({
     initialValues: descriptionInitialValue,
     validationSchema: Yup.object(descriptionValidation),
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       console.log(values);
       await ApiCallPost("/textpost", values)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   });
 
@@ -92,13 +93,28 @@ const AddNewPost = () => {
     validationSchema,
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      await ApiCallPost("/post", values,"multipart/form-data")
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      // await ApiCallPost("/post", values,"multipart/form-data")
+      //   .then((res) => {
+      //     console.log(res);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+
+      const token = localStorage.getItem("token");
+      try {
+        const headers = {
+          "Content-Type": "multipart/form-data",
+          token: token,
+        };
+
+        const response = await axios.post(
+          "http://localhost:8000/post",
+          values,
+          { headers }
+        );
+        console.log("Response:", response.data);
+      } catch (error) {}
     },
   });
 

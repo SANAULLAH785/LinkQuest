@@ -1,17 +1,17 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const jstsecret = process.env.jwtSecret;
+const jwtsecret = process.env.jwtSecret;
 
 const auth = (req, res, next) => {
   const token = req.header("token");
-
   if (!token) {
     console.log("No Token Found");
     return res.status(401).json({ error: "Unauthorized. Missing token." });
   }
   try {
-    const decodedToken = jwt.verify(token, jstsecret);
+    const decodedToken = jwt.verify(token, jwtsecret);
     req.userId = decodedToken.userId;
+    console.log(decodedToken);
     next();
   } catch (error) {
     console.error(error);
