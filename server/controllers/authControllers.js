@@ -1,10 +1,9 @@
 const authControllers = {};
 const User = require("../modals/userSchema");
-const bcrypt=require('bcrypt');
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const jstsecret = process.env.jwtSecret;
-
 
 authControllers.SignUp = async (req, res) => {
   try {
@@ -15,11 +14,11 @@ authControllers.SignUp = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    const hashPassword= await bcrypt.hash(password,10);
+    const hashPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       email,
-      password:hashPassword,
+      password: hashPassword,
     });
 
     const savedUser = await newUser.save();
@@ -33,30 +32,37 @@ authControllers.SignUp = async (req, res) => {
   }
 };
 
-authControllers.SignIn = async(req, res) => {
-  try{
-    const {email,password}=req.body;
-    const existinguser=await User.findOne({email});
-    if(!existinguser){
-     return res.status(400).send("user with this email does not exist");
+authControllers.SignIn = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const existinguser = await User.findOne({ email });
+    if (!existinguser) {
+      return res.status(400).send("user with this email does not exist");
     }
-    const ispassword=await bcrypt.compare(password,existinguser.password);
-    if(!ispassword){
+    const ispassword = await bcrypt.compare(password, existinguser.password);
+    if (!ispassword) {
       console.log(existinguser.password);
-     return res.status(401).send( "Incorrect password." );
+      return res.status(401).send("Incorrect password.");
     }
-    const tokenPayload={
+    const tokenPayload = {
+      userId: existinguser.id,
       username: existinguser.name,
-      email: existinguser.email, 
-      imageUrl:existinguser.imageUrl,
-      jobTitle:existinguser.jobTitle,     
-    }
-    const token=jwt.sign(tokenPayload,jstsecret)
-    res.status(200).send({token,user:tokenPayload});
-}catch(error){
-  res.status(500).send('Internal Server Error');
+      email: existinguser.email,
+      imageUrl: existinguser.imageUrl,
+      jobTitle: existinguser.jobTitle,
+    };
 
-}
+    const responsePayload = {
+      username: existinguser.name,
+      email: existinguser.email,
+      imageUrl: existinguser.imageUrl,
+      jobTitle: existinguser.jobTitle,
+    };
+    const token = jwt.sign(tokenPayload, jstsecret);
+    res.status(200).send({ token, user: responsePayload });
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 module.exports = authControllers;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 const baseUrl = "http://localhost:8000";
-// const token=localStorage.getItem('Secret-Key');
+const token = localStorage.getItem("token");
 // const headers = { "Content-Type": "multipart/form-data" };
 // const options = { headers: headers };
 
@@ -52,7 +52,7 @@ const ApiCallPost = (
   redirect = true
 ) => {
   const headers = { "Content-Type": contentType };
-  const options = { headers: headers };
+  const options = { headers: headers, token: token };
 
   return axios
     .post(baseUrl + path, data, options)

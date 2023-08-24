@@ -31,7 +31,7 @@ const Signup = () => {
     validationSchema,
     onSubmit: async (values) => {
       const { lastName, firstName, email, password } = values;
-      const name = lastName + " " + firstName;
+      const name = firstName + " " + lastName;
       const payload = { name, email, password };
 
       try {
@@ -39,7 +39,7 @@ const Signup = () => {
         //   "http://localhost:8000/signup",
         //   payload
         // );
-        const response = await ApiCallPost("/signin", payload);
+        const response = await ApiCallPost("/signup", payload);
         console.log(response.data);
       } catch (error) {
         console.log(error);

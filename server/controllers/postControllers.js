@@ -61,11 +61,11 @@ postControllers.AddTextPost = async (req, res) => {
 };
 postControllers.DeletePost = async (req, res) => {
   try {
-    const postId = req.params.id; 
+    const postId = req.params.id;
     console.log(postId);
     const deletedPost = await Post.findByIdAndDelete(postId);
     if (!deletedPost) {
-      return res.status(404).send( "Post not found" );
+      return res.status(404).send("Post not found");
     }
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
@@ -75,14 +75,14 @@ postControllers.DeletePost = async (req, res) => {
 };
 postControllers.EditPost = async (req, res) => {
   try {
-    const postId = req.params.id; 
+    const postId = req.params.id;
     const { caption, description } = req.body;
     console.log(req.body);
 
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
       { caption, description },
-      { new: true } 
+      { new: true }
     );
 
     if (!updatedPost) {

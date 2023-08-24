@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUserData } from "../../Store/Slices/userSlice";
 import { ApiCallPost } from "../../components/Api/ApiCall";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +11,7 @@ import "./Signin.scss";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -26,21 +29,24 @@ const Signin = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      // console.log(values);
       const { email, password } = values;
       const payload = { email, password };
-      console.log(payload);
+      // console.log(payload);
 
       try {
-        // const response = await axios.post(
-        //   "http://localhost:8000/signin",
-        //   payload
-        // );
+        const response = await axios.post(
+          "http://localhost:8000/signin",
+          payload
+        );
 
-        const response = await ApiCallPost("/signin", payload);
-        console.log(response.data);
-        const token = response.data;
+        // const response = await ApiCallPost("/signin", payload);
+        const token = response.data.token;
+        const userData = response.data.user;
         localStorage.setItem("token", token);
+        console.log("token:", token);
+        console.log("userdata:", userData);
+        dispatch(addUserData(userData));
         navigate("/");
       } catch (error) {
         console.log(error);
