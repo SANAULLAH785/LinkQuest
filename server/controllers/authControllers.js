@@ -45,8 +45,14 @@ authControllers.SignIn = async(req, res) => {
       console.log(existinguser.password);
      return res.status(401).send( "Incorrect password." );
     }
-    const token=jwt.sign({userId:existinguser._id,username:existinguser.name},jstsecret)
-    res.status(200).send(token);
+    const tokenPayload={
+      username: existinguser.name,
+      email: existinguser.email, 
+      imageUrl:existinguser.imageUrl,
+      jobTitle:existinguser.jobTitle,     
+    }
+    const token=jwt.sign(tokenPayload,jstsecret)
+    res.status(200).send({token,user:tokenPayload});
 }catch(error){
   res.status(500).send('Internal Server Error');
 
