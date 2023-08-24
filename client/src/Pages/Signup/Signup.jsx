@@ -1,4 +1,5 @@
 import React from "react";
+import { ApiCallPost } from "../../components/Api/ApiCall";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -34,10 +35,11 @@ const Signup = () => {
       const payload = { name, email, password };
 
       try {
-        const response = await axios.post(
-          "http://localhost:8000/signup",
-          payload
-        );
+        // const response = await axios.post(
+        //   "http://localhost:8000/signup",
+        //   payload
+        // );
+        const response = await ApiCallPost("/signin", payload);
         console.log(response.data);
       } catch (error) {
         console.log(error);
