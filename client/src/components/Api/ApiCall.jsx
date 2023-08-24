@@ -2,7 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 const baseUrl = "http://localhost:8000";
 // const token=localStorage.getItem('Secret-Key');
-const headers = { "Content-Type": "application/json" };
+const headers = { "Content-Type": "multipart/form-data" };
 const options = { headers: headers };
 
 const getError = (error) => {

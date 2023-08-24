@@ -1,6 +1,9 @@
 .Header {
   //   background-color: tomato;
-  background-color: hsl(210, 3%, 15%);
+  // background-color: hsl(210, 3%, 15%);
+  border-radius: 10px;
+  background-color: #282a37;
+  filter: drop-shadow(5px 5px 10px black);
   color: white;
   display: flex;
   // width: calc(100% - 20px);
@@ -12,7 +15,7 @@
   align-items: center;
   justify-content: space-between;
   margin: 0;
-  top: 0;
+  top: 10px;
 
   .title {
     margin: 0;
