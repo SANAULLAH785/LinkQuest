@@ -1,8 +1,32 @@
-Post http://localhost:8000/user/signup 
+Post http://localhost:8000/signup
  Content-Type: application/json
 
 {
-    "name":"sana ",
-    "email":"sanaullah12@gmail.com",
+    "name":"sana ullah12",
+    "email":"sanaullah12abc@gmail.com",
     "password":"password"
+}
+###
+Post http://localhost:8000/signin
+ Content-Type: application/json
+
+{
+    "email":"sanaullah12asd@gmail.com",
+    "password":"password"
+}
+###
+PUT  http://localhost:8000/edit/post/64e6f227f096a25207edaa16
+ Content-Type: application/json
+
+{
+    "caption":"sanaullah12as",
+    "description":"password"
+}
+###
+POST http://localhost:8000/textpost
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU2ZjE1ZjI2OTcyMWI3YTkzYjhhMGUiLCJ1c2VybmFtZSI6InNhbmEgIiwiaWF0IjoxNjkyODU2NjczfQ.cUhXI2f3rPM8rZ7f546IfvdmNItwWXUgssiFlJgZlUU
+
+{
+    "description": "sanaullah12asd@gmail.com"
 }

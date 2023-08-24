@@ -30,9 +30,9 @@ const PostSection = () => {
 
   return (
     <Grid container spacing={2}>
-      <div style={{ color: "white" }} onClick={(event) => getposts(event)}>
+      {/* <div style={{ color: "white" }} onClick={(event) => getposts(event)}>
         <h1>Hel</h1>
-      </div>
+      </div> */}
       <Grid item md={12} className="">
         <Box className="searchbar">
           <Box className="search">
