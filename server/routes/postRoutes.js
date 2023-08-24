@@ -14,6 +14,10 @@ router.post("/post", imagesaver, postControllers.AddPost);
 
 router.post("/textpost", auth, postControllers.AddTextPost);
 
+router.delete("/delete/post/:id",  postControllers.DeletePost);
+
+router.put("/edit/post/:id", postControllers.EditPost);
+
 router.get("/post/comments", postControllers.GetComments);
 
 router.post("/post/comment", postControllers.AddComment);
