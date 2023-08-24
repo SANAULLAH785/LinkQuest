@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { ApiCallPost } from "../../components/Api/ApiCall";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -31,10 +32,12 @@ const Signin = () => {
       console.log(payload);
 
       try {
-        const response = await axios.post(
-          "http://localhost:8000/signin",
-          payload
-        );
+        // const response = await axios.post(
+        //   "http://localhost:8000/signin",
+        //   payload
+        // );
+
+        const response = await ApiCallPost("/signin", payload);
         console.log(response.data);
         const token = response.data;
         localStorage.setItem("token", token);
