@@ -11,6 +11,9 @@ const userSlice = createSlice({
   reducers: {
     addUserData(state, action) {
       state.userName = action.payload.username;
+      if (!state.userName) {
+        state.userName = action.payload.name;
+      }
       state.email = action.payload.email;
       state.avatar = action.payload.imageUrl;
       state.jobTitle = action.payload.jobTitle;

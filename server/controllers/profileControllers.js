@@ -3,8 +3,26 @@ const profileControllers = {};
 
 profileControllers.GetPersonalData = async (req, res) => {
   try {
-    const userId = req.userId; 
+    const userId = req.userId;
     const user = await User.findById(userId).select("password");
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal server error");
+  }
+};
+
+profileControllers.GetPersonalDataShort = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId).select(
+      "name imageUrl email jobTitle"
+    );
+
     console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });

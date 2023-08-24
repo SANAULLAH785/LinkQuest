@@ -17,6 +17,7 @@ const AddNewPost = () => {
   const [imageSection, setImageSection] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const token = localStorage.getItem("token");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -64,13 +65,19 @@ const AddNewPost = () => {
     validationSchema: Yup.object(descriptionValidation),
     onSubmit: async (values) => {
       console.log(values);
-      await ApiCallPost("/textpost", values)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        const headers = {
+          "Content-Type": "application/json",
+          token: token,
+        };
+
+        const response = await axios.post(
+          "http://localhost:8000/textpost",
+          values,
+          { headers }
+        );
+        console.log("Response:", response.data);
+      } catch (error) {}
     },
   });
 
@@ -101,7 +108,6 @@ const AddNewPost = () => {
       //     console.log(err);
       //   });
 
-      const token = localStorage.getItem("token");
       try {
         const headers = {
           "Content-Type": "multipart/form-data",

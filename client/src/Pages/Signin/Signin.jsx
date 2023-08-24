@@ -44,8 +44,6 @@ const Signin = () => {
         const token = response.data.token;
         const userData = response.data.user;
         localStorage.setItem("token", token);
-        console.log("token:", token);
-        console.log("userdata:", userData);
         dispatch(addUserData(userData));
         navigate("/");
       } catch (error) {
