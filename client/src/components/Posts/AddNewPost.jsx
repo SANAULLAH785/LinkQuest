@@ -9,6 +9,7 @@ import { BsCardImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { ApiCallPost } from "../Api/ApiCall";
+import axios from "axios";
 import "./AddNewPost.scss";
 import { toast } from "react-hot-toast";
 
@@ -17,6 +18,7 @@ const AddNewPost = () => {
   const [imageSection, setImageSection] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const token = localStorage.getItem("token");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -64,13 +66,19 @@ const AddNewPost = () => {
     validationSchema: Yup.object(descriptionValidation),
     onSubmit: async (values) => {
       console.log(values);
-      await ApiCallPost("/textpost", values)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        const headers = {
+          "Content-Type": "application/json",
+          token: token,
+        };
+
+        const response = await axios.post(
+          "http://localhost:8000/textpost",
+          values,
+          { headers }
+        );
+        console.log("Response:", response.data);
+      } catch (error) {}
     },
   });
 
@@ -93,7 +101,7 @@ const AddNewPost = () => {
     validationSchema,
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      await ApiCallPost("/post", values,"multipart/form-data")
+      await ApiCallPost("/post", values, "multipart/form-data")
         .then((res) => {
           console.log(res);
           toast.success("Post added Successfully");

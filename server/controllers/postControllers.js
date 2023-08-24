@@ -3,7 +3,10 @@ const postControllers = {};
 
 postControllers.GetAllPosts = async (req, res) => {
   try {
-    const Posts = await Post.find({});
+    const Posts = await Post.find({}).populate({
+      path: "user",
+      select: "name imageUrl",
+    });
     res.status(200).json(Posts);
   } catch (error) {
     res.status(500).send("Internal Server Error");

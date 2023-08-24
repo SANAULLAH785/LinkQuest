@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import { Box, Grid } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
@@ -10,23 +10,22 @@ import axios from "axios";
 import "./PostSection.scss";
 
 const PostSection = () => {
-  // useEffect(() => {
-  //   ApiCallGet("/posts")
-  //     .then((res) => console.log(res))
-  //     .catch((err) => err);
-  // }, []);
+  const dispatch = useDispatch();
+  const [postData, setPostData] = useState([]);
 
-  const getposts = async (event) => {
-    event.preventDefault();
+  const getPosts = async () => {
     try {
       const response = await axios.get("http://localhost:8000/posts");
       console.log(response.data);
+      setPostData(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -55,8 +54,9 @@ const PostSection = () => {
             caption={post.caption}
             description={post.description}
             imageUrl={post.imageUrl}
-            username={post.username}
+            username={post.user.name}
             date={post.date}
+            avatar={post.user.imageUrl}
           />
         ))}
       </Grid>

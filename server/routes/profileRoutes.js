@@ -1,8 +1,11 @@
 const { Router } = require("express");
 const router = Router();
 const profileControllers = require("../controllers/profileControllers");
+const auth = require("../middlewares/auth");
 
-router.get("/personalData", profileControllers.GetPersonalData);
+router.get("/personalData", auth, profileControllers.GetPersonalData);
+
+router.get("/personalDataShort", auth, profileControllers.GetPersonalDataShort);
 
 router.put("/personalData", profileControllers.EditPersonalData);
 
