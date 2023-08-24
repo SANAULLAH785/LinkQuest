@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Grid, Box, TextField } from "@mui/material";
@@ -11,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { ApiCallPost } from "../Api/ApiCall";
 import "./AddNewPost.scss";
+import { toast } from "react-hot-toast";
 
 const AddNewPost = () => {
   const dispatch = useDispatch();
@@ -93,28 +93,14 @@ const AddNewPost = () => {
     validationSchema,
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      // await ApiCallPost("/post", values,"multipart/form-data")
-      //   .then((res) => {
-      //     console.log(res);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-
-      const token = localStorage.getItem("token");
-      try {
-        const headers = {
-          "Content-Type": "multipart/form-data",
-          token: token,
-        };
-
-        const response = await axios.post(
-          "http://localhost:8000/post",
-          values,
-          { headers }
-        );
-        console.log("Response:", response.data);
-      } catch (error) {}
+      await ApiCallPost("/post", values,"multipart/form-data")
+        .then((res) => {
+          console.log(res);
+          toast.success("Post added Successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   });
 

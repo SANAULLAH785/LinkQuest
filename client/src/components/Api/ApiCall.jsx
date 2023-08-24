@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 const baseUrl = "http://localhost:8000";
 const token = localStorage.getItem("token");
+console.log(token);
 // const headers = { "Content-Type": "multipart/form-data" };
 // const options = { headers: headers };
 
@@ -28,7 +29,10 @@ const getError = (error) => {
     } else if (error.response && error.response.status === 401) {
       const errormessage = error.response.data;
       return toast.error(errormessage);
-    } else if (error.response && error.response.status === 430) {
+    }else if (error.response && error.response.status === 400) {
+      const errormessage = error.response.data;
+      return toast.error(errormessage);
+    }else if (error.response && error.response.status === 430) {
       const errormessage = error.response.data;
       return toast.error(errormessage);
     } else {
@@ -40,9 +44,9 @@ const getError = (error) => {
 };
 const getResponse = (response) => {
   if (response.status === 200) {
-    window.location.replace(response.data);
+    return  response;
   } else {
-    return response;
+    return response; 
   }
 };
 const ApiCallPost = (
@@ -51,8 +55,12 @@ const ApiCallPost = (
   contentType = "application/json",
   redirect = true
 ) => {
-  const headers = { "Content-Type": contentType };
-  const options = { headers: headers, token: token };
+  const headers = {
+    "Content-Type": contentType,
+    "token": token,
+  };
+console.log(headers);
+  const options = { headers: headers };
 
   return axios
     .post(baseUrl + path, data, options)
@@ -63,6 +71,7 @@ const ApiCallPost = (
       return getError(error);
     });
 };
+
 const ApiCallGet = (path) => {
   return axios
     .get(baseUrl + path)
@@ -74,4 +83,4 @@ const ApiCallGet = (path) => {
     });
 };
 
-export { ApiCallPost, ApiCallGet };
+export { ApiCallPost, ApiCallGet ,getResponse};

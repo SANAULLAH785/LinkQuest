@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./Signup.scss";
-import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -33,14 +33,11 @@ const Signup = () => {
       const { lastName, firstName, email, password } = values;
       const name = firstName + " " + lastName;
       const payload = { name, email, password };
-
       try {
-        // const response = await axios.post(
-        //   "http://localhost:8000/signup",
-        //   payload
-        // );
         const response = await ApiCallPost("/signup", payload);
         console.log(response.data);
+        navigate("/signin");
+        toast.success("Signup Scuccessfully");
       } catch (error) {
         console.log(error);
       }

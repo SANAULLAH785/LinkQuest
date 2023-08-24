@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUserData } from "../../Store/Slices/userSlice";
 import { ApiCallPost } from "../../components/Api/ApiCall";
@@ -7,6 +6,7 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 import "./Signin.scss";
 
 const Signin = () => {
@@ -25,34 +25,26 @@ const Signin = () => {
     password: "",
   };
 
+ 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-      // console.log(values);
-      const { email, password } = values;
-      const payload = { email, password };
-      // console.log(payload);
-
+    onSubmit: async (payload) => {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/signin",
-          payload
-        );
-
-        // const response = await ApiCallPost("/signin", payload);
-        const token = response.data.token;
-        const userData = response.data.user;
+        const response = await ApiCallPost("/signin", payload);
+        console.log(response.data);
+        const token = response.data.token; 
+        const userData = response.data.user; 
         localStorage.setItem("token", token);
-        console.log("token:", token);
-        console.log("userdata:", userData);
         dispatch(addUserData(userData));
         navigate("/");
+        toast.success("SignIn Successfully");
       } catch (error) {
         console.log(error);
       }
     },
   });
+
   return (
     <Box className="wrapper">
       <Box className="container">
