@@ -2,8 +2,8 @@ Post http://localhost:8000/signup
  Content-Type: application/json
 
 {
-    "name":"sana ullah12",
-    "email":"sanaullah12abc@gmail.com",
+    "name":"sana ullah",
+    "email":"sanaullah@gmail.com",
     "password":"password"
 }
 ###
@@ -11,7 +11,7 @@ Post http://localhost:8000/signin
  Content-Type: application/json
 
 {
-    "email":"sanaullah12asd@gmail.com",
+    "email":"sanaullah@gmail.com",
     "password":"password"
 }
 ###
