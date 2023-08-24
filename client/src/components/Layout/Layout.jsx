@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
           display: "flex",
           justifyContent: "center",
           // backgroundColor: "hsl(210, 3%, 15%)",
-          backgroundColor: "wheat",
+          // backgroundColor: "wheat",
         }}
         disableGutters
       >

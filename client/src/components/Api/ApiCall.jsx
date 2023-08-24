@@ -45,7 +45,12 @@ const getResponse = (response) => {
     return response;
   }
 };
-const ApiCallPost = (path, data, contentType = "application/json", redirect = true) => {
+const ApiCallPost = (
+  path,
+  data,
+  contentType = "application/json",
+  redirect = true
+) => {
   const headers = { "Content-Type": contentType };
   const options = { headers: headers };
 
@@ -59,7 +64,6 @@ const ApiCallPost = (path, data, contentType = "application/json", redirect = tr
     });
 };
 const ApiCallGet = (path) => {
-  
   return axios
     .get(baseUrl + path)
     .then((response) => {

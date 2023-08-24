@@ -2,10 +2,12 @@
   display: flex;
   flex-direction: row;
   //   padding: 10px;
-  border: 1px solid black;
+  // border: 1px solid black;
   border-radius: 20px;
   align-items: center;
-  background-color: #3a3b3c;
+  // background-color: #3a3b3c;
+  background-color: #282a37;
+  filter: drop-shadow(5px 5px 10px black);
 
   .search {
     margin-right: 10px;
@@ -21,7 +23,7 @@
     border: none;
     outline: none;
     padding: 10px;
-    background-color: #3a3b3c;
+    background-color: #282a37;
     color: white;
   }
   input::placeholder {
@@ -37,13 +39,20 @@
     outline: none;
     border: none;
     color: whitesmoke;
-    background-color: gray;
+    // background-color: gray;
+    // background-color: #282a37;
+    background-color: #1d90f4;
+    filter: drop-shadow(5px 5px 10px black);
+
     padding: 10px;
     border-radius: 5px;
 
     &:hover {
       cursor: pointer;
-      background-color: rgb(35, 34, 34);
+      // background-color: rgb(35, 34, 34);
+      filter: drop-shadow(8px 8px 15px black);
+      background-color: #282a37;
+      transition: all 0.3s ease;
     }
   }
 }
