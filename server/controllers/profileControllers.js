@@ -1,7 +1,19 @@
+const User = require("../modals/userSchema");
 const profileControllers = {};
 
-profileControllers.GetPersonalData = (req, res) => {
-  res.send("Get Personal Data");
+profileControllers.GetPersonalData = async (req, res) => {
+  try {
+    const userId = req.userId; 
+    const user = await User.findById(userId).select("password");
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal server error");
+  }
 };
 
 profileControllers.EditPersonalData = (req, res) => {

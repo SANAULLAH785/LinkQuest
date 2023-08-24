@@ -61,8 +61,15 @@ const AddNewPost = () => {
   const descriptionFormik = useFormik({
     initialValues: descriptionInitialValue,
     validationSchema: Yup.object(descriptionValidation),
-    onSubmit: (values) => {
+    onSubmit: async(values) => {
       console.log(values);
+      await ApiCallPost("/textpost", values)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
   });
 
@@ -85,7 +92,7 @@ const AddNewPost = () => {
     validationSchema,
     onSubmit: async (values) => {
       console.log("Form values:", values);
-      await ApiCallPost("/post", values)
+      await ApiCallPost("/post", values,"multipart/form-data")
         .then((res) => {
           console.log(res);
         })

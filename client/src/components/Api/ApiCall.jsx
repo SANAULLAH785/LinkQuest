@@ -2,8 +2,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 const baseUrl = "http://localhost:8000";
 // const token=localStorage.getItem('Secret-Key');
-const headers = { "Content-Type": "multipart/form-data" };
-const options = { headers: headers };
+// const headers = { "Content-Type": "multipart/form-data" };
+// const options = { headers: headers };
 
 const getError = (error) => {
   if (error.response) {
@@ -45,7 +45,15 @@ const getResponse = (response) => {
     return response;
   }
 };
-const ApiCallPost = (path, data, redirect = true) => {
+const ApiCallPost = (
+  path,
+  data,
+  contentType = "application/json",
+  redirect = true
+) => {
+  const headers = { "Content-Type": contentType };
+  const options = { headers: headers };
+
   return axios
     .post(baseUrl + path, data, options)
     .then((response) => {
@@ -57,7 +65,7 @@ const ApiCallPost = (path, data, redirect = true) => {
 };
 const ApiCallGet = (path) => {
   return axios
-    .get(baseUrl + path, options)
+    .get(baseUrl + path)
     .then((response) => {
       return getResponse(response);
     })
