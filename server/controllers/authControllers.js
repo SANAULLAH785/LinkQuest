@@ -11,7 +11,7 @@ authControllers.SignUp = async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Email already registered" });
+      return res.status(400).send("Email already registered" );
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -28,7 +28,7 @@ authControllers.SignUp = async (req, res) => {
       .json({ message: "User registered successfully", user: savedUser });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).send( "Internal server error" );
   }
 };
 
