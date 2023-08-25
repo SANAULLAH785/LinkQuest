@@ -43,10 +43,11 @@ const getError = (error) => {
   }
 };
 const getResponse = (response) => {
+  console.log('first',response);
   if (response.status === 200) {
     return  response;
   } else {
-    return response; 
+    return getError(response);
   }
 };
 const ApiCallPost = (

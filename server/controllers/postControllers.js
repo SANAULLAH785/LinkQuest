@@ -26,8 +26,32 @@ postControllers.GetSinglePost = async (req, res) => {
   }
 };
 
-postControllers.EditVotes = (req, res) => {
-  res.send("Get Votes of Post");
+postControllers.EditVotes = async (req, res) => {
+  try {
+    console.log(req.body);
+    const postId  = req.params.id;
+    console.log(postId);
+    console.log(req.params);
+    const { type } = req.body;
+
+    let voteIncrement = 0;
+    if (type === "up") {
+      voteIncrement = 1;
+    } else if (type === "down") {
+      voteIncrement = -1;
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $inc: { votes: voteIncrement } },
+      { new: true }
+    );
+
+    res.json({ updatedVotes: updatedPost.votes });
+  } catch (error) {
+    console.error("Error updating votes:", error);
+    res.status(500).json({ error: "Failed to update votes" });
+  }
 };
 // post with image
 postControllers.AddPost = async (req, res) => {
