@@ -8,22 +8,37 @@ const postSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: String,
-    default:""
-
+    default: "",
   },
   description: {
     type: String,
-    default:""
-
+    default: "",
   },
   caption: {
     type: String,
-    default:""
+    default: "",
   },
   date: {
     type: Date,
     default: Date.now,
   },
+  votes: {
+    type: Number,
+    default: 0,
+  },
+  voters: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      voteStatus: {
+        type: String,
+        default: "neutral",
+      },
+    },
+  ],
+
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +46,8 @@ const postSchema = new mongoose.Schema({
     },
   ],
 });
+
+postSchema.index({ voters: 1 });
 
 const Post = mongoose.model("Post", postSchema);
 

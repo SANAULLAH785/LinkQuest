@@ -5,7 +5,6 @@ profileControllers.GetPersonalData = async (req, res) => {
   try {
     const userId = req.userId;
     const user = await User.findById(userId).select("password");
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -22,8 +21,6 @@ profileControllers.GetPersonalDataShort = async (req, res) => {
     const user = await User.findById(userId).select(
       "name imageUrl email jobTitle"
     );
-
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

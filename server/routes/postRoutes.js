@@ -8,7 +8,7 @@ router.get("/posts", postControllers.GetAllPosts);
 
 router.get("/post/:id", postControllers.GetSinglePost);
 
-router.put("/post/:id", postControllers.EditVotes);
+router.put("/setPostVotes/:id", auth, postControllers.EditVotes);
 
 router.post("/post", auth, imagesaver, postControllers.AddPost);
 
