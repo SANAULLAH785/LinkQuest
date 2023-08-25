@@ -66,19 +66,14 @@ const AddNewPost = () => {
     validationSchema: Yup.object(descriptionValidation),
     onSubmit: async (values) => {
       console.log(values);
-      try {
-        const headers = {
-          "Content-Type": "application/json",
-          token: token,
-        };
-
-        const response = await axios.post(
-          "http://localhost:8000/textpost",
-          values,
-          { headers }
-        );
-        console.log("Response:", response.data);
-      } catch (error) {}
+      await ApiCallPost("/textpost", values)
+      .then((res) => {
+        console.log(res);
+        toast.success("Post added Successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
   });
 

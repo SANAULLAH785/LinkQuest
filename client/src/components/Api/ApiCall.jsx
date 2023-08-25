@@ -83,5 +83,43 @@ const ApiCallGet = (path) => {
       return getError(error);
     });
 };
+const ApiCallPut = (
+  path,
+  data,
+  contentType = "application/json",
+  redirect = true
+) => {
+  const headers = {
+    "Content-Type": contentType,
+    "token": token,
+  };
 
-export { ApiCallPost, ApiCallGet ,getResponse};
+  const options = { headers: headers };
+
+  return axios
+    .put(baseUrl + path, data, options)
+    .then((response) => {
+      return getResponse(response, redirect);
+    })
+    .catch((error) => {
+      return getError(error);
+    });
+};
+const ApiCallDelete = (path) => {
+  const headers = {
+    "token": token,
+  };
+
+  const options = { headers: headers };
+
+  return axios
+    .delete(baseUrl + path, options)
+    .then((response) => {
+      return getResponse(response);
+    })
+    .catch((error) => {
+      return getError(error);
+    });
+};
+
+export { ApiCallPost, ApiCallGet ,ApiCallPut,ApiCallDelete};

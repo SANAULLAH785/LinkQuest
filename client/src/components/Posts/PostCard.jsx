@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box } from "@mui/material";
-import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
+import { BsArrowUpShort, BsArrowDownShort, BsCloudLightningFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
+import { ApiCallPut } from "../Api/ApiCall";
 import "./PostCard.scss";
 
 const PostCard = ({
@@ -82,23 +82,11 @@ const PostCard = ({
 
   const votesUpdate = () => {
     const newTimerId = setTimeout(async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const headers = {
-          "Content-Type": "application/json",
-          token: token,
-        };
-
-        const response = await axios.put(
-          `http://localhost:8000/setPostVotes/${id}`,
-          { vote: voteStatus },
-
-          { headers }
-        );
-        console.log(response.data);
-      } catch (error) {
-        console.log(error.message);
-      }
+      await ApiCallPut(`/setPostVotes/${id}`,{vote:voteStatus}).then((res)=>{
+      console.log(res.data);
+      }).catch((err)=>{
+      console.log(err.text)
+      });
     }, 3000);
     setTimerId(newTimerId);
   };
