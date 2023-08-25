@@ -41,12 +41,30 @@
   .caption {
     font-size: 12px;
   }
-  .votes {
+
+  .votes-section {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    p {
-      font-size: 12px;
+    // padding: 0px 20px;
+    .votes {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      p {
+        font-size: 12px;
+      }
+    }
+    .comments {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
     }
   }
 }

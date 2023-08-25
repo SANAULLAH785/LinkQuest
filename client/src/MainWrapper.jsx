@@ -6,6 +6,7 @@ import AddNewPost from "./components/Posts/AddNewPost";
 import { useSelector, useDispatch } from "react-redux";
 import { addNewPostHandler } from "./Store/Slices/postSlice";
 import { Grid, Box } from "@mui/material";
+import useWindowSize from "./utils/useWindowSize";
 
 const MainWrapper = () => {
   const dispatch = useDispatch();
@@ -14,8 +15,8 @@ const MainWrapper = () => {
   const [sideBarWidth, setSideBarWidth] = useState(2);
   const [middleBarWidth, setMiddleBarWidth] = useState(7);
   const [rightBarWidth, setRightBarWidth] = useState(3);
-
-  console.log(postStateBar);
+  const [screenWidth, setScreenWidth] = useState(useWindowSize().width);
+  console.log(screenWidth);
 
   useEffect(() => {
     if (postStateBar) {
@@ -42,6 +43,8 @@ const MainWrapper = () => {
     }
   };
 
+  console.log(useWindowSize());
+
   return (
     <>
       <Box className="homepage">
@@ -49,25 +52,33 @@ const MainWrapper = () => {
 
         <Box className="app-section">
           <Grid container spacing={2}>
-            <Grid item md={sideBarWidth} className="sidebar">
-              <Sidebar
-                isOpenSideBar={isOpenSideBar}
-                sideBarHandler={sideBarHandler}
-              />
-            </Grid>
-            <Grid item md={middleBarWidth} className="sidebar">
-              <PostSection />
-            </Grid>
-            <Grid item md={rightBarWidth} className="sidebar">
-              {postStateBar ? (
-                <AddNewPost />
-              ) : (
+            {screenWidth < 900 ? (
+              ""
+            ) : (
+              <Grid item md={sideBarWidth} className="sidebar">
                 <Sidebar
                   isOpenSideBar={isOpenSideBar}
                   sideBarHandler={sideBarHandler}
                 />
-              )}
+              </Grid>
+            )}
+            <Grid item md={middleBarWidth} className="sidebar">
+              <PostSection />
             </Grid>
+            {screenWidth < 900 ? (
+              ""
+            ) : (
+              <Grid item md={rightBarWidth} className="sidebar">
+                {postStateBar ? (
+                  <AddNewPost />
+                ) : (
+                  <Sidebar
+                    isOpenSideBar={isOpenSideBar}
+                    sideBarHandler={sideBarHandler}
+                  />
+                )}
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Box>
