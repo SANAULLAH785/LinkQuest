@@ -50,13 +50,15 @@ const PostSection = () => {
       <Grid item md={12}>
         {postData.map((post, index) => (
           <PostCard
-            key={index}
+            key={index} 
+            postId={post._id}     
             caption={post.caption}
             description={post.description}
             imageUrl={post.imageUrl}
             username={post.user.name}
             date={post.date}
             avatar={post.user.imageUrl}
+            votes={post.votes}
           />
         ))}
       </Grid>

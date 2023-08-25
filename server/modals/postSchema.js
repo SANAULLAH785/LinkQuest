@@ -16,6 +16,10 @@ const postSchema = new mongoose.Schema({
     default:""
 
   },
+  votes:{
+    type:Number,
+    default:0
+  },
   caption: {
     type: String,
     default:""
