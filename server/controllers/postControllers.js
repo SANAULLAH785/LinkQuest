@@ -17,6 +17,7 @@ postControllers.GetSinglePost = async (req, res) => {
     const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) {
+      console.log("post not found");
       return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json(post);
@@ -27,30 +28,80 @@ postControllers.GetSinglePost = async (req, res) => {
 };
 
 postControllers.EditVotes = async (req, res) => {
-  try {
-    console.log(req.body);
-    const postId  = req.params.id;
-    console.log(postId);
-    console.log(req.params);
-    const { type } = req.body;
+  const postId = req.params.id;
 
-    let voteIncrement = 0;
-    if (type === "up") {
-      voteIncrement = 1;
-    } else if (type === "down") {
-      voteIncrement = -1;
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
     }
 
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
-      { $inc: { votes: voteIncrement } },
-      { new: true }
+    const voterIndex = post.voters.findIndex(
+      (voter) => voter.user.toString() === req.userId
     );
+    const currentVoteStatus = post.voters[voterIndex]?.voteStatus;
+    const newVoteStatus = req.body.vote;
+    if (voterIndex === -1) {
+      const newVoteStatus = req.body.vote;
 
-    res.json({ updatedVotes: updatedPost.votes });
+      if (newVoteStatus === "upvote") {
+        post.votes += 1;
+      } else if (newVoteStatus === "downvote") {
+        post.votes -= 1;
+      }
+
+      post.voters.push({
+        user: req.userId,
+        voteStatus: newVoteStatus,
+      });
+
+      await post.save();
+
+      return res.status(200).json({
+        message: "Vote added successfully",
+        post,
+      });
+    }
+
+    if (newVoteStatus === currentVoteStatus) {
+      return res
+        .status(200)
+        .json({ message: `Current vote status: ${currentVoteStatus}` });
+    }
+
+    if (newVoteStatus === "upvote") {
+      if (currentVoteStatus === "downvote") {
+        post.votes += 2;
+      } else {
+        post.votes += 1;
+      }
+      post.voters[voterIndex].voteStatus = "upvote";
+    } else if (newVoteStatus === "downvote") {
+      if (currentVoteStatus === "upvote") {
+        post.votes -= 2;
+      } else {
+        post.votes -= 1;
+      }
+      post.voters[voterIndex].voteStatus = "downvote";
+    } else if (newVoteStatus === "neutral") {
+      if (currentVoteStatus === "upvote") {
+        post.votes -= 1;
+      } else if (currentVoteStatus === "downvote") {
+        post.votes += 1;
+      }
+      post.voters.splice(voterIndex, 1);
+    }
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Vote updated successfully",
+      post,
+    });
   } catch (error) {
-    console.error("Error updating votes:", error);
-    res.status(500).json({ error: "Failed to update votes" });
+    console.error(error);
+    res.status(500).json({ message: "An error occurred while updating votes" });
   }
 };
 // post with image
@@ -89,7 +140,7 @@ postControllers.AddTextPost = async (req, res) => {
 postControllers.DeletePost = async (req, res) => {
   try {
     const postId = req.params.id;
-    console.log(postId);
+
     const deletedPost = await Post.findByIdAndDelete(postId);
     if (!deletedPost) {
       return res.status(404).send("Post not found");
@@ -104,7 +155,6 @@ postControllers.EditPost = async (req, res) => {
   try {
     const postId = req.params.id;
     const { caption, description } = req.body;
-    console.log(req.body);
 
     const updatedPost = await Post.findByIdAndUpdate(
       postId,

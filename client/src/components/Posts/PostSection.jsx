@@ -12,6 +12,7 @@ import "./PostSection.scss";
 const PostSection = () => {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState([]);
+  console.log(postData);
 
   const getPosts = async () => {
     try {
@@ -50,8 +51,8 @@ const PostSection = () => {
       <Grid item md={12}>
         {postData.map((post, index) => (
           <PostCard
-            key={index} 
-            postId={post._id}     
+            key={index}
+            id={post._id}
             caption={post.caption}
             description={post.description}
             imageUrl={post.imageUrl}
@@ -59,6 +60,7 @@ const PostSection = () => {
             date={post.date}
             avatar={post.user.imageUrl}
             votes={post.votes}
+            voters={post.voters}
           />
         ))}
       </Grid>

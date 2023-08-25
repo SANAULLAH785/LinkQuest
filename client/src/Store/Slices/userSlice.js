@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "userState",
   initialState: {
+    id: "",
     userName: "",
     email: "",
     avatar: "",
@@ -17,6 +18,7 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.avatar = action.payload.imageUrl;
       state.jobTitle = action.payload.jobTitle;
+      state.id = action.payload._id;
     },
   },
 });

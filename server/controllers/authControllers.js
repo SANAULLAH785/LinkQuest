@@ -10,7 +10,7 @@ authControllers.SignUp = async (req, res) => {
     const { name, email, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).send("Email already registered" );
+      return res.status(400).send("Email already registered");
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -22,7 +22,7 @@ authControllers.SignUp = async (req, res) => {
     res.status(200).json({ message: "User registered successfully", user: savedUser });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).send( "Internal server error" );
+    res.status(500).send("Internal server error");
   }
 };
 
@@ -35,7 +35,6 @@ authControllers.SignIn = async (req, res) => {
     }
     const ispassword = await bcrypt.compare(password, existinguser.password);
     if (!ispassword) {
-      console.log(existinguser.password);
       return res.status(401).send("Incorrect password.");
     }
     const tokenPayload = {
