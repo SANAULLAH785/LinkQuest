@@ -17,6 +17,7 @@ postControllers.GetSinglePost = async (req, res) => {
     const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) {
+      console.log("post not found");
       return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json(post);

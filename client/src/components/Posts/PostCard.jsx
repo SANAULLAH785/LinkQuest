@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box } from "@mui/material";
 import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
 import "./PostCard.scss";
 
@@ -97,7 +97,7 @@ const PostCard = ({
         );
         console.log(response.data);
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     }, 3000);
     setTimerId(newTimerId);
