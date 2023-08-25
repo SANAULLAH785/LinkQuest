@@ -131,7 +131,7 @@ postControllers.AddTextPost = async (req, res) => {
     });
 
     await newPost.save();
-    res.status(201).json({ message: "Post created successfully" });
+    res.status(200).send( "Post created successfully" );
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal server error");
