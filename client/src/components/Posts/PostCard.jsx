@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import { BsArrowUpShort, BsArrowDownShort, BsCloudLightningFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
+import { SlOptionsVertical } from "react-icons/sl";
+import { BiComment } from "react-icons/bi";
+import {
+  setPostModalOpen,
+  setSelectedPost,
+} from "../../Store/Slices/postSlice";
 import { ApiCallPut } from "../Api/ApiCall";
 import "./PostCard.scss";
 
@@ -17,6 +23,18 @@ const PostCard = ({
   id,
   voters,
 }) => {
+  const selectedData = {
+    description,
+    imageUrl,
+    caption,
+    username,
+    date,
+    avatar,
+    votes,
+    id,
+    voters,
+  };
+  const dispatch = useDispatch();
   const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
   const [votesNumber, setVotesNumber] = useState(votes);
   const [timerId, setTimerId] = useState(null);
@@ -41,6 +59,11 @@ const PostCard = ({
       }
     }
   }, []);
+
+  const openPostModal = () => {
+    dispatch(setPostModalOpen(true));
+    dispatch(setSelectedPost(selectedData));
+  };
 
   const voteHandler = (check) => {
     if (timerId) {
@@ -82,11 +105,13 @@ const PostCard = ({
 
   const votesUpdate = () => {
     const newTimerId = setTimeout(async () => {
-      await ApiCallPut(`/setPostVotes/${id}`,{vote:voteStatus}).then((res)=>{
-      console.log(res.data);
-      }).catch((err)=>{
-      console.log(err.text)
-      });
+      await ApiCallPut(`/setPostVotes/${id}`, { vote: voteStatus })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.text);
+        });
     }, 3000);
     setTimerId(newTimerId);
   };
@@ -109,25 +134,36 @@ const PostCard = ({
       <p>{description}</p>
       <img src={imageUrl} alt="" />
       <Box className="footer">
-        <p className="caption">{caption}</p>
-        <Box className="votes">
-          <span className="vote-button">
-            <BsArrowUpShort
-              size={25}
-              color={upVoted ? "#1d90f4" : "white"}
-              onClick={() => voteHandler("upvote")}
-            />
-          </span>
+        <Box>
+          <p className="caption">{caption}</p>
+        </Box>
+        <Box className="votes-section">
+          <Box className="votes">
+            <span className="vote-button">
+              <BsArrowUpShort
+                size={25}
+                color={upVoted ? "#1d90f4" : "white"}
+                onClick={() => voteHandler("upvote")}
+              />
+            </span>
 
-          <p>{votesNumber}</p>
+            <p>{votesNumber}</p>
 
-          <span className="vote-button">
-            <BsArrowDownShort
-              size={25}
-              color={downVoted ? "tomato" : "white"}
-              onClick={() => voteHandler("downvote")}
-            />
-          </span>
+            <span className="vote-button">
+              <BsArrowDownShort
+                size={25}
+                color={downVoted ? "tomato" : "white"}
+                onClick={() => voteHandler("downvote")}
+              />
+            </span>
+          </Box>
+          <Box className="comments" onClick={() => openPostModal()}>
+            <BiComment size={25} />
+            <p>Comments</p>
+          </Box>
+          <Box>
+            <SlOptionsVertical />
+          </Box>
         </Box>
       </Box>
     </Box>

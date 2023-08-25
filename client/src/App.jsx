@@ -7,13 +7,12 @@ import Signin from "./Pages/Signin/Signin";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
-import { Toaster } from "react-hot-toast"; // Import ToastContainer
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./styles/globals.scss";
 
 const theme = createTheme({
   components: {
-    // Name of the component
     MuiButtonBase: {
       defaultProps: {},
     },
