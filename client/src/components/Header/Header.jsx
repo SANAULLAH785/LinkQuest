@@ -4,14 +4,17 @@ import { Box } from "@mui/material";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { MdArrowDropDown } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
-import { useDispatch } from "react-redux";
-import { addUserData } from "../../Store/Slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserData, removeUserData } from "../../Store/Slices/userSlice";
+import { useNavigate } from "react-router-dom";
 import "./Header.scss";
 
 const Header = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const userEmail = useSelector((state) => state.userState.email);
 
   const getPosts = async () => {
     const headers = {
@@ -31,6 +34,13 @@ const Header = () => {
     }
   };
 
+  const logoutHandler = () => {
+    console.log("logig Out");
+    localStorage.removeItem("token");
+    dispatch(removeUserData());
+    navigate("/");
+  };
+
   useEffect(() => {
     getPosts();
   }, []);
@@ -42,31 +52,40 @@ const Header = () => {
     <Box className="Header">
       <h3 className="title">LinkQuest</h3>
       <Box className="header-profile">
-        <IoNotificationsSharp size={30} />
         <Box
           className="settings"
           onClick={() => toggleDropdown(!isDropdownOpen)}
         >
-          <p>Account</p>
-          <MdArrowDropDown size={25} />
-          {isDropdownOpen && (
-            <Box
-              className="dropdown-content"
-              onMouseLeave={() => toggleDropdown(false)}
-            >
-              <Box className="each-option">
-                <p>Profile</p>
-                <BiChevronRight size={25} />
-              </Box>
-              <Box className="each-option">
-                <p>Settings</p>
-                <BiChevronRight size={25} />
-              </Box>
-              <Box className="each-option">
-                <p>Log out</p>
-                <BiChevronRight size={25} />
-              </Box>
-            </Box>
+          {userEmail ? (
+            <>
+              <IoNotificationsSharp size={30} />
+              <p>Account</p>
+              <MdArrowDropDown size={25} />
+              {isDropdownOpen && (
+                <Box
+                  className="dropdown-content"
+                  onMouseLeave={() => toggleDropdown(false)}
+                >
+                  <Box className="each-option">
+                    <p>Profile</p>
+                    <BiChevronRight size={25} />
+                  </Box>
+                  <Box className="each-option">
+                    <p>Settings</p>
+                    <BiChevronRight size={25} />
+                  </Box>
+                  <Box className="each-option">
+                    <p onClick={() => logoutHandler()}>Log out</p>
+                    <BiChevronRight size={25} />
+                  </Box>
+                </Box>
+              )}
+            </>
+          ) : (
+            <>
+              <p onClick={() => navigate("/signup")}>Signup</p>
+              <p onClick={() => navigate("/signin")}>Signin</p>
+            </>
           )}
         </Box>
       </Box>

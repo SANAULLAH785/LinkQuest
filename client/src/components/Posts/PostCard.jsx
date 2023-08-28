@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { formatDistanceToNow } from "date-fns";
 import { SlOptionsVertical } from "react-icons/sl";
 import { BiComment } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import {
   setPostModalOpen,
   setSelectedPost,
@@ -35,6 +36,7 @@ const PostCard = ({
     voters,
   };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
   const [votesNumber, setVotesNumber] = useState(votes);
   const [timerId, setTimerId] = useState(null);
@@ -61,46 +63,54 @@ const PostCard = ({
   }, []);
 
   const openPostModal = () => {
-    dispatch(setPostModalOpen(true));
-    dispatch(setSelectedPost(selectedData));
+    if (userId) {
+      dispatch(setPostModalOpen(true));
+      dispatch(setSelectedPost(selectedData));
+    } else {
+      navigate("/signin");
+    }
   };
 
   const voteHandler = (check) => {
-    if (timerId) {
-      clearTimeout(timerId);
-    }
+    if (userId) {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
 
-    if (upVoted && check === "upvote") {
-      setVotesNumber(votes - 1);
-      setUpVoted(false);
-      setVoteStatus("neutral");
-    } else if (!upVoted && check === "upvote") {
-      setVotesNumber((prevVote) => prevVote + 1);
-      setUpVoted(true);
-      setDownVoted(false);
-      setVoteStatus("upvote");
-    } else if (upVoted && check === "downvote") {
-      setVotesNumber(votes - 2);
-      setUpVoted(false);
-      setDownVoted(true);
-      setVoteStatus("downvote");
-    } else if (downVoted && check === "downvote") {
-      setVotesNumber(votes + 1);
-      setDownVoted(false);
-      setVoteStatus("neutral");
-    } else if (!downVoted && check === "downvote") {
-      setVotesNumber((prevVote) => prevVote - 1);
-      setDownVoted(true);
-      setUpVoted(false);
-      setVoteStatus("downvote");
-    } else if (downVoted && check === "upvote") {
-      setVotesNumber(votes + 2);
-      setUpVoted(true);
-      setDownVoted(false);
-      setVoteStatus("upvote");
-    }
+      if (upVoted && check === "upvote") {
+        setVotesNumber(votes - 1);
+        setUpVoted(false);
+        setVoteStatus("neutral");
+      } else if (!upVoted && check === "upvote") {
+        setVotesNumber((prevVote) => prevVote + 1);
+        setUpVoted(true);
+        setDownVoted(false);
+        setVoteStatus("upvote");
+      } else if (upVoted && check === "downvote") {
+        setVotesNumber(votes - 2);
+        setUpVoted(false);
+        setDownVoted(true);
+        setVoteStatus("downvote");
+      } else if (downVoted && check === "downvote") {
+        setVotesNumber(votes + 1);
+        setDownVoted(false);
+        setVoteStatus("neutral");
+      } else if (!downVoted && check === "downvote") {
+        setVotesNumber((prevVote) => prevVote - 1);
+        setDownVoted(true);
+        setUpVoted(false);
+        setVoteStatus("downvote");
+      } else if (downVoted && check === "upvote") {
+        setVotesNumber(votes + 2);
+        setUpVoted(true);
+        setDownVoted(false);
+        setVoteStatus("upvote");
+      }
 
-    setInitialRender(false);
+      setInitialRender(false);
+    } else {
+      navigate("/signin");
+    }
   };
 
   const votesUpdate = () => {

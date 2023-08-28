@@ -6,6 +6,11 @@ const answerSchema = new mongoose.Schema({
     ref: "Question",
     required: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   verified: {
     type: Boolean,
     default: false,

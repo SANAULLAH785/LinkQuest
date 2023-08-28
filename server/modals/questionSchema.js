@@ -21,6 +21,9 @@ const questionSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  tags: {
+    type: String,
+  },
 });
 
 const Question = mongoose.model("Question", questionSchema);
