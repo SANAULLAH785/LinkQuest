@@ -1,10 +1,276 @@
-.main-container {
+.closing-container {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 80;
+  z-index: 70;
   width: 100vw;
   height: 100vh;
-  background-color: aquamarine;
-  opacity: 30%;
+  background-color: rgb(170, 167, 167, 0.4);
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.main-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 80;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .post-container {
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
+    height: 70vh;
+    background-color: #282a37;
+    border-radius: 10px;
+    max-width: 880px;
+    filter: drop-shadow(5px 5px 10px black);
+
+    .image-container {
+      box-sizing: border-box;
+      overflow: hidden;
+      width: 60%;
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      flex-grow: 1;
+      max-width: 330px;
+
+      .post-header {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        border-bottom: 1px solid gray;
+
+        .profile-section {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+          }
+          .date-section {
+            .username {
+              font-size: 14px;
+              font-weight: bold;
+              padding: 0;
+              margin: 0;
+            }
+            .date {
+              font-size: 12px;
+              padding: 0;
+              margin: 0;
+            }
+          }
+        }
+        .icon-wrapper {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .comment-section {
+        // background-color: #525461;
+        flex-grow: 1;
+        padding: 5px 0px;
+        margin: 10px, 0px;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+
+        .be-the-first {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          p {
+            font-size: 12px;
+            padding: 0;
+            margin: 0;
+            opacity: 0.7;
+          }
+        }
+        .comment-container {
+          display: flex;
+          flex-direction: column;
+          .comment {
+            display: flex;
+            flex-direction: row;
+            // margin: 10px 0px;
+            margin-top: 10px;
+            gap: 4px;
+            align-items: center;
+
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 100%;
+            }
+            .content {
+              .userName {
+                font-size: 12px;
+                font-weight: bold;
+                padding: 0;
+                margin: 0;
+              }
+              .text {
+                font-size: 12px;
+                padding: 0;
+                margin: 0;
+              }
+
+              .footer {
+                display: flex;
+                gap: 10px;
+                .date-ago {
+                  font-size: 10px;
+                  padding: 0;
+                  margin: 0;
+                  opacity: 0.7;
+                }
+                .reply {
+                  font-size: 10px;
+                  padding: 0;
+                  margin: 0;
+                  // opacity: 0.7;
+                  &:hover {
+                    font-weight: bold;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
+
+          .replies-section {
+            padding-left: 40px;
+
+            .load-more-comments {
+              font-size: 12px;
+              margin: 0;
+              padding: 0;
+              color: #1d90f4;
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+
+          .reply-input {
+            display: flex;
+            justify-content: end;
+            padding: 0;
+            margin-right: 10px;
+            form {
+              height: 30px;
+            }
+            .add-comment {
+              // width: 70%;
+              background-color: #525461;
+              display: flex;
+              flex-direction: row;
+              border-radius: 10px;
+
+              input {
+                flex-grow: 1;
+                background-color: transparent;
+                outline: 0;
+                border: 0;
+                padding: 5px;
+                border-right: 1px solid gray;
+                color: white;
+              }
+              button {
+                background-color: transparent;
+                outline: 0;
+                border: 0;
+                padding: 5px;
+
+                color: white;
+                &:hover {
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+      }
+      .add-comment-section {
+        margin-top: auto;
+        padding-top: 10px;
+        .form-wrapper {
+          form {
+            display: flex;
+            flex-direction: column;
+            .add-comment {
+              display: flex;
+              flex-direction: row;
+              background-color: #525461;
+              border-radius: 10px;
+              input {
+                flex-grow: 1;
+                background-color: transparent;
+                outline: 0;
+                border: 0;
+                padding: 10px;
+                border-right: 1px solid gray;
+                color: white;
+              }
+              button {
+                background-color: transparent;
+                outline: 0;
+                border: 0;
+                padding: 10px;
+
+                color: white;
+                &:hover {
+                  cursor: pointer;
+                }
+              }
+            }
+            p {
+              font-size: 12px;
+              margin: 0;
+              padding: 0;
+              color: tomato;
+              padding-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
 }

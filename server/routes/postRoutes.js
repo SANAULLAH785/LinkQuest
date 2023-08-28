@@ -18,12 +18,12 @@ router.delete("/delete/post/:id", postControllers.DeletePost);
 
 router.put("/edit/post/:id", postControllers.EditPost);
 
-router.get("/post/comments", postControllers.GetComments);
+router.get("/post/comments/:id", postControllers.GetComments);
 
-router.post("/post/comment", postControllers.AddComment);
+router.post("/post/comment/:id", auth, postControllers.AddComment);
 
-router.get("/post/comment/replies", postControllers.GetReplies);
+router.get("/post/comment/replies/:id", postControllers.GetReplies);
 
-router.post("/post/comment/reply", postControllers.AddReply);
+router.post("/post/comment/reply/:id", auth, postControllers.AddReply);
 
 module.exports = router;

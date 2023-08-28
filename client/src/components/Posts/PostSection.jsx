@@ -12,8 +12,8 @@ import "./PostSection.scss";
 const PostSection = () => {
   const dispatch = useDispatch();
   const openPostModal = useSelector((state) => state.postState.postModalOpen);
-  console.log("Hello", openPostModal);
   const [postData, setPostData] = useState([]);
+  console.log(postData);
 
   const getPosts = async () => {
     try {
@@ -32,9 +32,6 @@ const PostSection = () => {
     <>
       {openPostModal ? <PostModal /> : ""}
       <Grid container spacing={2}>
-        {/* <div style={{ color: "white" }} onClick={(event) => getposts(event)}>
-        <h1>Hel</h1>
-      </div> */}
         <Grid item md={12} className="">
           <Box className="searchbar">
             <Box className="search">

@@ -1,4 +1,6 @@
 const Post = require("../modals/postSchema");
+const Comment = require("../modals/commentSchema");
+const Reply = require("../modals/replySchema");
 const postControllers = {};
 
 postControllers.GetAllPosts = async (req, res) => {
@@ -131,7 +133,7 @@ postControllers.AddTextPost = async (req, res) => {
     });
 
     await newPost.save();
-    res.status(200).send( "Post created successfully" );
+    res.status(200).send("Post created successfully");
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal server error");
@@ -173,20 +175,85 @@ postControllers.EditPost = async (req, res) => {
   }
 };
 
-postControllers.GetComments = (req, res) => {
-  res.send("Get Comments by the ID of Post");
+postControllers.GetComments = async (req, res) => {
+  const postId = req.params.id;
+  console.log(postId);
+
+  try {
+    const comments = await Comment.find({ post: postId }).populate(
+      "user",
+      "name imageUrl"
+    );
+
+    res.status(200).json({ comments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching comments" });
+  }
 };
 
-postControllers.AddComment = (req, res) => {
-  res.send("Add Comment Under Specific Post");
+postControllers.AddComment = async (req, res) => {
+  try {
+    const content = req.body.comment.commentInput;
+    const userId = req.userId;
+    const postId = req.params.id;
+
+    const newComment = new Comment({
+      user: userId,
+      content: content,
+      post: postId,
+    });
+
+    await newComment.save();
+
+    res.status(201).json({ message: "Comment created successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error adding comment" });
+  }
 };
 
-postControllers.GetReplies = (req, res) => {
-  res.send("Get All Replied According to The ID of Comment");
+postControllers.GetReplies = async (req, res) => {
+  const commentId = req.params.id;
+
+  try {
+    const replies = await Reply.find({ comment: commentId }).populate(
+      "user",
+      "name imageUrl"
+    );
+
+    res.status(200).json({ replies });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching comments" });
+  }
 };
 
-postControllers.AddReply = (req, res) => {
-  res.send("Add Reply Under Specific Comment");
+postControllers.AddReply = async (req, res) => {
+  try {
+    const content = req.body.comment.commentInput;
+    const userId = req.userId;
+    const commentId = req.params.id;
+
+    const newReply = new Reply({
+      user: userId,
+      content: content,
+      comment: commentId,
+    });
+
+    console.log(newReply);
+
+    await newReply.save();
+
+    await Comment.findByIdAndUpdate(commentId, {
+      $push: { replies: newReply._id },
+    });
+
+    res.status(201).json({ message: "Comment created successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error adding comment" });
+  }
 };
 
 module.exports = postControllers;
