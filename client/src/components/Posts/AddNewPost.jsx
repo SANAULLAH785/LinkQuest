@@ -17,7 +17,6 @@ const AddNewPost = () => {
   const [imageSection, setImageSection] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const token = localStorage.getItem("token");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -97,7 +96,7 @@ const AddNewPost = () => {
       <Box className="closing-div"></Box>
       <Box className="header">
         <p>Add New Post</p>
-        <Box
+        <Box 
           className="close-button"
           onClick={() => dispatch(addNewPostHandler(false))}
         >
