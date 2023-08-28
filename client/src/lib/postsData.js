@@ -18,8 +18,3 @@ const postData = [
 ];
 
 export default postData;
-// caption={post.caption}
-//             description={post.description}
-//             imageUrl={post.imageUrl}
-//             username={post.username}
-//             date={post.date}

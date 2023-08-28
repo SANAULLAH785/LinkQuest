@@ -20,8 +20,19 @@ const userSlice = createSlice({
       state.jobTitle = action.payload.jobTitle;
       state.id = action.payload._id;
     },
+
+    removeUserData(state, action) {
+      state.userName = null;
+      if (!state.userName) {
+        state.userName = null;
+      }
+      state.email = null;
+      state.avatar = null;
+      state.jobTitle = null;
+      state.id = null;
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { addUserData } = userSlice.actions;
+export const { addUserData, removeUserData } = userSlice.actions;

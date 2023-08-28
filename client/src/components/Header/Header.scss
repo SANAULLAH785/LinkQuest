@@ -37,8 +37,10 @@
       }
       p {
         cursor: pointer;
+        margin-left: 20px;
         &:hover {
-          color: gray;
+          color: #1d90f4;
+          cursor: pointer;
         }
       }
       .dropdown-content {
@@ -71,8 +73,8 @@
           transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
           transition-delay: 25ms;
           &:hover {
-            background-color: #eceef1;
-            color: gray;
+            background-color: #1d90f4;
+            color: white;
           }
         }
       }

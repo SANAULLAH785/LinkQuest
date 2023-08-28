@@ -1,17 +1,22 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { MdOutlinePostAdd, MdReviews } from "react-icons/md";
 import { BsQuestionSquareFill, BsFillStarFill } from "react-icons/bs";
+import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
 
 import "./Sidebar.scss";
 
 const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
   // sx={{ width: "100px" }}
   const userData = useSelector((state) => state.userState);
-  const firstName = userData.userName.split(" ")[0];
+  const firstName = userData.userName?.split(" ")[0];
+  const selectedOption = useSelector(
+    (state) => state.functionalityState.sideBarOptions
+  );
+  const dispatch = useDispatch();
 
   return (
     <Box className="sidebar-container">
@@ -45,25 +50,37 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
       </Box>
       <Box className="sidebar-content-container">
         <Box
-          className={`sidebar-content ${isOpenSideBar ? "" : "onSideBarOpen"}`}
+          className={`sidebar-content ${isOpenSideBar ? "" : "onSideBarOpen"} ${
+            selectedOption === "posts" ? "bg-blue" : ""
+          }`}
+          onClick={() => dispatch(sideBarOptionsHandler("posts"))}
         >
           <MdOutlinePostAdd size={25} />
           {isOpenSideBar ? <p>Posts</p> : ""}
         </Box>
         <Box
-          className={`sidebar-content ${isOpenSideBar ? "" : "onSideBarOpen"}`}
+          className={`sidebar-content ${
+            isOpenSideBar ? "" : "onSideBarOpen"
+          }  ${selectedOption === "reviews" ? "bg-blue" : ""}`}
+          onClick={() => dispatch(sideBarOptionsHandler("reviews"))}
         >
           <MdReviews size={25} />
           {isOpenSideBar ? <p>Reviews</p> : ""}
         </Box>
         <Box
-          className={`sidebar-content ${isOpenSideBar ? "" : "onSideBarOpen"}`}
+          className={`sidebar-content ${
+            isOpenSideBar ? "" : "onSideBarOpen"
+          }  ${selectedOption === "questions" ? "bg-blue" : ""}`}
+          onClick={() => dispatch(sideBarOptionsHandler("questions"))}
         >
           <BsQuestionSquareFill size={25} />
           {isOpenSideBar ? <p>Questions</p> : ""}
         </Box>
         <Box
-          className={`sidebar-content ${isOpenSideBar ? "" : "onSideBarOpen"}`}
+          className={`sidebar-content ${
+            isOpenSideBar ? "" : "onSideBarOpen"
+          }  ${selectedOption === "badges" ? "bg-blue" : ""}`}
+          onClick={() => dispatch(sideBarOptionsHandler("badges"))}
         >
           <BsFillStarFill size={25} />
           {isOpenSideBar ? <p>Badges</p> : ""}

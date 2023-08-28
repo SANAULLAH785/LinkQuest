@@ -5,13 +5,16 @@ import { Box, Grid } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
+import { useNavigate } from "react-router-dom";
 import { ApiCallGet } from "../Api/ApiCall";
 import axios from "axios";
 import "./PostSection.scss";
 
 const PostSection = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const openPostModal = useSelector((state) => state.postState.postModalOpen);
+  const userId = useSelector((state) => state.userState.id);
   const [postData, setPostData] = useState([]);
   console.log(postData);
 
@@ -28,6 +31,14 @@ const PostSection = () => {
     getPosts();
   }, []);
 
+  const addPostHanlder = () => {
+    if (userId) {
+      dispatch(addNewPostHandler(true));
+    } else {
+      navigate("/signin");
+    }
+  };
+
   return (
     <>
       {openPostModal ? <PostModal /> : ""}
@@ -42,9 +53,7 @@ const PostSection = () => {
         </Grid>
         <Grid item md={12}>
           <Box className="button-section">
-            <button onClick={() => dispatch(addNewPostHandler(true))}>
-              Add Post
-            </button>
+            <button onClick={() => addPostHanlder()}>Add Post</button>
           </Box>
         </Grid>
         <Grid item md={12}>
