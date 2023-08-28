@@ -5,7 +5,7 @@ import { MdClose } from "react-icons/md";
 import { setPostModalOpen } from "../../Store/Slices/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
-import { ApiCallPost } from "../Api/ApiCall";
+import { ApiCallGet } from "../Api/ApiCall";
 import ReplyForm from "./ReplyForm";
 import "./PostModal.scss";
 import CommentForm from "./CommentForm";
@@ -26,10 +26,9 @@ const PostModal = () => {
     setReplyLoadCommentId(commentId);
     setReplyCommentId(commentId);
     try {
-      const response = await axios.get(
-        `http://localhost:8000/post/comment/replies/${commentId}`
+      const response = await ApiCallGet(
+        `/post/comment/replies/${commentId}`
       );
-      console.log(response.data);
       setRepliesData(response.data.replies);
     } catch (error) {
       console.log(error);
@@ -40,12 +39,13 @@ const PostModal = () => {
     setReplyCommentId(commentId);
     setReplyData({ commentId: commentId, commentUserName: commenter });
   };
+  // setCommentData(response.data);
+
 
   const getComments = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/post/comments/${postId}`
-      );
+      const response = await ApiCallGet(`/post/comments/${postId}`);
+      console.log(response.data.comments);
       setCommentData(response.data.comments);
     } catch (error) {
       console.log(error);
@@ -61,7 +61,7 @@ const PostModal = () => {
   const dateString = postData.date;
   const dateObject = parseISO(dateString);
   const formattedDate = format(dateObject, "dd MMMM 'at' hh:mm a");
-
+console.log(commentData);
   return (
     <>
       <Box
