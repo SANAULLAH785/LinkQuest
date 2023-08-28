@@ -9,7 +9,6 @@ import { BsCardImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { ApiCallPost } from "../Api/ApiCall";
-import axios from "axios";
 import "./AddNewPost.scss";
 import { toast } from "react-hot-toast";
 
@@ -18,7 +17,6 @@ const AddNewPost = () => {
   const [imageSection, setImageSection] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const token = localStorage.getItem("token");
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -112,7 +110,7 @@ const AddNewPost = () => {
       <Box className="closing-div"></Box>
       <Box className="header">
         <p>Add New Post</p>
-        <Box
+        <Box 
           className="close-button"
           onClick={() => dispatch(addNewPostHandler(false))}
         >
