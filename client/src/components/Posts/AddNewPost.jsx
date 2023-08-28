@@ -9,7 +9,6 @@ import { BsCardImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { ApiCallPost } from "../Api/ApiCall";
-import axios from "axios";
 import "./AddNewPost.scss";
 import { toast } from "react-hot-toast";
 
@@ -39,20 +38,6 @@ const AddNewPost = () => {
     setImageSection(check);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const caption = event.target.elements.caption.value;
-    const image = imageFile;
-
-    const data = {
-      caption,
-      image,
-    };
-    console.log(data);
-    setSelectedImage(null);
-    event.target.reset();
-  };
-
   const descriptionInitialValue = {
     description: "",
   };
@@ -67,13 +52,13 @@ const AddNewPost = () => {
     onSubmit: async (values) => {
       console.log(values);
       await ApiCallPost("/textpost", values)
-      .then((res) => {
-        console.log(res);
-        toast.success("Post added Successfully");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          console.log(res);
+          toast.success("Post added Successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   });
 
