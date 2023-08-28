@@ -53,7 +53,6 @@ const AddNewPost = () => {
       await ApiCallPost("/textpost", values)
         .then((res) => {
           console.log(res);
-          toast.success("Post added Successfully");
         })
         .catch((err) => {
           console.log(err);
@@ -83,7 +82,7 @@ const AddNewPost = () => {
       await ApiCallPost("/post", values, "multipart/form-data")
         .then((res) => {
           console.log(res);
-          toast.success("Post added Successfully");
+          // toast.success("Post added Successfully");
         })
         .catch((err) => {
           console.log(err);

@@ -3,6 +3,7 @@ import axios from "axios";
 import { Box } from "@mui/material";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import {ApiCallPost} from '../Api/ApiCall';
 
 const ReplyForm = ({ commentId, loadReplies, commentUserName }) => {
   const commentSchema = Yup.object().shape({
@@ -18,31 +19,20 @@ const ReplyForm = ({ commentId, loadReplies, commentUserName }) => {
         validationSchema={commentSchema}
         onSubmit={async (values, { resetForm }) => {
           const data = { comment: values };
-
-          try {
-            const token = localStorage.getItem("token");
-            const postData = {
-              comment: {
-                commentInput: values.commentInput,
-              },
-            };
-
-            const response = await axios.post(
-              `http://localhost:8000/post/comment/reply/${commentId}`,
-              postData,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  token: `${token}`,
-                },
-              }
-            );
-            console.log(response.data);
+          console.log(data);
+          const postData = {
+            comment: {
+              commentInput: values.commentInput,
+            },
+          };
+          await ApiCallPost(`/post/comment/reply/${commentId}`, postData)
+          .then((res) => {
+            console.log(res.data);
             loadReplies(commentId);
-          } catch (error) {
-            console.log(error);
-          }
-
+        })
+          .catch((err) => {
+            console.log(err);
+          });
           resetForm();
         }}
       >

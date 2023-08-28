@@ -17,8 +17,8 @@ const PostSection = () => {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/posts");
-      setPostData(response.data);
+      const response = await ApiCallGet("/posts");
+      setPostData(response.data.Posts);
     } catch (error) {
       console.log(error);
     }

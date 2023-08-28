@@ -3,6 +3,8 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Box } from "@mui/material";
+import { toast } from "react-hot-toast";
+import { ApiCallPost } from "../Api/ApiCall";
 
 const CommentForm = ({ postId, setReFetchComment, reFetchComments }) => {
   const commentSchema = Yup.object().shape({
@@ -18,28 +20,17 @@ const CommentForm = ({ postId, setReFetchComment, reFetchComments }) => {
         onSubmit={async (values, { resetForm }) => {
           const data = { comment: values };
           console.log(data);
-          try {
-            const token = localStorage.getItem("token");
-            const postData = {
+             const postData = {
               comment: { commentInput: values.commentInput },
-            };
-
-            const response = await axios.post(
-              `http://localhost:8000/post/comment/${postId}`,
-              postData,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  token: `${token}`,
-                },
-              }
-            );
-            console.log(response.data);
-            setReFetchComment(reFetchComments + 1);
-          } catch (error) {
-            console.log(error);
-          }
-
+             };
+          await ApiCallPost(`/post/comment/${postId}`, postData)
+          .then((res) => {
+            console.log(res.data);
+             setReFetchComment(reFetchComments + 1);
+        })
+          .catch((err) => {
+            console.log(err);
+          });
           resetForm();
         }}
       >
