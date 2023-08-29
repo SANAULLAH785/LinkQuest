@@ -11,7 +11,7 @@ postControllers.GetAllPosts = async (req, res) => {
     });
     res.status(200).json({Posts});
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({message:"Internal Server Error"});
   }
 };
 postControllers.GetSinglePost = async (req, res) => {
@@ -25,7 +25,7 @@ postControllers.GetSinglePost = async (req, res) => {
     res.status(200).json(post);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal server error");
+    res.status(500).json({message:"Internal server error"});
   }
 };
 
@@ -120,7 +120,7 @@ postControllers.AddPost = async (req, res) => {
     res.status(201).json({ message: "Post created successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal server error");
+    res.status(500).json({message:"Internal server error"});
   }
 };
 //textual posts
@@ -136,7 +136,7 @@ postControllers.AddTextPost = async (req, res) => {
     res.status(200).json({message:"Post created successfully"});
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal server error");
+    res.status(500).json({message:"Internal server error"});
   }
 };
 postControllers.DeletePost = async (req, res) => {
@@ -145,12 +145,12 @@ postControllers.DeletePost = async (req, res) => {
 
     const deletedPost = await Post.findByIdAndDelete(postId);
     if (!deletedPost) {
-      return res.status(404).send("Post not found");
+      return res.status(404).json({message:"Post not found"});
     }
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal server error");
+    res.status(500).json({message:"Internal server error"});
   }
 };
 postControllers.EditPost = async (req, res) => {
@@ -171,7 +171,7 @@ postControllers.EditPost = async (req, res) => {
     res.status(200).json(updatedPost);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal server error");
+    res.status(500).json({message:"Internal server error"});
   }
 };
 

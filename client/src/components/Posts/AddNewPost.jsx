@@ -22,6 +22,7 @@ const AddNewPost = () => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
+      console.log('imageurl',imageUrl);
       setSelectedImage(imageUrl);
       setImageFile(file);
     }
