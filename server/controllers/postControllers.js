@@ -5,11 +5,13 @@ const postControllers = {};
 
 postControllers.GetAllPosts = async (req, res) => {
   try {
-    const Posts = await Post.find({}).populate({
-      path: "user",
-      select: "name imageUrl",
-    });
-    res.status(200).json({Posts});
+    const Posts = await Post.find({})
+      .populate({
+        path: "user",
+        select: "name imageUrl",
+      })
+      .sort({ date: -1 });
+    res.status(200).json({ Posts });
   } catch (error) {
     res.status(500).json({message:"Internal Server Error"});
   }
@@ -133,7 +135,7 @@ postControllers.AddTextPost = async (req, res) => {
     });
 
     await newPost.save();
-    res.status(200).json({message:"Post created successfully"});
+    res.status(200).json({ message: "Post created successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({message:"Internal server error"});
@@ -184,7 +186,7 @@ postControllers.GetComments = async (req, res) => {
       "user",
       "name imageUrl"
     );
-    res.status(200).json({comments});
+    res.status(200).json({ comments });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching comments" });
@@ -221,7 +223,7 @@ postControllers.GetReplies = async (req, res) => {
       "name imageUrl"
     );
 
-    res.status(200).json({replies});
+    res.status(200).json({ replies });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching comments" });

@@ -25,7 +25,6 @@ const Signin = () => {
     password: "",
   };
 
- 
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -33,8 +32,8 @@ const Signin = () => {
       try {
         const response = await ApiCallPosts("/signin", payload);
         console.log(response.data);
-        const token = response.data.token; 
-        const userData = response.data.user; 
+        const token = response.data.token;
+        const userData = response.data.user;
         localStorage.setItem("token", token);
         dispatch(addUserData(userData));
         navigate("/");

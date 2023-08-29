@@ -51,6 +51,7 @@
   }
   .bg-blue {
     background-color: #1d90f4;
+    // filter: drop-shadow(2px 2px 5px black);
   }
 
   .onSideBarOpen {
@@ -68,9 +69,8 @@
     padding-top: 0;
     height: 50px;
     border-radius: 5px;
-    transition: all;
-    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    transition-delay: 25ms;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
 
     p {
       margin-left: 20px;

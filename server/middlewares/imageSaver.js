@@ -3,15 +3,15 @@ const cloudinary = v2;
 const multer = require("multer");
 const crypto = require("crypto");
 require("dotenv").config();
-const cloudname=process.env.cloud_name;
-const apikey=process.env.api_key;
-const apisecret=process.env.api_secret;
+const cloudname = process.env.cloud_name;
+const apikey = process.env.api_key;
+const apisecret = process.env.api_secret;
 
 // Cloudinary configuration
 cloudinary.config({
-  cloud_name:cloudname,
-  api_key:apikey,
-  api_secret:apisecret
+  cloud_name: cloudname,
+  api_key: apikey,
+  api_secret: apisecret,
 });
 
 const imageUploader = multer().single("image");
@@ -23,7 +23,8 @@ module.exports = (req, res, next) => {
     }
 
     if (!req.file) {
-      return res.status(400).json({ error: "No image provided." });
+      // return res.status(400).json({ error: "No image provided." });
+      return next();
     }
 
     const fileBuffer = req.file.buffer;

@@ -4,6 +4,7 @@ import MainWrapper from "./MainWrapper";
 import store from "./Store";
 import Signup from "./Pages/Signup/Signup";
 import Signin from "./Pages/Signin/Signin";
+import QuestionDetails from "./Pages/QuestionDetails/QuestionDetails";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
@@ -29,6 +30,7 @@ const App = () => {
               <Route exact path="/" element={<MainWrapper />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/signin" element={<Signin />} />
+              <Route path="/question/:id" component={QuestionDetails} />
             </Routes>
           </Router>
         </Layout>

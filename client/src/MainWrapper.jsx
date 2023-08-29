@@ -7,6 +7,7 @@ import useWindowSize from "./utils/useWindowSize";
 import ReviewSection from "./components/Reviews/ReviewSection";
 import QuestionSection from "./components/Questions/QuestionSection";
 import BadgeSection from "./components/Badges/BadgeSection";
+import QuestionModal from "./components/Questions/QuestionModal";
 import { useSelector, useDispatch } from "react-redux";
 import { addNewPostHandler } from "./Store/Slices/postSlice";
 import { Grid, Box } from "@mui/material";
@@ -24,6 +25,9 @@ const MainWrapper = () => {
     (state) => state.functionalityState.sideBarOptions
   );
 
+  const questionModal = useSelector(
+    (state) => state.questionState.questionModalOpen
+  );
   useEffect(() => {
     if (postStateBar) {
       setRightBarWidth(4);
@@ -69,7 +73,9 @@ const MainWrapper = () => {
             <Grid item md={middleBarWidth} className="sidebar">
               {selectedOption === "posts" && <PostSection />}
               {selectedOption === "reviews" && <ReviewSection />}
-              {selectedOption === "questions" && <QuestionSection />}
+              {selectedOption === "questions" && (
+                <>{questionModal ? <QuestionModal /> : <QuestionSection />}</>
+              )}
               {selectedOption === "badges" && <BadgeSection />}
             </Grid>
             {screenWidth < 900 ? (
