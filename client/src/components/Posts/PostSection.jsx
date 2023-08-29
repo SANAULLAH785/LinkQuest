@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { useNavigate } from "react-router-dom";
 import { ApiCallGet } from "../Api/ApiCall";
-import axios from "axios";
+import { toast } from "react-hot-toast";
 import "./PostSection.scss";
 
 const PostSection = () => {
@@ -35,6 +35,7 @@ const PostSection = () => {
     if (userId) {
       dispatch(addNewPostHandler(true));
     } else {
+      toast.error("First log in to add post");
       navigate("/signin");
     }
   };

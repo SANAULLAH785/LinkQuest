@@ -1,10 +1,12 @@
 const { Router } = require("express");
 const router = Router();
 const questionControllers = require("../controllers/questionControllers");
+const auth = require("../middlewares/auth");
+const imageSaver = require("../middlewares/imageSaver");
 
-router.get("/question", questionControllers.GetAllQuestions);
+router.get("/questions", questionControllers.GetAllQuestions);
 
-router.post("/question", questionControllers.AddQuestion);
+router.post("/question", auth, imageSaver, questionControllers.AddQuestion);
 
 router.get("/question/:id", questionControllers.GetSingleQuestion);
 

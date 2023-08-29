@@ -12,17 +12,24 @@ const questionSchema = new mongoose.Schema({
       ref: "Answer",
     },
   ],
-  content: {
+  title: {
     type: String,
     required: true,
+  },
+  content: {
+    type: String,
   },
   imageUrl: String,
   votes: {
     type: Number,
     default: 0,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
   tags: {
-    type: String,
+    type: [String],
   },
 });
 

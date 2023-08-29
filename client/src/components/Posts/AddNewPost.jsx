@@ -53,6 +53,7 @@ const AddNewPost = () => {
       await ApiCallPost("/textpost", values)
         .then((res) => {
           console.log(res);
+          dispatch(addNewPostHandler(false));
         })
         .catch((err) => {
           console.log(err);
@@ -82,6 +83,7 @@ const AddNewPost = () => {
       await ApiCallPost("/post", values, "multipart/form-data")
         .then((res) => {
           console.log(res);
+          dispatch(addNewPostHandler(false));
           // toast.success("Post added Successfully");
         })
         .catch((err) => {
@@ -95,7 +97,7 @@ const AddNewPost = () => {
       <Box className="closing-div"></Box>
       <Box className="header">
         <p>Add New Post</p>
-        <Box 
+        <Box
           className="close-button"
           onClick={() => dispatch(addNewPostHandler(false))}
         >

@@ -1,0 +1,32 @@
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  //   padding: 10px;
+  // border: 1px solid black;
+  border-radius: 20px;
+  align-items: center;
+  // background-color: #3a3b3c;
+  background-color: #282a37;
+  filter: drop-shadow(5px 5px 10px black);
+
+  .search {
+    margin-right: 10px;
+    border-right: 1px solid black;
+    padding: 10px;
+    padding-right: 20px;
+    padding-top: 12px;
+    padding-left: 15px;
+  }
+
+  input {
+    width: 80%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    background-color: #282a37;
+    color: white;
+  }
+  input::placeholder {
+    color: white;
+  }
+}

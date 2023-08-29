@@ -6,6 +6,7 @@ import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { MdOutlinePostAdd, MdReviews } from "react-icons/md";
 import { BsQuestionSquareFill, BsFillStarFill } from "react-icons/bs";
 import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
+import { setQuestionModalOpen } from "../../Store/Slices/questionSlice";
 
 import "./Sidebar.scss";
 
@@ -17,6 +18,11 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
     (state) => state.functionalityState.sideBarOptions
   );
   const dispatch = useDispatch();
+
+  const questionSectionHandler = () => {
+    dispatch(sideBarOptionsHandler("questions"));
+    dispatch(setQuestionModalOpen(false));
+  };
 
   return (
     <Box className="sidebar-container">
@@ -71,7 +77,7 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
           className={`sidebar-content ${
             isOpenSideBar ? "" : "onSideBarOpen"
           }  ${selectedOption === "questions" ? "bg-blue" : ""}`}
-          onClick={() => dispatch(sideBarOptionsHandler("questions"))}
+          onClick={() => questionSectionHandler()}
         >
           <BsQuestionSquareFill size={25} />
           {isOpenSideBar ? <p>Questions</p> : ""}

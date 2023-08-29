@@ -54,6 +54,11 @@
       p {
         font-size: 12px;
       }
+      .vote-button {
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
     .comments {
       display: flex;
