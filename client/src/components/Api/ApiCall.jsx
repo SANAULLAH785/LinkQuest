@@ -9,31 +9,31 @@
   const getError = (error) => {
     if (error.response) {
       if (error.response && error.response.status === 500) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else if (error.response && error.response.status === 422) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else if (error.response && error.response.status === 405) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else if (error.response && error.response.status === 406) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else if (error.response && error.response.status === 404) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else if (error.response && error.response.status === 444) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else if (error.response && error.response.status === 401) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       }else if (error.response && error.response.status === 400) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       }else if (error.response && error.response.status === 430) {
-        const errormessage = error.response.data;
+        const errormessage = error.response.data.message;
         return toast.error(errormessage);
       } else {
         return toast.error(error);
@@ -46,6 +46,15 @@
     console.log('first',response);
     if (response.status === 200 || response.status===201) {
       return   toast.success(response.data.message);
+
+    } else {
+      return getError(response);
+    }
+  };
+  const getResponseData = (response) => {
+    console.log('sec',response);
+    if (response.status === 200 || response.status===201) {
+      return   response
 
     } else {
       return getError(response);
@@ -76,6 +85,28 @@
       .post(baseUrl + path, data, options)
       .then((response) => {
         return getResponse(response, redirect);
+      })
+      .catch((error) => {
+        return getError(error);
+      });
+  };
+  const ApiCallPosts = (
+    path,
+    data,
+    contentType = "application/json",
+    redirect = true
+  ) => {
+    const headers = {
+      "Content-Type": contentType,
+      "token": token,
+    };
+  console.log(headers);
+    const options = { headers: headers };
+
+    return axios
+      .post(baseUrl + path, data, options)
+      .then((response) => {
+        return getResponseData(response, redirect);
       })
       .catch((error) => {
         return getError(error);
@@ -132,4 +163,4 @@
       });
   };
 
-  export { ApiCallPost, ApiCallGet ,ApiCallPut,ApiCallDelete};
+  export { ApiCallPost, ApiCallGet ,ApiCallPut,ApiCallDelete,ApiCallPosts};

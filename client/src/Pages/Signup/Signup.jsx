@@ -37,9 +37,7 @@ const Signup = () => {
         const response = await ApiCallPost("/signup", payload);
         console.log(response.data);
         navigate("/signin");
-        toast.success("Signup Scuccessfully");
       } catch (error) {
-        toast.error(error);
         console.log(error);
       }
     },

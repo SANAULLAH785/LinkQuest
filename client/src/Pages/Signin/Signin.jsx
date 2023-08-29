@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addUserData } from "../../Store/Slices/userSlice";
-import { ApiCallPost } from "../../components/Api/ApiCall";
+import { ApiCallPosts } from "../../components/Api/ApiCall";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -31,7 +31,7 @@ const Signin = () => {
     validationSchema,
     onSubmit: async (payload) => {
       try {
-        const response = await ApiCallPost("/signin", payload);
+        const response = await ApiCallPosts("/signin", payload);
         console.log(response.data);
         const token = response.data.token; 
         const userData = response.data.user; 
