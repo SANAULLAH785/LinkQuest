@@ -21,7 +21,7 @@ companyControllers.GetSingleCompany =async (req, res) => {
 companyControllers.AddCompany = async(req, res) => {
   try{
     console.log(req.body);
-    const{name,contact,address,websiteUrl,rating}=req.body;
+    const{name,contact,address,websiteUrl,rating,description}=req.body;
     const newcompany=new Company({
       name:name,
       contact:contact,
@@ -29,6 +29,7 @@ companyControllers.AddCompany = async(req, res) => {
       websiteUrl:websiteUrl,
       imageUrl:req.imageUrl,
       rating:rating,
+      description:description,
     });
     await newcompany.save();
     console.log(newcompany);

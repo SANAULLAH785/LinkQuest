@@ -6,7 +6,7 @@ const companySchema = new mongoose.Schema({
     required: true,
   },
   contact: {
-    type: String,
+    type: Number,
     required: true,
   },
   address: {
@@ -20,6 +20,10 @@ const companySchema = new mongoose.Schema({
   imageUrl: {
     type: String,
     required: true,
+  },
+  description:{
+    type:String,
+    required:true,
   },
   rating: {
     type: Number,
