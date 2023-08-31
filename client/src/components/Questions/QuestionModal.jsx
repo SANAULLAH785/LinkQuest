@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./QuestionModal.scss";
 import { Box } from "@mui/material";
 import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
 import { setQuestionModalOpen } from "../../Store/Slices/questionSlice";
-import AddQuestion from "./AddQuestion";
+import { ApiCallGet } from "../Api/ApiCall";
+import AddAnswer from "./AddAnswer";
+import AnswerCard from "./AnswerCard";
 import "./QuestionModal.scss";
 
 const QuestionModal = () => {
   const dispatch = useDispatch();
-  const { username, avatar, date, title, imageUrl, votes, caption, tags } =
+  const { username, avatar, date, title, imageUrl, votes, caption, tags, id } =
     useSelector((state) => state.questionState.selectedQuestion);
 
   // const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
@@ -24,6 +26,21 @@ const QuestionModal = () => {
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
   const [voteStatus, setVoteStatus] = useState();
+  const [answers, setAnswers] = useState([]);
+  const [loadAnswer, setLoadAnswer] = useState(1);
+
+  const getAnswers = async () => {
+    try {
+      const response = await ApiCallGet(`/answers/${id}`);
+      setAnswers(response.data.answers);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getAnswers();
+  }, [loadAnswer]);
 
   const voteHandler = () => {};
 
@@ -42,13 +59,6 @@ const QuestionModal = () => {
       </h2>
 
       <Box className="question-model-container">
-        {/* <Box className="header">
-          <Box className="user-area">
-            <img src={avatar} alt="" />
-            <p>{username}</p>
-          </Box>
-          <p classname="date-section">{date}</p>
-        </Box> */}
         <Box className="content-box">
           <Box className="votes-section">
             <Box className="votes">
@@ -97,7 +107,20 @@ const QuestionModal = () => {
           </Box>
         </Box>
       </Box>
-      <AddQuestion />
+      <h2>Answers:</h2>
+      {answers.map((answer) => (
+        <AnswerCard
+          avatar={answer.user.imageUrl}
+          username={answer.user.name}
+          caption={answer.content}
+          date={answer.date}
+        />
+      ))}
+      <AddAnswer
+        id={id}
+        setLoadAnswer={setLoadAnswer}
+        loadAnswer={loadAnswer}
+      />
     </>
   );
 };

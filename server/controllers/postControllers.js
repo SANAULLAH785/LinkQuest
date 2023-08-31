@@ -5,15 +5,27 @@ const postControllers = {};
 
 postControllers.GetAllPosts = async (req, res) => {
   try {
-    const Posts = await Post.find({})
+    console.log(req.query.page);
+    const page = req.query.page || 1;
+    const pageSize = 10;
+    const startIndex = (page - 1) * pageSize;
+
+    const totalPosts = await Post.countDocuments();
+    const totalPages = Math.ceil(totalPosts / pageSize);
+
+    const posts = await Post.find({})
       .populate({
         path: "user",
         select: "name imageUrl",
       })
-      .sort({ date: -1 });
-    res.status(200).json({ Posts });
+      .sort({ date: -1 })
+      .skip(startIndex)
+      .limit(pageSize);
+
+    res.status(200).json({ posts, totalPages });
   } catch (error) {
-    res.status(500).json({message:"Internal Server Error"});
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 postControllers.GetSinglePost = async (req, res) => {
@@ -27,7 +39,7 @@ postControllers.GetSinglePost = async (req, res) => {
     res.status(200).json(post);
   } catch (err) {
     console.error(err);
-    res.status(500).json({message:"Internal server error"});
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -122,7 +134,7 @@ postControllers.AddPost = async (req, res) => {
     res.status(201).json({ message: "Post created successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({message:"Internal server error"});
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 //textual posts
@@ -138,7 +150,7 @@ postControllers.AddTextPost = async (req, res) => {
     res.status(200).json({ message: "Post created successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({message:"Internal server error"});
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 postControllers.DeletePost = async (req, res) => {
@@ -147,12 +159,12 @@ postControllers.DeletePost = async (req, res) => {
 
     const deletedPost = await Post.findByIdAndDelete(postId);
     if (!deletedPost) {
-      return res.status(404).json({message:"Post not found"});
+      return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({message:"Internal server error"});
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 postControllers.EditPost = async (req, res) => {
@@ -173,7 +185,7 @@ postControllers.EditPost = async (req, res) => {
     res.status(200).json(updatedPost);
   } catch (err) {
     console.error(err);
-    res.status(500).json({message:"Internal server error"});
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

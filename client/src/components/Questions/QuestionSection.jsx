@@ -35,8 +35,8 @@ const QuestionSection = () => {
   }, [getQuestions]);
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item md={12} className="">
+      <Grid container spacing={2} className="">
+        <Grid item xs={12} className="">
           <Box className="searchbar">
             <Box className="search">
               <BsSearch size={15} />
@@ -44,7 +44,7 @@ const QuestionSection = () => {
             <input type="text" placeholder="Search" />
           </Box>
         </Grid>
-        <Grid item md={12}>
+        <Grid item xs={12}>
           <Box
             className="button-section"
             onClick={() => dispatch(addNewQuestionHandler(true))}
@@ -71,6 +71,7 @@ const QuestionSection = () => {
               votes={question.votes}
               title={question.title}
               tags={question.tags}
+              id={question._id}
             />
           );
         })}

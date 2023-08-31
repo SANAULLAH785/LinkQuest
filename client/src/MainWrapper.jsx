@@ -70,7 +70,7 @@ const MainWrapper = () => {
                 />
               </Grid>
             )}
-            <Grid item md={middleBarWidth} className="sidebar">
+            <Grid item xs={12} md={middleBarWidth} className="sidebar">
               {selectedOption === "posts" && <PostSection />}
               {selectedOption === "reviews" && <ReviewSection />}
               {selectedOption === "questions" && (
