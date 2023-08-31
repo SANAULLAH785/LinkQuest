@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import "./ReviewCard.scss";
 import { formatDistanceToNow } from "date-fns";
-import { BiStar ,BiPhoneCall} from "react-icons/bi";
+import { BiStar, BiPhoneCall } from "react-icons/bi";
 
 const ReviewCard = ({
   content,
@@ -30,10 +30,15 @@ const ReviewCard = ({
     <Box className="review-card-container">
       <Box className="header">
         <Box className="user-area">
-          <img src={companyImage} alt="" />
-          <p>{company}</p>
-          <p>{renderStars(ratings)}</p>
-          <p><BiPhoneCall/> {contact}</p>
+          <Box className="header-first">
+            <img src={companyImage} alt="" />
+            <p>{company}</p>
+            <p>{renderStars(ratings)}</p>
+            <p>
+              <BiPhoneCall /> {contact}
+            </p>
+          </Box>
+
           <a>Reviews</a>
         </Box>
       </Box>
@@ -52,9 +57,15 @@ const ReviewCard = ({
         </div>
       </Box>
       <Box>
-        <p className="industry-label">Description</p>
-        <p>{description}
-        </p>
+        {description ? (
+          <>
+            {" "}
+            <p className="industry-label">Description</p>
+            <p>{description}</p>{" "}
+          </>
+        ) : (
+          ""
+        )}
       </Box>
     </Box>
   );

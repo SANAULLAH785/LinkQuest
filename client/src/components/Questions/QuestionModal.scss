@@ -1,0 +1,118 @@
+.back-button {
+  transition: all 0.2s;
+  &:hover {
+    color: #1d90f4;
+    cursor: pointer;
+  }
+}
+
+.question-model-container {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  // border: 1px gray solid;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #282a37;
+  filter: drop-shadow(5px 5px 10px black);
+  transition: all 0.3s ease;
+  color: white;
+  text-decoration: none;
+
+  .title-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .content-box {
+    display: flex;
+    flex-direction: row;
+  }
+
+  // &:hover {
+  //   text-decoration: none;
+  //   cursor: pointer;
+  // }
+
+  .title {
+    transition: all 0.2s ease;
+    &:hover {
+      color: #1d90f4;
+      cursor: pointer;
+    }
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px gray solid;
+
+    .user-area {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+      }
+      p {
+        font-size: 14px;
+        margin-left: 10px;
+      }
+    }
+    p {
+      font-size: 12px;
+      padding-right: 10px;
+    }
+  }
+  img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: contain;
+    // &:hover {
+    //   cursor: pointer;
+    // }
+  }
+  .caption {
+    font-size: 20px;
+  }
+
+  .tags-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .tags {
+      font-size: 12px;
+      background-color: #525461;
+      padding: 2px 5px;
+      border-radius: 5px;
+      margin: 0;
+    }
+  }
+
+  .votes-section {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    align-items: start;
+    padding-right: 10px;
+    // padding: 0px 20px;
+    .votes {
+      display: flex;
+      flex-direction: column;
+      //   flex-direction: row;
+      align-items: center;
+      p {
+        font-size: 16px;
+      }
+      .vote-button {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

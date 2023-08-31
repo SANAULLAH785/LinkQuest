@@ -43,7 +43,7 @@ const MainWrapper = () => {
   const sideBarHandler = () => {
     dispatch(addNewPostHandler(false));
     setIsOpenSideBar(!isOpenSideBar);
-    //
+
     if (isOpenSideBar) {
       setSideBarWidth(1);
       setMiddleBarWidth(8);
