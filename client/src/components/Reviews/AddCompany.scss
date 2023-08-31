@@ -1,25 +1,13 @@
 .main
-{    
-    padding: 10px;
-     margin-top: 10px;
-    background-color: #282a37;
-    .close-button {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-      background-color: #f7f7f7;
-
-.image-section {
-    margin-top: 20px;
+{   border-radius: 10px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
     padding-bottom: 10px;
+    background-color: #282a37;
+    filter: drop-shadow(5px 5px 10px black);
     .error {
       font-size: 12px;
       color: tomato;
@@ -27,9 +15,9 @@
 
     .image-preview {
       position: relative;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       img {
-        max-width: 50%;
+        max-width: 100%;
         height: auto;
         margin-bottom: 10px;
       }
@@ -47,7 +35,9 @@
       display: inline-block;
       width: 100%;
       padding-top: 10px;
+      margin-bottom: 10px;
       text-align: center;
+      justify-content: center;
       cursor: pointer;
       transition: border-color 0.3s, background-color 0.3s;
       .error {
@@ -70,41 +60,52 @@
         display: none;
       }
     }
+.close-icon{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+}    
     
+
+
+.buttons{
+  display: flex;
+  justify-content: end ;
+  button{
+   outline: none;
+   border: none;
+   color: white;
+   background-color: #1d90f4;
+   filter: drop-shadow(5px 5px 10px black);
+   padding: 10px;
+   border-radius: 5px;
     
-}
-.fields{
-    margin-top: 10px;
-}
-button {
-    margin-top: 5px;
-    background-color: #1d90f4;
-    color: #f7f7f7;
-    outline: none;
-    border: none;
-    text-align: center;
-    padding: 16px;
-    width: 50%;
-    border: 1px white solid;
-    border-radius: 5px;
-    transition: all 0.2s ease;
-    &:checked {
-      opacity: 1;
-    }
-    &:hover {
-      cursor: pointer;
-      opacity: 100%;
-      background-color: #282a37;
-    }
-  } 
+  &:hover{
+   cursor: pointer;
+   filter:drop-shadow(8px 8px 15px black);     
+    background-color: #282a37;
+   transition: all 0.3s ease;
+  }
+ }}
+  
+  
   .fields-container {
     display: flex;
     justify-content: space-between;
     width: 100%;
-
+    margin-top: px;
+    
     .MuiTextField-root {
         width: calc(50% - 10px); 
         margin-bottom: 10px;
+        outline: transparent;
+        border-color: transparent;
+        // background-color: white;
+        border: none;
+    }
+    .blue-label{
+      color: #f7f7f7;
     }
 }
 }

@@ -7,15 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewReviewHandler } from "../../Store/Slices/reviewSlice";
 import ReviewCard from "./ReviewCard";
 import { ApiCallGet } from "../Api/ApiCall";
+import AddCompany from "./AddCompany";
 
 const ReviewSection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [reviewdata, setReviewdata] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [addcompany,setAddCompany]=useState(false);
 
   const userId = useSelector((state) => state.userState.id);
-
+  const clearSearch = () => {
+    setSearchQuery(""); 
+  };
   const getreviews = async () => {
     try {
       const response = await ApiCallGet("/reviews");
@@ -55,13 +59,16 @@ const ReviewSection = () => {
             />
           </Box>
         </Grid>
-        <Grid item md={12}>
+        {/* <Grid item md={12}>
           <Box className="buttonsection">
             <button onClick={() => handelAddReview()}>Add a Review</button>
           </Box>
-        </Grid>
+        </Grid> */}
         <Grid item md={12}>
-          {filteredReviews.length > 0 ? (
+        {addcompany ? (
+            <AddCompany onClose={() => setAddCompany(false)} clearSearch={clearSearch}  /> 
+          ):
+          filteredReviews.length > 0 ? (
             filteredReviews.map((review, index) => (
               <ReviewCard
                 key={index}
@@ -84,7 +91,7 @@ const ReviewSection = () => {
           ) : (
             <div className="no-results">
               <p>No results found.</p>
-              <button className="add-company" onClick={() => navigate("/addcompany")}>
+              <button className="add-company" onClick={() => setAddCompany(true)}>
                 Add Company
               </button>
             </div>
