@@ -50,4 +50,31 @@
    }
 }
 
+
+}
+.no-results{
+  background-color: #282a37;
+  height: 100px;
+  color: #1d90f4;
+  p{
+    margin-left: 10px;
+    padding: 6px;
+
+  }
+  button{
+    outline: none;
+    border: none;
+    color: white;
+    background-color: #1d90f4;
+    filter: drop-shadow(5px 5px 10px black);
+    padding: 8px;
+    border-radius: 5px;
+    margin-left: 10px;
+     
+   &:hover{
+    cursor: pointer;
+    filter:drop-shadow(8px 8px 15px black);     
+     background-color: #282a37;
+    transition: all 0.3s ease;
+   }  }
 }

@@ -19,6 +19,7 @@ const imageUploader = multer().single("image");
 module.exports = (req, res, next) => {
   imageUploader(req, res, function (err) {
     if (err) {
+      console.log(err);
       return res.status(500).json({ error: "Failed to upload the image." });
     }
 

@@ -4,7 +4,7 @@ const reviewControllers = {};
 
 reviewControllers.getAllReviews = async(req, res) => {
   try{
-  const reviews=await Review.find({}).populate({path:"company",select:"name imageUrl contact address rating description"});
+  const reviews=await Review.find({}).populate({path:"company",select:"name imageUrl contact address rating description companysize industry"});
   res.status(200).json({reviews});
   }catch(error){
     res.status(500).json({message:"internal server error"});

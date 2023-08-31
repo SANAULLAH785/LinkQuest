@@ -16,6 +16,8 @@ const ReviewCard = ({
   address,
   contact,
   description,
+  companysize,
+  industry,
 }) => {
   // const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
   const renderStars = (numStars) => {
@@ -44,11 +46,11 @@ const ReviewCard = ({
         </div>
         <div className="size-info">
           <p className="size-label">Company Size</p>
-          <p>20-60</p>
+          <p>{companysize}</p>
         </div>
         <div className="industry-info">
           <p className="industry-label">Industry</p>
-          <p>Computer Hardware</p>
+          <p>{industry}</p>
         </div>
       </Box>
       <Box>
