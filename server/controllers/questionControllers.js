@@ -1,4 +1,5 @@
 const Question = require("../modals/questionSchema");
+const Answer = require("../modals/answerSchema");
 
 const questionControllers = {};
 
@@ -46,8 +47,42 @@ questionControllers.GetSingleQuestion = (req, res) => {
   res.send("Get Question By Its ID");
 };
 
-questionControllers.AddAnswer = (req, res) => {
-  res.send("Add Answer to the id of Question");
+questionControllers.AddAnswer = async (req, res) => {
+  try {
+    const content = req.body.content;
+    const userId = req.userId;
+    const questionId = req.params.id;
+    const newAnswer = new Answer({
+      question: questionId,
+      user: userId,
+      content: content,
+    });
+
+    await newAnswer.save();
+
+    await Question.findByIdAndUpdate(questionId, {
+      $push: { answer: newAnswer._id },
+    });
+
+    res.send({ message: "Answer Added Successfully", newAnswer });
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
+questionControllers.GetAnswers = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const answers = await Answer.find({ question: id })
+      .populate({
+        path: "user",
+        select: "name imageUrl",
+      })
+      .sort({ date: -1 });
+    res.status(200).json({ answers });
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 questionControllers.EditVotes = (req, res) => {

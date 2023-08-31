@@ -10,7 +10,9 @@ router.post("/question", auth, imageSaver, questionControllers.AddQuestion);
 
 router.get("/question/:id", questionControllers.GetSingleQuestion);
 
-router.post("/question/answer", questionControllers.AddAnswer);
+router.post("/question/answer/:id", auth, questionControllers.AddAnswer);
+
+router.get("/answers/:id", questionControllers.GetAnswers);
 
 router.put("/question", questionControllers.EditVotes);
 

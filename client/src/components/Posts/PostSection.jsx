@@ -16,19 +16,49 @@ const PostSection = () => {
   const openPostModal = useSelector((state) => state.postState.postModalOpen);
   const userId = useSelector((state) => state.userState.id);
   const [postData, setPostData] = useState([]);
-  console.log(postData);
 
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  console.log(page);
   const getPosts = async () => {
     try {
-      const response = await ApiCallGet("/posts");
-      setPostData(response.data.Posts);
+      setLoading(true);
+      const response = await ApiCallGet(`/posts?page=${page}`);
+      const newPosts = response.data.posts;
+
+      if (newPosts.length === 0) {
+        setHasMore(false);
+      } else {
+        setPostData((prevPosts) => [...prevPosts, ...newPosts]);
+        setPage((prevPage) => prevPage + 1);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleScroll = () => {
+    if (!loading && hasMore) {
+      const container = document.documentElement;
+      const scrollBottom =
+        container.scrollHeight - container.scrollTop - container.clientHeight;
+
+      console.log(scrollBottom);
+      if (scrollBottom < 100) {
+        getPosts();
+      }
     }
   };
 
   useEffect(() => {
     getPosts();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const addPostHanlder = () => {
@@ -65,9 +95,9 @@ const PostSection = () => {
               caption={post.caption}
               description={post.description}
               imageUrl={post.imageUrl}
-              username={post.user ? post.user.name : 'Unknown User'}
+              username={post.user ? post.user.name : "Unknown User"}
               date={post.date}
-              avatar={post.user ? post.user.imageUrl : 'default-avatar-url'}
+              avatar={post.user ? post.user.imageUrl : "default-avatar-url"}
               votes={post.votes}
               voters={post.voters}
             />

@@ -20,6 +20,7 @@ const QuestionCard = ({
   caption,
   title,
   tags,
+  id,
 }) => {
   const dispatch = useDispatch();
   // const [votesNumber, setVotesNumber] = useState(votes);
@@ -44,6 +45,7 @@ const QuestionCard = ({
         votes,
         caption,
         tags,
+        id,
       })
     );
   };
@@ -62,12 +64,7 @@ const QuestionCard = ({
       </Box>
       <p class="title">{title}</p>
 
-      {/* <img src={imageUrl} alt="" /> */}
       <Box className="footer">
-        {/* <Box>
-          <p className="caption">{caption}</p>
-        </Box> */}
-
         <Box className="tags-section">
           {tags.map((tag, index) => (
             <>
@@ -77,31 +74,6 @@ const QuestionCard = ({
             </>
           ))}
         </Box>
-        {/* <Box className="votes-section">
-          <Box className="votes">
-            <span className="vote-button">
-              <BsArrowUpShort
-                size={25}
-                color={upVoted ? "#1d90f4" : "white"}
-                onClick={() => voteHandler("upvote")}
-              />
-            </span>
-
-            <p>{votesNumber}</p>
-
-            <span className="vote-button">
-              <BsArrowDownShort
-                size={25}
-                color={downVoted ? "tomato" : "white"}
-                onClick={() => voteHandler("downvote")}
-              />
-            </span>
-          </Box>
-
-          <Box>
-            <SlOptionsVertical />
-          </Box>
-        </Box> */}
       </Box>
     </Box>
   );

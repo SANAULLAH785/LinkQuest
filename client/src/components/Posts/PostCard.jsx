@@ -38,14 +38,14 @@ const PostCard = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
+
+  // States for vote Handling
   const [votesNumber, setVotesNumber] = useState(votes);
   const [timerId, setTimerId] = useState(null);
   const [initialRender, setInitialRender] = useState(true);
-
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
   const [voteStatus, setVoteStatus] = useState();
-
   const userId = useSelector((state) => state.userState.id);
 
   useEffect(() => {

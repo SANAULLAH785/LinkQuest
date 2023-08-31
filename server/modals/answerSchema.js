@@ -23,7 +23,6 @@ const answerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  imageUrl: String,
 });
 
 const Answer = mongoose.model("Answer", answerSchema);
