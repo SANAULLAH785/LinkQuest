@@ -11,6 +11,8 @@ import { createTheme } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./styles/globals.scss";
+import AddReviews from "./components/Reviews/AddReviews";
+import AddCompany from "./components/Reviews/AddCompany";
 
 const theme = createTheme({
   components: {
@@ -30,6 +32,8 @@ const App = () => {
               <Route exact path="/" element={<MainWrapper />} />
               <Route exact path="/signup" element={<Signup />} />
               <Route exact path="/signin" element={<Signin />} />
+              <Route exact path="/reviews" element={<AddReviews />} />
+              <Route exact path="/addcompany" element={<AddCompany />} />
               <Route path="/question/:id" component={QuestionDetails} />
             </Routes>
           </Router>

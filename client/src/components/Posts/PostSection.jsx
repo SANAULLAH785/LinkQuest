@@ -65,9 +65,9 @@ const PostSection = () => {
               caption={post.caption}
               description={post.description}
               imageUrl={post.imageUrl}
-              username={post.user.name}
+              username={post.user ? post.user.name : 'Unknown User'}
               date={post.date}
-              avatar={post.user.imageUrl}
+              avatar={post.user ? post.user.imageUrl : 'default-avatar-url'}
               votes={post.votes}
               voters={post.voters}
             />

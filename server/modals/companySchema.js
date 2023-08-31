@@ -25,6 +25,14 @@ const companySchema = new mongoose.Schema({
     type:String,
     required:true,
   },
+  industry:{
+    type: String,
+    required:true
+  },
+  companysize:{
+    type:Number,
+    required:true,
+  },
   rating: {
     type: Number,
     min: 1,
