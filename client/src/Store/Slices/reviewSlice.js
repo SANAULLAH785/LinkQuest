@@ -1,19 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const reviewSlice=createSlice({
-    name:"Review",
+    name:"reviewState",
     initialState:{
-        addNewReview:false
+        addNewReview:false,
+        reviewModalOpen:false,
+        selectedCompanyData:{}
+
 
     },
     reducers:{
         addNewReviewHandler(state,action){
         state.addNewReview=action.payload
         },
+        setReviewModalOpen(state,action){
+            state.reviewModalOpen=action.payload
+        },
+        setSelectedCompanyData(state,action){
+            state.selectedCompanyData=action.payload
+        }
+
     },
 });
 
 export default reviewSlice.reducer;
 
 
-export const {addNewReviewHandler}=reviewSlice.actions;
+export const {addNewReviewHandler,setReviewModalOpen,setSelectedCompanyData}=reviewSlice.actions;

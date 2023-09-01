@@ -3,22 +3,40 @@ import { Box } from "@mui/material";
 import "./ReviewCard.scss";
 import { formatDistanceToNow } from "date-fns";
 import { BiStar, BiPhoneCall } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { setReviewModalOpen,setSelectedCompanyData } from "../../Store/Slices/reviewSlice";
 
 const ReviewCard = ({
   content,
-  rating,
+  ratings,
   votes,
   verified,
   date,
   company,
   companyImage,
-  ratings,
+  rating,
   address,
   contact,
   description,
   companysize,
   industry,
 }) => {
+  const dispatch = useDispatch();
+
+  const reviewModalHandler=()=>{
+    dispatch(setReviewModalOpen(true));
+    dispatch(setSelectedCompanyData({
+      companyImage,
+      company,
+      rating,
+      contact,
+      address,
+      companysize,
+      industry
+
+
+    }))
+  }
   // const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
   const renderStars = (numStars) => {
     const stars = [];
@@ -29,13 +47,15 @@ const ReviewCard = ({
   };
 
   return (
-    <Box className="review-card-container">
+    <Box className="review-card-container"
+    onClick={()=>reviewModalHandler()}
+    >
       <Box className="header">
         <Box className="user-area">
           <Box className="header-first">
             <img src={companyImage} alt="" />
             <p>{company}</p>
-            <p>{renderStars(ratings)}</p>
+            <p>{renderStars(rating)}</p>
             <p>
               <BiPhoneCall /> {contact}
             </p>

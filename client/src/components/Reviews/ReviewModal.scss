@@ -1,0 +1,66 @@
+/* ReviewModal.scss */
+
+.review-modal {
+    padding: 20px;
+    // background-color: #fff;
+    border-radius: 10px;
+    background-color: #282a37;
+    filter: drop-shadow(5px 5px 10px black);
+    }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    // background-color: red;
+  }
+  
+  .back-button {
+    transition: all 0.2s;
+    &:hover {
+      color: #1d90f4;
+      cursor: pointer;
+    }
+  }
+  
+  .company-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  
+  .company-info {
+    flex-grow: 1;
+    // gap: 10px;
+    // background-color: aqua;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  
+  .company-info h2 {
+    font-size: 24px;
+    margin: 0;
+    color: #1d90f4;
+  }
+  
+  .details {
+    margin-top: 20px;
+  }
+  
+  .details h4 {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .details p {
+    margin: 0;
+  }
+  
