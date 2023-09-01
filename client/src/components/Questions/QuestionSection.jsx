@@ -61,9 +61,10 @@ const QuestionSection = () => {
       )}
 
       <Box>
-        {questionsData.map((question) => {
+        {questionsData.map((question, index) => {
           return (
             <QuestionCard
+              key={index}
               avatar={question.user.imageUrl}
               caption={question.content}
               username={question.user.name}
@@ -72,6 +73,8 @@ const QuestionSection = () => {
               title={question.title}
               tags={question.tags}
               id={question._id}
+              voters={question.voters}
+              questionUserId={question.user._id}
             />
           );
         })}

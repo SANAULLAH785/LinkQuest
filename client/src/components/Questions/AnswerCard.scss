@@ -1,0 +1,15 @@
+.verification-wrapper {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.get-verified {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  transition: all 0.3s ease;
+  &:hover {
+    color: #1d90f4;
+  }
+}

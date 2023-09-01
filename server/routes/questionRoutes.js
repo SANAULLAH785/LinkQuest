@@ -14,8 +14,8 @@ router.post("/question/answer/:id", auth, questionControllers.AddAnswer);
 
 router.get("/answers/:id", questionControllers.GetAnswers);
 
-router.put("/question", questionControllers.EditVotes);
+router.put("/setQuestionVotes/:id", auth, questionControllers.EditVotes);
 
-router.put("/question/answer/:id", questionControllers.EditVerification);
+router.put("/answer/:id", auth, questionControllers.EditVerification);
 
 module.exports = router;

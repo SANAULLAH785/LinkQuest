@@ -21,6 +21,8 @@ const QuestionCard = ({
   title,
   tags,
   id,
+  voters,
+  questionUserId,
 }) => {
   const dispatch = useDispatch();
   // const [votesNumber, setVotesNumber] = useState(votes);
@@ -46,6 +48,8 @@ const QuestionCard = ({
         caption,
         tags,
         id,
+        voters,
+        questionUserId,
       })
     );
   };

@@ -5,18 +5,32 @@ import { BsArrowUpShort, BsArrowDownShort } from "react-icons/bs";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
 import { setQuestionModalOpen } from "../../Store/Slices/questionSlice";
 import { ApiCallGet } from "../Api/ApiCall";
 import AddAnswer from "./AddAnswer";
 import AnswerCard from "./AnswerCard";
+import { ApiCallPut } from "../Api/ApiCall";
 import "./QuestionModal.scss";
 
 const QuestionModal = () => {
   const dispatch = useDispatch();
-  const { username, avatar, date, title, imageUrl, votes, caption, tags, id } =
-    useSelector((state) => state.questionState.selectedQuestion);
+  const navigate = useNavigate();
+  const {
+    username,
+    avatar,
+    date,
+    title,
+    imageUrl,
+    votes,
+    caption,
+    tags,
+    id,
+    voters,
+    questionUserId,
+  } = useSelector((state) => state.questionState.selectedQuestion);
 
   // const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
   const [votesNumber, setVotesNumber] = useState(votes);
@@ -28,6 +42,7 @@ const QuestionModal = () => {
   const [voteStatus, setVoteStatus] = useState();
   const [answers, setAnswers] = useState([]);
   const [loadAnswer, setLoadAnswer] = useState(1);
+  const userId = useSelector((state) => state.userState.id);
 
   const getAnswers = async () => {
     try {
@@ -39,10 +54,89 @@ const QuestionModal = () => {
   };
 
   useEffect(() => {
+    const voterIndex = voters.findIndex(
+      (voter) => voter.user.toString() === userId
+    );
+
+    if (voterIndex !== -1) {
+      if (voters[voterIndex].voteStatus === "upvote") {
+        setUpVoted(true);
+      } else if (voters[voterIndex].voteStatus === "downvote") {
+        setDownVoted(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     getAnswers();
   }, [loadAnswer]);
 
-  const voteHandler = () => {};
+  const voteHandler = (check) => {
+    if (userId) {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+
+      if (upVoted && check === "upvote") {
+        setVotesNumber((prev) => prev - 1);
+        setUpVoted(false);
+        setVoteStatus("neutral");
+        // console.log("upvvoted and vote for upvote");
+      } else if (!upVoted && !downVoted && check === "upvote") {
+        setVotesNumber((prevVote) => prevVote + 1);
+        setUpVoted(true);
+        setDownVoted(false);
+        setVoteStatus("upvote");
+        // console.log("not upvoted and vote for upvote");
+      } else if (upVoted && check === "downvote") {
+        setVotesNumber((prev) => prev - 2);
+        setUpVoted(false);
+        setDownVoted(true);
+        setVoteStatus("downvote");
+        // console.log("upvoted and vote for downvote");
+      } else if (downVoted && check === "downvote") {
+        setVotesNumber((prev) => prev + 1);
+        setDownVoted(false);
+        setVoteStatus("neutral");
+        // console.log("downvvoted and vote for downvote");
+      } else if (!downVoted && check === "downvote") {
+        setVotesNumber((prevVote) => prevVote - 1);
+        setDownVoted(true);
+        setUpVoted(false);
+        setVoteStatus("downvote");
+        // console.log("not downvvoted and vote for upvote");
+      } else if (downVoted && check === "upvote") {
+        setVotesNumber((prev) => prev + 2);
+        setUpVoted(true);
+        setDownVoted(false);
+        setVoteStatus("upvote");
+        // console.log("downvvoted and vote for upvote");
+      }
+
+      setInitialRender(false);
+    } else {
+      navigate("/signin");
+    }
+  };
+
+  useEffect(() => {
+    if (initialRender === false) {
+      votesUpdate();
+    }
+  }, [votesNumber]);
+
+  const votesUpdate = () => {
+    const newTimerId = setTimeout(async () => {
+      await ApiCallPut(`/setQuestionVotes/${id}`, { vote: voteStatus })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.text);
+        });
+    }, 3000);
+    setTimerId(newTimerId);
+  };
 
   const questionSectionHandler = () => {
     dispatch(sideBarOptionsHandler("questions"));
@@ -108,12 +202,16 @@ const QuestionModal = () => {
         </Box>
       </Box>
       <h2>Answers:</h2>
-      {answers.map((answer) => (
+      {answers.map((answer, index) => (
         <AnswerCard
+          key={index}
           avatar={answer.user.imageUrl}
           username={answer.user.name}
           caption={answer.content}
           date={answer.date}
+          verified={answer.verified}
+          questionUserId={questionUserId}
+          id={answer._id}
         />
       ))}
       <AddAnswer
