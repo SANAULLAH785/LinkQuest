@@ -8,6 +8,7 @@ import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { useNavigate } from "react-router-dom";
 import { ApiCallGet } from "../Api/ApiCall";
 import { toast } from "react-hot-toast";
+import _ from "lodash";
 import "./PostSection.scss";
 
 const PostSection = () => {
@@ -16,50 +17,53 @@ const PostSection = () => {
   const openPostModal = useSelector((state) => state.postState.postModalOpen);
   const userId = useSelector((state) => state.userState.id);
   const [postData, setPostData] = useState([]);
-
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  console.log(page);
-  const getPosts = async () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getPosts = async (pageNumber) => {
     try {
-      setLoading(true);
-      const response = await ApiCallGet(`/posts?page=${page}`);
+      setIsLoading(true);
+      const response = await ApiCallGet(`/posts?page=${pageNumber}`);
       const newPosts = response.data.posts;
 
       if (newPosts.length === 0) {
-        setHasMore(false);
-      } else {
-        setPostData((prevPosts) => [...prevPosts, ...newPosts]);
-        setPage((prevPage) => prevPage + 1);
+        return;
       }
+
+      setPostData((prevPosts) => [...prevPosts, ...newPosts]);
+      setPage(pageNumber + 1);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
+  const debouncedGetPosts = _.debounce(getPosts, 500);
   const handleScroll = () => {
-    if (!loading && hasMore) {
-      const container = document.documentElement;
-      const scrollBottom =
-        container.scrollHeight - container.scrollTop - container.clientHeight;
-
-      console.log(scrollBottom);
-      if (scrollBottom < 100) {
-        getPosts();
+    const scrollY = window.innerHeight + window.scrollY + 2000;
+    const totalHeight = document.body.offsetHeight;
+    if (scrollY >= totalHeight) {
+      if (isLoading) {
+        return;
+      } else {
+        setIsLoading(true);
+        // getPosts(page);
+        debouncedGetPosts(page);
       }
     }
   };
 
   useEffect(() => {
-    getPosts();
+    getPosts(page);
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [postData]);
 
   const addPostHanlder = () => {
     if (userId) {
