@@ -14,10 +14,6 @@ const postSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  votes:{
-    type:Number,
-    default:0
-  },
   caption: {
     type: String,
     default: "",

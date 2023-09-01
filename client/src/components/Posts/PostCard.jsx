@@ -78,33 +78,39 @@ const PostCard = ({
       }
 
       if (upVoted && check === "upvote") {
-        setVotesNumber(votes - 1);
+        setVotesNumber((prev) => prev - 1);
         setUpVoted(false);
         setVoteStatus("neutral");
-      } else if (!upVoted && check === "upvote") {
+        // console.log("upvvoted and vote for upvote");
+      } else if (!upVoted && !downVoted && check === "upvote") {
         setVotesNumber((prevVote) => prevVote + 1);
         setUpVoted(true);
         setDownVoted(false);
         setVoteStatus("upvote");
+        // console.log("not upvoted and vote for upvote");
       } else if (upVoted && check === "downvote") {
-        setVotesNumber(votes - 2);
+        setVotesNumber((prev) => prev - 2);
         setUpVoted(false);
         setDownVoted(true);
         setVoteStatus("downvote");
+        // console.log("upvoted and vote for downvote");
       } else if (downVoted && check === "downvote") {
-        setVotesNumber(votes + 1);
+        setVotesNumber((prev) => prev + 1);
         setDownVoted(false);
         setVoteStatus("neutral");
+        // console.log("downvvoted and vote for downvote");
       } else if (!downVoted && check === "downvote") {
         setVotesNumber((prevVote) => prevVote - 1);
         setDownVoted(true);
         setUpVoted(false);
         setVoteStatus("downvote");
+        // console.log("not downvvoted and vote for upvote");
       } else if (downVoted && check === "upvote") {
-        setVotesNumber(votes + 2);
+        setVotesNumber((prev) => prev + 2);
         setUpVoted(true);
         setDownVoted(false);
         setVoteStatus("upvote");
+        // console.log("downvvoted and vote for upvote");
       }
 
       setInitialRender(false);
