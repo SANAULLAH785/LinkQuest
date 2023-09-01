@@ -11,6 +11,7 @@ import QuestionModal from "./components/Questions/QuestionModal";
 import { useSelector, useDispatch } from "react-redux";
 import { addNewPostHandler } from "./Store/Slices/postSlice";
 import { Grid, Box } from "@mui/material";
+import ReviewModal from "./components/Reviews/ReviewModal";
 
 const MainWrapper = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const MainWrapper = () => {
   const questionModal = useSelector(
     (state) => state.questionState.questionModalOpen
   );
+  const reviewModal=useSelector((state)=>state.reviewState.reviewModalOpen);
   useEffect(() => {
     if (postStateBar) {
       setRightBarWidth(4);
@@ -72,7 +74,8 @@ const MainWrapper = () => {
             )}
             <Grid item xs={12} md={middleBarWidth} className="sidebar">
               {selectedOption === "posts" && <PostSection />}
-              {selectedOption === "reviews" && <ReviewSection />}
+              {selectedOption==="reviews" && (<>{reviewModal? <ReviewModal/>:<ReviewSection/>}</>)}
+              {/* {selectedOption === "reviews" && <ReviewSection />} */}
               {selectedOption === "questions" && (
                 <>{questionModal ? <QuestionModal /> : <QuestionSection />}</>
               )}

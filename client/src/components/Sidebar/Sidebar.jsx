@@ -7,6 +7,7 @@ import { MdOutlinePostAdd, MdReviews } from "react-icons/md";
 import { BsQuestionSquareFill, BsFillStarFill } from "react-icons/bs";
 import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
 import { setQuestionModalOpen } from "../../Store/Slices/questionSlice";
+import { setReviewModalOpen } from "../../Store/Slices/reviewSlice";
 
 import "./Sidebar.scss";
 
@@ -23,6 +24,10 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
     dispatch(sideBarOptionsHandler("questions"));
     dispatch(setQuestionModalOpen(false));
   };
+  const reviewSectionHandler=()=>{
+    dispatch(sideBarOptionsHandler("reviews"));
+    dispatch(setReviewModalOpen(false));
+  }
 
   return (
     <Box className="sidebar-container">
@@ -68,7 +73,7 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
           className={`sidebar-content ${
             isOpenSideBar ? "" : "onSideBarOpen"
           }  ${selectedOption === "reviews" ? "bg-blue" : ""}`}
-          onClick={() => dispatch(sideBarOptionsHandler("reviews"))}
+          onClick={() => reviewSectionHandler()}
         >
           <MdReviews size={25} />
           {isOpenSideBar ? <p>Reviews</p> : ""}
