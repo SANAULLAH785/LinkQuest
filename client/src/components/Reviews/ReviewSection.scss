@@ -54,6 +54,8 @@
 }
 .no-results{
   background-color: #282a37;
+  filter: drop-shadow(5px 5px 10px black);
+  border-radius: 20px;
   height: 100px;
   color: #1d90f4;
   p{
@@ -66,11 +68,10 @@
     border: none;
     color: white;
     background-color: #1d90f4;
-    filter: drop-shadow(5px 5px 10px black);
     padding: 8px;
-    border-radius: 5px;
     margin-left: 10px;
-     
+    margin-bottom: 5px;
+    border-radius: 10px; 
    &:hover{
     cursor: pointer;
     filter:drop-shadow(8px 8px 15px black);     

@@ -90,7 +90,7 @@ const ReviewSection = () => {
             ))
           ) : (
             <div className="no-results">
-              <p>No results found.</p>
+              <p>No results found. Did you want to add new company? </p>
               <button className="add-company" onClick={() => setAddCompany(true)}>
                 Add Company
               </button>
