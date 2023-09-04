@@ -5,6 +5,9 @@ import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
 import { BiStar, BiPhoneCall } from "react-icons/bi";
 import {BiChevronLeft } from "react-icons/bi";
 import './ReviewModal.scss';
+import ReviewCard from "./ReviewCard";
+import { ApiCallGet } from "../Api/ApiCall";
+import AddReviews from './AddReviews';
 
 const ReviewModal = () => {
   const {
@@ -15,8 +18,25 @@ const ReviewModal = () => {
     address,
     companysize,
     industry,
+    id
   } = useSelector((state) => state.reviewState.selectedCompanyData);
   const dispatch = useDispatch();
+  const [reviewdata,setReviewsData]=useState([]);
+  const[loadreview,setLoadReview]=useState(1);
+  
+  console.log(id,company);
+  const getreviews = async () => {
+    try {
+      const response = await ApiCallGet(`/company/${id}`);
+      console.log(response);
+      setReviewsData(response.data.reviews);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(()=>{
+    getreviews();
+  },[])
 
   const reviewSectionHandler = () => {
     dispatch(sideBarOptionsHandler("reviews"));
@@ -31,6 +51,7 @@ const ReviewModal = () => {
   };
 
   return (
+  <>
     <div className="review-modal">
         <span onClick={() => reviewSectionHandler()} className="back-button">
           <BiChevronLeft size={40} />
@@ -45,12 +66,38 @@ const ReviewModal = () => {
         </div>
       </div>
       <div className="details">
-        <h4> {rating}</h4>
-        <h4>Address: {address}</h4>
-        <h4>Company Size: {companysize}</h4>
-        <h4>Industry: {industry}</h4>
+      <div className="location-info">
+          <p className="location-label">Location</p>
+          <p>{address}</p>
+        </div>
+        <div className="size-info">
+          <p className="size-label">Company Size</p>
+          <p>{companysize}</p>
+        </div>
+        <div className="industry-info">
+          <p className="industry-label">Industry</p>
+          <p>{industry}</p>
+        </div>
       </div>
     </div>
+    <h2>Reviews:</h2>
+    
+     {reviewdata.map((reviews, index) => (
+        <ReviewCard
+          key={index}
+          avatar={reviews.user.imageUrl}
+          username={reviews.user.name}
+          content={reviews.content}
+          ratings={reviews.ratings}
+        /> 
+       ))} 
+       <AddReviews
+       id={id}
+       setLoadReview={setLoadReview}
+        loadreview={loadreview}
+       
+       ></AddReviews>
+    </>
   );
 }
 

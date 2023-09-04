@@ -51,16 +51,33 @@
   }
   
   .details {
-    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    justify-content: space-between;
+    margin: 15px 0px; 
+  
+    .location-info,
+    .size-info,
+    .industry-info {
+      display: flex;
+      flex-direction: column;
+      // align-items: center;
+      // text-align: center;
+
+      p {
+        font-size: 12px;
+        margin: 0;
+        padding-right: 15px;
+      }
+
+      .location-label,
+      .size-label,
+      .industry-label {
+        color: #1d90f4;
+      }
+    }
   }
   
-  .details h4 {
-    font-size: 18px;
-    margin: 0;
-    margin-bottom: 10px;
-  }
   
-  .details p {
-    margin: 0;
-  }
   

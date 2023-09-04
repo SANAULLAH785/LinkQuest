@@ -1,20 +1,24 @@
 const Company=require('../modals/companySchema');
+const Review =require('../modals/reviewSchema');
+
 
 const companyControllers = {};
 
-companyControllers.GetSingleCompany =async (req, res) => {
-  try{
-    const companyId=req.params.id;
-    const company=await Company.find({companyId});
-    if(!company){
-      res.status(400).json({message:"No company found"});
-    }
-    res.status(200).json(company);
+companyControllers.GetSingleCompany = async (req, res) => {
+  try {
+    const id = req.params.id;
 
+    const reviews = await Review.find({company:id}).populate({
+      path: "user",
+      select: "name imageUrl",
+    });
 
-  }catch(err){
+   
+
+    res.status(200).json({reviews});
+  } catch (err) {
     console.error(err);
-    res.status(500).json({message:"Internal server error"});
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -41,4 +45,17 @@ companyControllers.AddCompany = async(req, res) => {
       console.log(error);
       res.status(500).json({message:"internal server error"});
     }};
+    companyControllers.GetAllCompanies=async(req,res)=>{
+      try{
+        const company=await Company.find({});
+        console.log(company);
+        res.status(200).json({company});
+    
+    
+      }catch(err){
+        console.error(err);
+        res.status(500).json({message:"Internal server error"});
+      }
+    };
+    
 module.exports = companyControllers;
