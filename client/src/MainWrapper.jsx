@@ -4,7 +4,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import PostSection from "./components/Posts/PostSection";
 import AddNewPost from "./components/Posts/AddNewPost";
 import useWindowSize from "./utils/useWindowSize";
-import ReviewSection from "./components/Reviews/ReviewSection";
+import CompanySection from "./components/Reviews/CompanySection";
 import QuestionSection from "./components/Questions/QuestionSection";
 import BadgeSection from "./components/Badges/BadgeSection";
 import QuestionModal from "./components/Questions/QuestionModal";
@@ -74,7 +74,7 @@ const MainWrapper = () => {
             )}
             <Grid item xs={12} md={middleBarWidth} className="sidebar">
               {selectedOption === "posts" && <PostSection />}
-              {selectedOption==="reviews" && (<>{reviewModal? <ReviewModal/>:<ReviewSection/>}</>)}
+              {selectedOption==="reviews" && (<>{reviewModal? <ReviewModal/>:<CompanySection/>}</>)}
               {/* {selectedOption === "reviews" && <ReviewSection />} */}
               {selectedOption === "questions" && (
                 <>{questionModal ? <QuestionModal /> : <QuestionSection />}</>

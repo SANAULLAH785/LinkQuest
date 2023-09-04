@@ -1,18 +1,18 @@
 import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
-import "./ReviewSection.scss";
+import "./CompanySection.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewReviewHandler } from "../../Store/Slices/reviewSlice";
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "./CompanyCard";
 import { ApiCallGet } from "../Api/ApiCall";
 import AddCompany from "./AddCompany";
 
-const ReviewSection = () => {
+const ComapnySection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [reviewdata, setReviewdata] = useState([]);
+  const [companydata, setCompanyData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [addcompany,setAddCompany]=useState(false);
 
@@ -20,17 +20,17 @@ const ReviewSection = () => {
   const clearSearch = () => {
     setSearchQuery(""); 
   };
-  const getreviews = async () => {
+  const getCompanies = async () => {
     try {
-      const response = await ApiCallGet("/reviews");
+      const response = await ApiCallGet("/companies");
       console.log(response);
-      setReviewdata(response.data.reviews);
+      setCompanyData(response.data.company);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getreviews();
+    getCompanies();
   }, []);
 
   const handelAddReview = () => {
@@ -40,8 +40,8 @@ const ReviewSection = () => {
       navigate("/reviews");
     }
   };
-  const filteredReviews = reviewdata.filter((review) =>
-    review.company.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredComapny = companydata.filter((company) =>
+    company.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
     <>
@@ -68,24 +68,24 @@ const ReviewSection = () => {
         {addcompany ? (
             <AddCompany onClose={() => setAddCompany(false)} clearSearch={clearSearch}  /> 
           ):
-          filteredReviews.length > 0 ? (
-            filteredReviews.map((review, index) => (
+          filteredComapny.length > 0 ? (
+            filteredComapny.map((company, index) => (
               <ReviewCard
                 key={index}
-                id={review._id}
-                content={review.content}
-                ratings={review.ratings}
-                votes={review.votes}
-                verified={review.verified}
-                company={review.company.name}
-                companyImage={review.company.imageUrl}
-                contact={review.company.contact}
-                address={review.company.address}
-                rating={review.company.rating}
-                description={review.company.description}
-                companysize={review.company.companysize}
-                industry={review.company.industry}
-                date={review.date}
+                // id={review._id}
+                // content={review.content}
+                // ratings={review.ratings}
+                // votes={review.votes}
+                // verified={review.verified}
+                id={company._id}
+                company={company.name}
+                companyImage={company.imageUrl}
+                contact={company.contact}
+                address={company.address}
+                rating={company.rating}
+                description={company.description}
+                companysize={company.companysize}
+                industry={company.industry}
               />
             ))
           ) : (
@@ -102,4 +102,4 @@ const ReviewSection = () => {
   );
 };
 
-export default ReviewSection;
+export default ComapnySection;

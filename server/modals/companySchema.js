@@ -33,6 +33,11 @@ const companySchema = new mongoose.Schema({
     type:Number,
     required:true,
   },
+  review:[ {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Review",
+  },
+],
   rating: {
     type: Number,
     min: 1,

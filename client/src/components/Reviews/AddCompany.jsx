@@ -8,8 +8,12 @@ import { BiImageAdd } from "react-icons/bi";
 import { BsBox2HeartFill, BsTextLeft } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
+import { setReviewModalOpen } from "../../Store/Slices/reviewSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const AddCompany = ({ onClose, clearSearch }) => {
+  const dispatch=useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const handleImageChange = (event) => {
@@ -37,6 +41,7 @@ const AddCompany = ({ onClose, clearSearch }) => {
     industry: "",
     companysize: 0,
     websiteUrl: "",
+    
   };
 
   const validationSchema = Yup.object({
@@ -76,7 +81,7 @@ const AddCompany = ({ onClose, clearSearch }) => {
           onClose();
           clearSearch();
 
-          //   dispatch(addNewPostHandler(false));
+           dispatch(setReviewModalOpen(true));
           // toast.success("Post added Successfully");
         })
         .catch((err) => {
