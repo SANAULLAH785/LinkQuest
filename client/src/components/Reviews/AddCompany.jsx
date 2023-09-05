@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AddCompany.scss";
-import { ApiCallPost } from "../Api/ApiCall";
+import { ApiCallPost, ApiCallPosts } from "../Api/ApiCall";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Grid, Box, TextField } from "@mui/material";
@@ -9,8 +9,9 @@ import { BsBox2HeartFill, BsTextLeft } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { setReviewModalOpen } from "../../Store/Slices/reviewSlice";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useDispatch } from "react-redux";
+import { setNewCompany } from "../../Store/Slices/companySlice";
+import { setSelectedCompanyData } from "../../Store/Slices/reviewSlice";
 
 const AddCompany = ({ onClose, clearSearch }) => {
   const dispatch=useDispatch();
@@ -50,10 +51,10 @@ const AddCompany = ({ onClose, clearSearch }) => {
       .test("fileType", "Only image files are allowed", (value) => {
         return value && value.type.startsWith("image/");
       }),
-    rating: Yup.number()
-      .min(1, "Rating must be at least 1")
-      .max(5, "Rating must be at most 5")
-      .required("Rating is required"),
+    // rating: Yup.number()
+    //   .min(1, "Rating must be at least 1")
+    //   .max(5, "Rating must be at most 5")
+    //   .required("Rating is required"),
     name: Yup.string().required("A name is required"),
     address: Yup.string().required("Address is required"),
     contact: Yup.string()
@@ -73,15 +74,25 @@ const AddCompany = ({ onClose, clearSearch }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-      console.log(" company Form values:", values);
-      await ApiCallPost("/addcompany", values, "multipart/form-data")
+    onSubmit: async (newCompanyData) => {
+      console.log(" company Form newCompanyData:", newCompanyData);
+      await ApiCallPosts("/addcompany", newCompanyData, "multipart/form-data")
         .then((res) => {
           console.log(res);
           onClose();
           clearSearch();
-
+          dispatch(setNewCompany(res.data.newcompany));
+          // dispatch(setNewCompany(res.data.newCompany.id))
            dispatch(setReviewModalOpen(true));
+           dispatch(setSelectedCompanyData({
+            companyImage:res.data.newcompany.imageUrl,
+            company:res.data.newcompany.name,
+            rating:res.data.newcompany.rating,
+            contact:res.data.newcompany.contact,
+            address:res.data.newcompany.address,
+            companysize:res.data.newcompany.companysize,
+            industry:res.data.newcompany.industry,
+            id:res.data.newcompany._id       }))
           // toast.success("Post added Successfully");
         })
         .catch((err) => {
@@ -146,14 +157,15 @@ const AddCompany = ({ onClose, clearSearch }) => {
             InputLabelProps={{ className: 'blue-label' }} 
           />
           <TextField
-            id="rating"
-            name="rating"
-            label="rating"
-            type="number"
-            // defaultValue={formik.values.rating}
+            id="companysize"
+            name="companysize"
+            label="Company Size"
+            // defaultValue={formik.values.companysize}
             onChange={formik.handleChange}
-            error={formik.touched.rating && Boolean(formik.errors.rating)}
-            helperText={formik.touched.rating && formik.errors.rating}
+            error={
+              formik.touched.companysize && Boolean(formik.errors.companysize)
+            }
+            helperText={formik.touched.companysize && formik.errors.companysize}
             InputLabelProps={{ className: 'blue-label' }} 
           />
         </div>
@@ -179,32 +191,7 @@ const AddCompany = ({ onClose, clearSearch }) => {
             InputLabelProps={{ className: 'blue-label' }} 
           />
         </div>
-        <div className="fields-container">
-          <TextField
-            id="description"
-            name="description"
-            label="Description"
-            // value={formik.values.description}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.description && Boolean(formik.errors.description)
-            }
-            helperText={formik.touched.description && formik.errors.description}
-            InputLabelProps={{ className: 'blue-label' }} 
-          />
-          <TextField
-            id="companysize"
-            name="companysize"
-            label="Company Size"
-            // defaultValue={formik.values.companysize}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.companysize && Boolean(formik.errors.companysize)
-            }
-            helperText={formik.touched.companysize && formik.errors.companysize}
-            InputLabelProps={{ className: 'blue-label' }} 
-          />
-        </div>
+       
         <div className="fields-container">
           <TextField
             id="industry"
@@ -228,6 +215,21 @@ const AddCompany = ({ onClose, clearSearch }) => {
             helperText={formik.touched.websiteUrl && formik.errors.websiteUrl}
             InputLabelProps={{ className: 'blue-label' }} 
           />
+        </div>
+        <div className="description">
+          <TextField
+            id="description"
+            name="description"
+            label="Description"
+            // value={formik.values.description}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.description && Boolean(formik.errors.description)
+            }
+            helperText={formik.touched.description && formik.errors.description}
+            InputLabelProps={{ className: 'blue-label' }} 
+          />
+         
         </div>
         <div className="buttons">
           <button type="submit">Add Company</button>

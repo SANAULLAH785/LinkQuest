@@ -2,9 +2,12 @@ import React from "react";
 import { Box } from "@mui/material";
 import "./CompanyCard.scss";
 import { formatDistanceToNow } from "date-fns";
-import { BiStar, BiPhoneCall } from "react-icons/bi";
+import { BiStar, BiSolidPhoneCall } from "react-icons/bi";
+import {AiFillStar} from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { setReviewModalOpen,setSelectedCompanyData } from "../../Store/Slices/reviewSlice";
+import RatingStars from "react-rating-stars-component";
+
 
 const CompanyCard = ({
   id,
@@ -37,7 +40,7 @@ const CompanyCard = ({
   const renderStars = (numStars) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      stars.push(<BiStar key={i} color={i < numStars ? "#1d90f4" : "gray"} />);
+      stars.push(<AiFillStar key={i} color={i < numStars ? "rgb(255, 215, 0)" : "gray"} size={30} />);
     }
     return stars;
   };
@@ -53,7 +56,7 @@ const CompanyCard = ({
             <p>{company}</p>
             <p>{renderStars(rating)}</p>
             <p>
-              <BiPhoneCall /> {contact}
+              <BiSolidPhoneCall color="green" /> {contact}
             </p>
           </Box>
 

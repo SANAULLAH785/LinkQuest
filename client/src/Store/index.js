@@ -4,6 +4,7 @@ import userSlice from "./Slices/userSlice";
 import questionSlice from "./Slices/questionSlice";
 import functionalitySlice from "./Slices/functionalitySlice";
 import reviewSlice from "./Slices/reviewSlice";
+import companySlice from "./Slices/companySlice"
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     questionState: questionSlice,
     functionalityState: functionalitySlice,
     reviewState: reviewSlice,
+    companyState:companySlice,
   },
 });
 
