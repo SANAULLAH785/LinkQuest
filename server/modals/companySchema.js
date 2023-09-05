@@ -38,12 +38,12 @@ const companySchema = new mongoose.Schema({
     ref: "Review",
   },
 ],
-  rating: {
-    type: Number,
-    min: 1,
-    max: 5,
-    required: true,
-  },
+  // rating: {
+  //   type: Number,
+  //   min: 1,
+  //   max: 5,
+  //   required: true,
+  // },
 });
 
 const Company = mongoose.model("Company", companySchema);

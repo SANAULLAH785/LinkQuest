@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setReviewModalOpen } from "../../Store/Slices/reviewSlice";
 import { sideBarOptionsHandler } from "../../Store/Slices/functionalitySlice";
-import { BiStar, BiPhoneCall } from "react-icons/bi";
+import { BiStar, BiSolidPhoneCall } from "react-icons/bi";
+import {AiFillStar} from "react-icons/ai";
 import {BiChevronLeft } from "react-icons/bi";
 import './ReviewModal.scss';
 import ReviewCard from "./ReviewCard";
@@ -27,7 +28,7 @@ const ReviewModal = () => {
   console.log(id,company);
   const getreviews = async () => {
     try {
-      const response = await ApiCallGet(`/company/${id}`);
+      const response = await ApiCallGet(`/companyreviews/${id}`);
       console.log(response);
       setReviewsData(response.data.reviews);
     } catch (error) {
@@ -36,7 +37,7 @@ const ReviewModal = () => {
   };
   useEffect(()=>{
     getreviews();
-  },[])
+  },[loadreview])
 
   const reviewSectionHandler = () => {
     dispatch(sideBarOptionsHandler("reviews"));
@@ -45,7 +46,7 @@ const ReviewModal = () => {
   const renderStars = (numStars) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      stars.push(<BiStar key={i} color={i < numStars ? "#1d90f4" : "gray"} />);
+      stars.push(<AiFillStar key={i} color={i < numStars ? "rgb(255, 215, 0)" : "gray"} />);
     }
     return stars;
   };
@@ -62,7 +63,7 @@ const ReviewModal = () => {
         <div className="company-info">
           <h2>{company}</h2>
           <h4> {renderStars(rating)}</h4>
-          <p><BiPhoneCall></BiPhoneCall> {contact}</p>
+          <p><BiSolidPhoneCall color="green"></BiSolidPhoneCall> {contact}</p>
         </div>
       </div>
       <div className="details">
@@ -89,6 +90,7 @@ const ReviewModal = () => {
           username={reviews.user.name}
           content={reviews.content}
           ratings={reviews.ratings}
+          id={reviews._id}
         /> 
        ))} 
        <AddReviews

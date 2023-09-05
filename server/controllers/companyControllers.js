@@ -13,7 +13,7 @@ companyControllers.GetSingleCompany = async (req, res) => {
       select: "name imageUrl",
     });
 
-   
+   console.log(reviews);
 
     res.status(200).json({reviews});
   } catch (err) {
@@ -33,28 +33,48 @@ companyControllers.AddCompany = async(req, res) => {
       address:address,
       websiteUrl:websiteUrl,
       imageUrl:req.imageUrl,
-      rating:rating,
+      // rating:rating,
       description:description,
       industry:industry,
       companysize:companysize,
     });
     await newcompany.save();
     console.log(newcompany);
-    res.status(200).json({message:"company created successfully"});
+    res.status(200).json({newcompany});
     }catch(error){
       console.log(error);
       res.status(500).json({message:"internal server error"});
     }};
     companyControllers.GetAllCompanies=async(req,res)=>{
-      try{
-        const company=await Company.find({});
-        console.log(company);
-        res.status(200).json({company});
+      try {
+        const companiesWithRatings = await Company.aggregate([
+          {
+            $lookup: {
+              from: "reviews", // Name of the reviews collection
+              localField: "_id",
+              foreignField: "company",
+              as: "reviews",
+            },
+          },
+          {
+            $project: {
+              name: 1, // Include the name field
+              address: 1, // Include the address field
+              contact: 1,  
+              imageUrl:1,
+               industry:1,
+               companysize:1,           
+              rating: {
+                $avg: "$reviews.ratings",
+              },
+            },
+          },
+        ]);
     
-    
-      }catch(err){
-        console.error(err);
-        res.status(500).json({message:"Internal server error"});
+        res.status(200).json({ company: companiesWithRatings });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
       }
     };
     

@@ -101,11 +101,30 @@
         margin-bottom: 10px;
         outline: transparent;
         border-color: transparent;
-        // background-color: white;
         border: none;
     }
     .blue-label{
       color: #f7f7f7;
     }
+}
+.description{
+   width: 100%;
+  // margin-top: px;
+  margin-bottom: 3px;
+  .MuiTextField-root {
+      width: calc(100% - 0px); 
+      margin-bottom: 10px;
+      outline: transparent;
+      border-color: transparent;
+      color: #f7f7f7;
+
+      // background-color: white;
+      border: none;
+
+
+  }
+  .blue-label{
+    color: #f7f7f7;
+  }
 }
 }

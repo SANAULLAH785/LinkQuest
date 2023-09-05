@@ -2,6 +2,8 @@ import { Box } from '@mui/material'
 import React from 'react';
 import './ReviewCard.scss';
 import { BiStar, BiPhoneCall } from "react-icons/bi";
+import {AiFillStar} from "react-icons/ai";
+
 
 const ReviewCard=({content,ratings,username,avatar})=> {
 
@@ -9,7 +11,7 @@ const ReviewCard=({content,ratings,username,avatar})=> {
     const renderStars = (numStars) => {
         const stars = [];
         for (let i = 0; i < 5; i++) {
-          stars.push(<BiStar key={i} color={i < numStars ? "#1d90f4" : "gray"} />);
+          stars.push(<AiFillStar key={i} color={i < numStars ? "rgb(255, 215, 0)" : "gray"} />);
         }
         return stars;
       };

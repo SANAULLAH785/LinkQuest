@@ -1,22 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik, Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Box } from "@mui/material";
-import { MdClose } from "react-icons/md";
-import { BsCardImage } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { addNewQuestionHandler } from "../../Store/Slices/questionSlice";
 import { ApiCallPost } from "../Api/ApiCall";
 import "./AddReviews.scss";
 import ReviewCard from "./ReviewCard";
+import RatingStars from "react-rating-stars-component";
 
 const AddReviews = ({ loadreview, setLoadReview, id }) => {
+  console.log("id", id);
   const ReviewSchema = Yup.object().shape({
     content: Yup.string()
       .required("Kindly add the review first.")
-      .min(20, "Answer must be at least 20 characters long"),
-
+      .min(20, "Review must be at least 20 characters long"),
+    ratings: Yup.number()
+      .required("Please provide a rating")
+      .min(1, "Rating must be at least 1")
+      .max(5, "Rating cannot exceed 5"),
   });
+
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      const selectedRating = values.ratings;
+
+      // Send selectedRating to your API
+      await ApiCallPost(`/review/${id}`, {
+        content: values.content,
+        ratings: selectedRating,
+      });
+      setLoadReview(ReviewCard + 1);
+      resetForm();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <Box className="new-question-container">
@@ -30,39 +47,23 @@ const AddReviews = ({ loadreview, setLoadReview, id }) => {
           <Formik
             initialValues={{
               content: "",
-              ratings:0,
+              ratings: 0,
             }}
             validationSchema={ReviewSchema}
-            onSubmit={async (values, { resetForm }) => {
-              console.log(values);
-              try {
-                await ApiCallPost(`/review/${id}`, values)
-                  .then((res) => {
-                    console.log(res);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-
-                setLoadReview(ReviewCard + 1);
-                resetForm();
-              } catch (error) {
-                console.log(error.message);
-              }
-            }}
+            onSubmit={handleSubmit}
           >
             {({ errors, touched, setFieldValue }) => (
               <Form>
                 <Box className="add-comment">
                   <p className="helper-text">
-                    Be clear in describing the porblem and its solution
+                    Be clear in describing the problem and its solution
                   </p>
                   <Field name="content">
                     {({ field, meta }) => (
                       <Box>
                         <textarea
                           type="text"
-                          placeholder="Write your valuable Review  here."
+                          placeholder="Write your valuable Review here."
                           {...field}
                           className="textfield"
                           rows={9}
@@ -71,28 +72,26 @@ const AddReviews = ({ loadreview, setLoadReview, id }) => {
                           <Box className="error">{meta.error}</Box>
                         )}
                       </Box>
-                      
                     )}
                   </Field>
                   <Field name="ratings">
                     {({ field, meta }) => (
                       <Box>
-                        <textarea
-                          type="number"
-                          placeholder="Rate company"
-                          {...field}
-                          className="textfield"
-                          rows={1}
+                        <RatingStars
+                          count={5} 
+                          size={30} 
+                          value={field.value} 
+                          onChange={(newValue) =>
+                            setFieldValue("ratings", newValue)
+                          } 
+                          edit={true} 
                         />
                         {meta.touched && meta.error && (
                           <Box className="error">{meta.error}</Box>
                         )}
                       </Box>
-                      
                     )}
                   </Field>
-                  
-                  
 
                   <button type="submit">Post</button>
                 </Box>

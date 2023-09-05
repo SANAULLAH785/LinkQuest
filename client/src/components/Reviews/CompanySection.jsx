@@ -5,7 +5,7 @@ import "./CompanySection.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewReviewHandler } from "../../Store/Slices/reviewSlice";
-import ReviewCard from "./CompanyCard";
+import CompanyCard from "./CompanyCard";
 import { ApiCallGet } from "../Api/ApiCall";
 import AddCompany from "./AddCompany";
 
@@ -22,7 +22,7 @@ const ComapnySection = () => {
   };
   const getCompanies = async () => {
     try {
-      const response = await ApiCallGet("/companies");
+      const response = await ApiCallGet("/getcompanies");
       console.log(response);
       setCompanyData(response.data.company);
     } catch (error) {
@@ -70,7 +70,7 @@ const ComapnySection = () => {
           ):
           filteredComapny.length > 0 ? (
             filteredComapny.map((company, index) => (
-              <ReviewCard
+              <CompanyCard
                 key={index}
                 // id={review._id}
                 // content={review.content}
