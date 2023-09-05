@@ -5,6 +5,7 @@ import store from "./Store";
 import Signup from "./Pages/Signup/Signup";
 import Signin from "./Pages/Signin/Signin";
 import QuestionDetails from "./Pages/QuestionDetails/QuestionDetails";
+import ChatPage from "./Pages/ChatPage/ChatPage";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
@@ -35,6 +36,7 @@ const App = () => {
               <Route exact path="/reviews" element={<AddReviews />} />
               <Route exact path="/addcompany" element={<AddCompany />} />
               <Route path="/question/:id" component={QuestionDetails} />
+              <Route path="/chat" element={<ChatPage />} />
             </Routes>
           </Router>
         </Layout>
