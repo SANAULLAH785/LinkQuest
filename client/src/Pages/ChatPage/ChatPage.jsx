@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useCookies } from "react-cookie";
 import Header from "../../components/Header/Header";
+import ChatForm from "./ChatForm";
+import { ApiCallGet } from "../../components/Api/ApiCall";
+import axios from "axios";
 import { Box, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
+
 import "./ChatPage.scss";
 const ChatPage = () => {
   const logedInUser = useSelector((state) => state.userState.id);
@@ -10,6 +14,17 @@ const ChatPage = () => {
 
   const [onlinePeople, setOnlinePeople] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [contacts, setContacts] = useState([]);
+
+  const [messages, setMessages] = useState([]);
+
+  const divUnderMessages = useRef();
+
+  const timeOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -26,14 +41,81 @@ const ChatPage = () => {
   }, []);
 
   const showOnlinePeople = (people) => {
-    console.log(people);
     setOnlinePeople(people.online);
   };
 
   const handleMessage = (e) => {
     const messageData = JSON.parse(e.data);
-    showOnlinePeople(messageData);
+    if ("online" in messageData) {
+      showOnlinePeople(messageData);
+    } else {
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: messageData.messageData.chat,
+          sender: messageData.messageData.sender,
+          receiver: messageData.messageData.receiver,
+        },
+      ]);
+    }
   };
+
+  useEffect(() => {
+    const scrolledDiv = divUnderMessages.current;
+    scrolledDiv?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    if (selectedContact) {
+      const getMessagesFromDb = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await axios.get(
+            `http://localhost:8000/messages/${selectedContact}`,
+            {
+              headers: {
+                token: token,
+              },
+            }
+          );
+          setMessages(response.data);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      getMessagesFromDb();
+    }
+  }, [selectedContact]);
+
+  useEffect(() => {
+    const getContacts = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:8000/getChatContacts`,
+          {
+            headers: {
+              token: token,
+            },
+          }
+        );
+
+        console.log("respose", response.data.contacts);
+        console.log("online", onlinePeople);
+
+        const onlineUserIds = new Set(onlinePeople.map((obj) => obj.userId));
+
+        const filteredContacts = response.data.contacts.filter(
+          (obj) => !onlineUserIds.has(obj._id)
+        );
+
+        setContacts(filteredContacts);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getContacts();
+  }, [onlinePeople]);
 
   const selectContactHandler = (data) => {
     setSelectedContact(data);
@@ -51,25 +133,94 @@ const ChatPage = () => {
           <Box className="sidebar">
             Contact
             <Box className="people-box">
-              {excludeLogedUser.map((people, index) => {
-                return (
-                  <Box
-                    className={`people ${
-                      people.userId === selectedContact ? "color-blue" : ""
-                    }`}
-                    key={index}
-                    onClick={() => selectContactHandler(people.userId)}
-                  >
-                    <img src={people.imageUrl} alt="" />
-                    <p>{people.userName}</p>
-                  </Box>
-                );
-              })}
+              <>
+                {excludeLogedUser.map((people, index) => {
+                  return (
+                    <Box
+                      className={`people ${
+                        people.userId === selectedContact ? "color-blue" : ""
+                      }`}
+                      key={index}
+                      onClick={() => selectContactHandler(people.userId)}
+                    >
+                      <Box className="avatar">
+                        {people.online && <Box className="online-dot"></Box>}
+
+                        <img src={people.imageUrl} alt="" />
+                      </Box>
+                      <p>{people.userName}</p>
+                    </Box>
+                  );
+                })}
+              </>
+              <>
+                {contacts.map((people, index) => {
+                  return (
+                    <Box
+                      className={`people ${
+                        people.userId === selectedContact ? "color-blue" : ""
+                      }`}
+                      key={index}
+                      onClick={() => selectContactHandler(people._id)}
+                    >
+                      <Box className="avatar">
+                        <img src={people.imageUrl} alt="" />
+                      </Box>
+                      <p>{people.name}</p>
+                    </Box>
+                  );
+                })}
+              </>
             </Box>
           </Box>
         </Grid>
         <Grid xs={9} item className="chatbar">
-          <Box className="chatbox">Grid</Box>
+          <Box className="chatbox">
+            {selectedContact && (
+              <>
+                <Box className="message-section">
+                  {messages.map((message, index) => {
+                    const alignment =
+                      message.sender === logedInUser ? "end" : "start";
+                    const messageDate = message.date
+                      ? new Date(message.date)
+                      : new Date();
+
+                    const formattedTime = messageDate.toLocaleString(
+                      "en-US",
+                      timeOptions
+                    );
+
+                    return (
+                      <Box
+                        className="comment"
+                        justifyContent={alignment}
+                        key={index}
+                      >
+                        {/* <img src={message.user?.imageUrl} alt="" /> */}
+                        <Box className="content">
+                          <Box>
+                            <p className="text">{message.text}</p>
+                          </Box>
+                          <Box className="footer" justifyContent={alignment}>
+                            <p className="date-ago">{formattedTime}</p>
+                          </Box>
+                        </Box>
+                      </Box>
+                    );
+                  })}
+                  <Box ref={divUnderMessages}></Box>
+                </Box>
+                <ChatForm
+                  ws={ws}
+                  selectedContact={selectedContact}
+                  setMessages={setMessages}
+                  sender={logedInUser}
+                  receiver={selectedContact}
+                />
+              </>
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Box>

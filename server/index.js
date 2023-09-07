@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connectDB = require("./db/connect");
-const expressWs = require("express-ws");
+const Message = require("./modals/messageSchema");
 const ws = require("ws");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const jwtsecret = process.env.jwtSecret;
 const url = "mongodb://127.0.0.1:27017/LinkQuest";
+const User = require("./modals/userSchema");
 // const url = process.env.url;
 const port = 8000;
 
@@ -47,6 +48,7 @@ const start = async () => {
       console.log("connected");
       const cookies = req.headers.cookie;
 
+      // Decoding the Connected User Data from cookie token
       if (cookies) {
         const tokenCookieString = cookies
           .split(";")
@@ -65,18 +67,68 @@ const start = async () => {
           }
         }
       }
-      // console.log([...wss.clients].map((c) => c.userName));
-      [...wss.clients].forEach((client) => {
+
+      connection.on("message", async (message) => {
+        const parsedMessage = JSON.parse(message.toString());
+        const { chat, recipient } = parsedMessage;
+        if (chat && recipient) {
+          const messageDoc = await Message.create({
+            sender: connection.userId,
+            receiver: recipient,
+            text: chat,
+          });
+          const clients = [...wss.clients].filter(
+            (c) => c.userId === recipient
+          );
+
+          const recipientUser = await User.findOne({ _id: recipient });
+          const senderUser = await User.findOne({ _id: connection.userId });
+
+          if (recipientUser && senderUser) {
+            if (!recipientUser.contacts.includes(connection.userId)) {
+              recipientUser.contacts.push(connection.userId);
+              await recipientUser.save();
+            }
+            if (!senderUser.contacts.includes(recipient)) {
+              senderUser.contacts.push(recipient);
+              await senderUser.save();
+            }
+          }
+
+          clients.forEach((c) =>
+            c.send(
+              JSON.stringify({
+                messageData: {
+                  chat,
+                  receiver: recipient,
+                  messageId: messageDoc._id,
+                  sender: connection.userId,
+                },
+              })
+            )
+          );
+        }
+      });
+
+      // Sending the userData on establishing the contact
+
+      const clients = [...wss.clients];
+      clients.forEach((client) => {
         client.send(
           JSON.stringify({
             online: [...wss.clients].map((c) => ({
               userId: c.userId,
               userName: c.userName,
               imageUrl: c.imageUrl,
+              online: true,
             })),
           })
         );
       });
+    });
+
+    wss.on("close", (data) => {
+      console.log("disconncted", data);
     });
   } catch (error) {
     console.log(error);
