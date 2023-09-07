@@ -1,0 +1,23 @@
+
+.homepages {
+    // background-color: hsl(210, 3%, 15%);
+    // background-color: #282a37;
+    background-color: #525461;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    position: relative;
+    max-width: 100vw;
+    width: 100vw;
+  margin-left: 10px;
+    .app-sections {
+      padding-top: 20px;
+      padding-right: 10px;
+    }
+  
+    .sidebars {
+      transition: all 0.3s ease;
+    }
+  }
+  

@@ -14,6 +14,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./styles/globals.scss";
 import AddReviews from "./components/Reviews/AddReviews";
 import AddCompany from "./components/Reviews/AddCompany";
+import ProfilePage from "./Pages/ProfilePage/ProfilePage";
+import ProfileSideBar from "./Pages/ProfilePage/ProfileSideBar";
+import ProfileSection from "./Pages/ProfilePage/ProfileSection";
 
 const theme = createTheme({
   components: {
@@ -37,6 +40,9 @@ const App = () => {
               <Route exact path="/addcompany" element={<AddCompany />} />
               <Route path="/question/:id" component={QuestionDetails} />
               <Route path="/chat" element={<ChatPage />} />
+              <Route path="/Complete/Profile" element={<ProfilePage/>}></Route>
+              <Route path="/Editprofile" element={<ProfileSideBar/>}></Route>
+              <Route path="/profile" element={<ProfileSection/>}></Route>
             </Routes>
           </Router>
         </Layout>

@@ -53,14 +53,19 @@ const CompanyCard = ({
         <Box className="user-area">
           <Box className="header-first">
             <img src={companyImage} alt="" />
+            <div className="company-rating">
             <p>{company}</p>
             <p>{renderStars(rating)}</p>
+            </div>
+            <div className="reviews-contact">
             <p>
               <BiSolidPhoneCall color="green" /> {contact}
             </p>
-          </Box>
 
           <a>Reviews</a>
+          </div>
+          </Box>
+
         </Box>
       </Box>
       <Box className="info-row">

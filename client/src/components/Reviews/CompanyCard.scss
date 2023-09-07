@@ -31,6 +31,19 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      .main{}
+      .company-rating{
+        display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      }
+      .reviews-contact{
+        display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      }
     }
   }
   p {

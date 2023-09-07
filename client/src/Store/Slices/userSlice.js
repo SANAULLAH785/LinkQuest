@@ -6,8 +6,9 @@ const userSlice = createSlice({
     id: "",
     userName: "",
     email: "",
-    avatar: "",
+    imageUrl: "",
     jobTitle: "",
+    skills: "",
   },
   reducers: {
     addUserData(state, action) {
@@ -16,8 +17,9 @@ const userSlice = createSlice({
         state.userName = action.payload.name;
       }
       state.email = action.payload.email;
-      state.avatar = action.payload.imageUrl;
+      state.imageUrl = action.payload.imageUrl;
       state.jobTitle = action.payload.jobTitle;
+      state.skills=action.payload.skills;
       state.id = action.payload._id;
     },
 
@@ -27,7 +29,7 @@ const userSlice = createSlice({
         state.userName = null;
       }
       state.email = null;
-      state.avatar = null;
+      state.imageUrl = null;
       state.jobTitle = null;
       state.id = null;
     },

@@ -40,7 +40,7 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
       </Box>
       <Box className="profile-section">
         <img
-          src={userData.avatar}
+          src={userData.imageUrl}
           alt=""
           style={{ width: isOpenSideBar ? "100px" : "50px" }}
         />
@@ -50,7 +50,7 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
             {userData.jobTitle ? (
               <p style={{ fontSize: "12px" }}>{userData.jobTitle}</p>
             ) : (
-              <Link to={"/signup"} className="link">
+              <Link to={"/profile"} className="link">
                 Complete your Profile
               </Link>
             )}
