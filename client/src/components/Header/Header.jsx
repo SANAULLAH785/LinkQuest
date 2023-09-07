@@ -15,6 +15,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userEmail = useSelector((state) => state.userState.email);
+  const userid = useSelector((state) => state.userState.id);
+console.log(userid);
 
   const getPosts = async () => {
     const headers = {
@@ -33,7 +35,9 @@ const Header = () => {
       console.log(error);
     }
   };
-
+  const profilehandler = () => {
+    navigate("/profile");
+  };
   const logoutHandler = () => {
     console.log("logig Out");
     localStorage.removeItem("token");
@@ -67,7 +71,7 @@ const Header = () => {
                   onMouseLeave={() => toggleDropdown(false)}
                 >
                   <Box className="each-option">
-                    <p>Profile</p>
+                    <p onClick={() => profilehandler()}>Profile</p>
                     <BiChevronRight size={25} />
                   </Box>
                   <Box className="each-option">
