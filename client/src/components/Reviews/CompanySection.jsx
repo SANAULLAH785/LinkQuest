@@ -5,6 +5,7 @@ import "./CompanySection.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewReviewHandler } from "../../Store/Slices/reviewSlice";
+import { AddNewCompany } from "../../Store/Slices/companySlice";
 import CompanyCard from "./CompanyCard";
 import { ApiCallGet } from "../Api/ApiCall";
 import AddCompany from "./AddCompany";
@@ -14,11 +15,11 @@ const ComapnySection = () => {
   const dispatch = useDispatch();
   const [companydata, setCompanyData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [addcompany,setAddCompany]=useState(false);
+  const [addcompany, setAddCompany] = useState(false);
 
   const userId = useSelector((state) => state.userState.id);
   const clearSearch = () => {
-    setSearchQuery(""); 
+    setSearchQuery("");
   };
   const getCompanies = async () => {
     try {
@@ -33,11 +34,11 @@ const ComapnySection = () => {
     getCompanies();
   }, []);
 
-  const handelAddReview = () => {
+  const handelAddNewCompany = () => {
     if (userId) {
-      dispatch(addNewReviewHandler(true));
+      dispatch(AddNewCompany(true));
     } else {
-      navigate("/reviews");
+      navigate("/signin");
     }
   };
   const filteredComapny = companydata.filter((company) =>
@@ -65,10 +66,12 @@ const ComapnySection = () => {
           </Box>
         </Grid> */}
         <Grid item md={12}>
-        {addcompany ? (
-            <AddCompany onClose={() => setAddCompany(false)} clearSearch={clearSearch}  /> 
-          ):
-          filteredComapny.length > 0 ? (
+          {addcompany ? (
+            <AddCompany
+              onClose={() => setAddCompany(false)}
+              clearSearch={clearSearch}
+            />
+          ) : filteredComapny.length > 0 ? (
             filteredComapny.map((company, index) => (
               <CompanyCard
                 key={index}
@@ -91,7 +94,13 @@ const ComapnySection = () => {
           ) : (
             <div className="no-results">
               <p>No results found. Did you want to add new company? </p>
-              <button className="add-company" onClick={() => setAddCompany(true)}>
+              <button
+                className="add-company"
+                onClick={() => {
+                  setAddCompany(true);
+                  handelAddNewCompany();
+                }}
+              >
                 Add Company
               </button>
             </div>

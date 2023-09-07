@@ -152,6 +152,31 @@ const ApiCallPut = (
       return getError(error);
     });
 };
+
+// put api with data in response
+const ApiCallPutwithData = (
+  path,
+  data,
+  contentType = "application/json",
+  redirect = true
+) => {
+  const headers = {
+    "Content-Type": contentType,
+    token: token,
+  };
+
+  const options = { headers: headers };
+
+  return axios
+    .put(baseUrl + path, data, options)
+    .then((response) => {
+      return getResponseData(response, redirect);
+    })
+    .catch((error) => {
+      return getError(error);
+    });
+};
+
 const ApiCallDelete = (path) => {
   const headers = {
     token: token,
@@ -169,4 +194,4 @@ const ApiCallDelete = (path) => {
     });
 };
 
-export { ApiCallPost, ApiCallGet, ApiCallPut, ApiCallDelete, ApiCallPosts };
+export { ApiCallPost, ApiCallGet, ApiCallPut, ApiCallDelete, ApiCallPosts ,ApiCallPutwithData};

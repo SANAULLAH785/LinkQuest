@@ -2,12 +2,14 @@ const { Router } = require("express");
 const router = Router();
 const profileControllers = require("../controllers/profileControllers");
 const auth = require("../middlewares/auth");
+const imagesaver = require("../middlewares/imageSaver");
+
 
 router.get("/personalData", auth, profileControllers.GetPersonalData);
 
 router.get("/personalDataShort", auth, profileControllers.GetPersonalDataShort);
 
-router.put("/personalData", profileControllers.EditPersonalData);
+router.put("/personalData",auth,imagesaver, profileControllers.EditPersonalData);
 
 router.get("/personalData/workHistory", profileControllers.GetWorkHistory);
 

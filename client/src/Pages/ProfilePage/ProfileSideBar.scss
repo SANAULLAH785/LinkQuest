@@ -1,0 +1,14 @@
+.sidebar-containers {
+  position: sticky;
+  // top: 100px;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  border-radius: 15px;
+  margin:10px 10px ;
+  padding-left: 15px;
+  // border: 1px #808080 solid;
+  transition: all 0.3s ease;
+  background-color: #282a37;
+  filter: drop-shadow(5px 5px 10px black);
+}

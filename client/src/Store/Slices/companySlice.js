@@ -3,9 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const companySlice = createSlice({
   name: "company",
   initialState: {
-    newCompany: null, // Store the newly added company here
+    newCompany: null,
+    addnewcomapny:false, // Store the newly added company here
   },
   reducers: {
+    AddNewCompany:(state,action)=>{
+    state.addnewcomapny=action.payload;
+    },
     setNewCompany: (state, action) => {
       state.newCompany = action.payload;
     },
@@ -14,4 +18,4 @@ const companySlice = createSlice({
 
 
 export default companySlice.reducer;
-export const { setNewCompany } = companySlice.actions;
+export const { setNewCompany,AddNewCompany } = companySlice.actions;
