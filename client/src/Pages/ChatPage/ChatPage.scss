@@ -45,6 +45,20 @@
           color: #1d90f4;
         }
 
+        .avatar {
+          position: relative;
+          .online-dot {
+            width: 15px;
+            height: 15px;
+            background-color: #31a24c;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-radius: 100%;
+            border: #282a37 2px solid;
+          }
+        }
+
         img {
           height: 50px;
           width: 50px;
@@ -64,7 +78,97 @@
       background-color: #282a37;
       border-radius: 10px;
       filter: drop-shadow(5px 5px 10px black);
-      min-height: 80vh;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      background-image: linear-gradient(
+          45deg,
+          rgba(40, 42, 55, 1),
+          rgba(40, 42, 55, 0.8)
+        ),
+        url("https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?cs=srgb&dl=pexels-joyston-judah-933054.jpg&fm=jpg");
+      background-size: cover;
+      background-position: center center;
+      border-radius: 10px;
+
+      .message-section {
+        // background-color: aqua;
+        flex-grow: 1;
+        width: 100%;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          // width: 8px;
+          display: none;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+
+        .comment {
+          display: flex;
+          flex-direction: row;
+          // margin: 10px 0px;
+          margin-top: 10px;
+          gap: 4px;
+          align-items: center;
+
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+          }
+          .content {
+            .userName {
+              font-size: 12px;
+              font-weight: bold;
+              padding: 0;
+              margin: 0;
+            }
+            .text {
+              font-size: 12px;
+              padding: 0;
+              margin: 0;
+              max-width: 200px;
+              flex-wrap: wrap;
+              background-color: #525461;
+              border-radius: 10px;
+              padding: 5px 10px;
+              overflow-wrap: break-word;
+            }
+
+            .footer {
+              display: flex;
+              gap: 10px;
+              .date-ago {
+                font-size: 10px;
+                padding: 0;
+                margin: 0;
+                opacity: 0.7;
+              }
+              .reply {
+                font-size: 10px;
+                padding: 0;
+                margin: 0;
+                // opacity: 0.7;
+                &:hover {
+                  font-weight: bold;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
