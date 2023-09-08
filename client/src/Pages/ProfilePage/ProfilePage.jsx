@@ -5,14 +5,14 @@ import { Box, TextField } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserData } from "../../Store/Slices/userSlice";
+import userSlice, { addUserData } from "../../Store/Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.scss";
 import { ApiCallPosts, ApiCallPutwithData } from "../../components/Api/ApiCall";
 const ProfilePage = () => {
   const userData = useSelector((state) => state.userState);
   const [selectedImage, setSelectedImage] = useState(null);
-  const[cloudinaryurl ,setCloudinarUrl]=useState(userData.imageUrl);
+  const [cloudinaryurl ,setCloudinarUrl]=useState(userData.imageUrl);
   const [imageFile, setImageFile] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,13 +37,16 @@ const ProfilePage = () => {
     }
   };
   
-
+console.log(userData);
   console.log(userData.imageUrl);
   console.log(userData.jobTitle);
   console.log(userData.skills);
+  console.log(userData.userName);
+
 
   const initialValues = {
     image: userData.imageUrl || null,
+    name:userData.userName || "",
     jobTitle: userData.jobTitle || "",
     skills: userData.skills || "",
   };
@@ -56,7 +59,7 @@ const ProfilePage = () => {
     // }),
 
     jobTitle: Yup.string().required("A jobTitle is required"),
-    skills: Yup.string().required("A skills is required"),
+    // skills: Yup.string().required("A skills is required"),
   });
 
   const formik = useFormik({
@@ -89,7 +92,7 @@ const ProfilePage = () => {
     <Box className="wrappers">
       <Box className="containers">
         <form onSubmit={formik.handleSubmit}>
-          <Box className="image-previews">
+          < Box className="image-previews">
             {selectedImage?(
               <>
               <img src={selectedImage} alt="Selected" />
@@ -109,7 +112,7 @@ const ProfilePage = () => {
             <div className="icon-wrapper">
               <BsCardImage size={35} />
             </div>
-            <p>Add Image</p>
+            <p>Add New Image</p>
             <input
               type="file"
               id="image"
@@ -126,9 +129,30 @@ const ProfilePage = () => {
           </label>
           <div className="fields-container">
             <TextField
+            id="userName"
+            name="userName"
+            label="UserName"
+            defaultValue={userData.userName}
+            onChange={formik.handleChange}
+            InputLabelProps={{className:"blue-label"}}
+            ></TextField>      
+            
+           <TextField
+           id="email"
+           name="email"
+           label="Email"
+           defaultValue={userData.email}
+           onChange={formik.handleChange}
+           InputLabelProps={{ className: "blue-label" }}
+
+           ></TextField>
+
+          </div>
+          <div className="fields-container">
+            <TextField
               id="jobTitle"
               name="jobTitle"
-              label=" jobTitle"
+              label=" JobTitle"
               defaultValue={userData.jobTitle}
               onChange={formik.handleChange}
               error={formik.touched.jobTitle && Boolean(formik.errors.jobTitle)}

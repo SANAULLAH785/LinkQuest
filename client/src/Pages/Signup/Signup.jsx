@@ -37,6 +37,7 @@ const Signup = () => {
         const response = await ApiCallPost("/signup", payload);
         console.log(response.data);
         navigate("/signin");
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }
