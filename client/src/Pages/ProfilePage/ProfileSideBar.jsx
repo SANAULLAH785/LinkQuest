@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import { MdOutlinePostAdd, MdReviews } from "react-icons/md";
+import {CgProfile} from "react-icons/cg";
+import {MdWorkHistory} from "react-icons/md"
+import {FaUserFriends} from "react-icons/fa";
 import './ProfileSideBar.scss';
 import { profileBarOptionsHandler } from '../../Store/Slices/functionalitySlice';
 
@@ -15,15 +18,15 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
     dispatch(profileBarOptionsHandler("workhistory"))
   }
   return (
-   <Box className="sidebar-container">
-    <Box className="sidebar-content-container">
+   <Box className="sidebar-containers">
+    <Box className="sidebar-content-containers">
         <Box
           className={`sidebar-content ${isOpenProfileSideBar ? "" : "onSideBarOpen"} ${
             selectedOption === "profile" ? "bg-blue" : ""
           }`}
           onClick={() => dispatch(profileBarOptionsHandler("profile"))}
         >
-          <MdOutlinePostAdd size={25} />
+          <CgProfile size={25} />
           {isOpenProfileSideBar ? <p>Profile</p> : ""}
         </Box>
         <Box
@@ -32,8 +35,17 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
           }  ${selectedOption === "workhistory" ? "bg-blue" : ""}`}
           onClick={() => WorkhistorySectionHandler()}
         >
-          <MdReviews size={25} />
+          <MdWorkHistory size={25} />
           {isOpenProfileSideBar ? <p>WorkHistory</p> : ""}
+        </Box>
+        <Box
+          className={`sidebar-content ${isOpenProfileSideBar ? "" : "onSideBarOpen"} ${
+            selectedOption === "profile" ? "bg-blue" : ""
+          }`}
+          onClick={() => dispatch(profileBarOptionsHandler("posts"))}
+        >
+          <MdOutlinePostAdd size={25} />
+          {isOpenProfileSideBar ? <p>Posts</p> : ""}
         </Box>
         <Box
           className={`sidebar-content ${isOpenProfileSideBar ? "" : "onSideBarOpen"} ${
@@ -41,27 +53,10 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
           }`}
           onClick={() => dispatch(profileBarOptionsHandler("profile"))}
         >
-          <MdOutlinePostAdd size={25} />
-          {isOpenProfileSideBar ? <p>Profile</p> : ""}
+          <FaUserFriends size={25} />
+          {isOpenProfileSideBar ? <p>Friends</p> : ""}
         </Box>
-        {/* <Box
-          className={`sidebar-content ${
-            isOpenProfileSideBar ? "" : "onSideBarOpen"
-          }  ${selectedOption === "questions" ? "bg-blue" : ""}`}
-          onClick={() => questionSectionHandler()}
-        >
-          <BsQuestionSquareFill size={25} />
-          {isOpenProfileSideBar ? <p>Questions</p> : ""}
-        </Box>
-        <Box
-          className={`sidebar-content ${
-            isOpenProfileSideBar ? "" : "onSideBarOpen"
-          }  ${selectedOption === "badges" ? "bg-blue" : ""}`}
-          onClick={() => dispatch(sideBarOptionsHandler("badges"))}
-        >
-          <BsFillStarFill size={25} />
-          {isOpenProfileSideBar ? <p>Badges</p> : ""}
-        </Box> */}
+      
       </Box>
    </Box>
   );

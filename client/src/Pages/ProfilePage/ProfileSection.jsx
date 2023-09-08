@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useWindowSize from "../../utils/useWindowSize";
-// import profileBarOptions from "../../Store/Slices/functionalitySlice";
 import { Grid, Box, backdropClasses } from "@mui/material";
 import ProfilePage from "./ProfilePage";
 import ProfileSideBar from "./ProfileSideBar";
 import "./ProfileSection.scss";
 import { useSelector, useDispatch } from "react-redux";
 import WorkHistory from "./WorkHistory";
+import Posts from "./Posts";
 
 const ProfileSection = () => {
   const dispatch = useDispatch();
@@ -27,11 +27,11 @@ const ProfileSection = () => {
     setIsOpenProfileSideBar(!isOpenProfileSideBar);
 
     if (isOpenProfileSideBar) {
-      setProfileSideBarWidth(1);
-      setMiddleBarWidth(8);
+      setProfileSideBarWidth(2);
+      setMiddleBarWidth(10);
     } else {
       setProfileSideBarWidth(2);
-      setMiddleBarWidth(7);
+      setMiddleBarWidth(10);
     }
   };
 
@@ -55,6 +55,7 @@ const ProfileSection = () => {
             <Grid item xs={12} md={middleBarWidth} className="sidebars">
               {selectedOption === "profile" && <ProfilePage />}
               {selectedOption==="workhistory" &&<WorkHistory/>}
+              {selectedOption==="posts" && <Posts></Posts>}
             
             </Grid>
             

@@ -37,6 +37,7 @@ const Signin = () => {
         localStorage.setItem("token", token);
         dispatch(addUserData(userData));
         navigate("/");
+        window.location.reload();
         toast.success("SignIn Successfully");
       } catch (error) {
         console.log(error);
