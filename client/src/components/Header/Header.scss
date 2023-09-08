@@ -18,6 +18,10 @@
   top: 10px;
   // width: 100%;
 
+  h3 {
+    cursor: pointer;
+  }
+
   .title {
     margin: 0;
   }
@@ -33,15 +37,31 @@
       display: flex;
       align-items: center;
       position: relative;
+      gap: 20px;
       &:hover {
         cursor: pointer;
       }
-      p {
-        cursor: pointer;
-        margin-left: 20px;
+
+      .chat-icon {
+        padding-top: 10px;
+        &:hover {
+          color: #1d90f4;
+          transition: all 0.1s ease-in;
+        }
+      }
+
+      .accounts {
+        display: flex;
+        align-items: center;
+        transition: all 0.1s ease-in;
         &:hover {
           color: #1d90f4;
           cursor: pointer;
+        }
+
+        p {
+          cursor: pointer;
+          // margin-left: 20px;
         }
       }
       .dropdown-content {

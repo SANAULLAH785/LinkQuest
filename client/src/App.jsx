@@ -27,6 +27,7 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const token = localStorage.getItem("token");
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -39,10 +40,14 @@ const App = () => {
               <Route exact path="/reviews" element={<AddReviews />} />
               <Route exact path="/addcompany" element={<AddCompany />} />
               <Route path="/question/:id" component={QuestionDetails} />
-              <Route path="/chat" element={<ChatPage />} />
-              <Route path="/Complete/Profile" element={<ProfilePage/>}></Route>
-              <Route path="/Editprofile" element={<ProfileSideBar/>}></Route>
-              <Route path="/profile" element={<ProfileSection/>}></Route>
+
+              <Route
+                path="/chat"
+                element={token ? <ChatPage /> : <MainWrapper />}
+              />
+              <Route path="/Complete/Profile" element={<ProfilePage />}></Route>
+              <Route path="/Editprofile" element={<ProfileSideBar />}></Route>
+              <Route path="/profile" element={<ProfileSection />}></Route>
             </Routes>
           </Router>
         </Layout>
