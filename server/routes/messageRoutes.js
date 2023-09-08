@@ -5,5 +5,6 @@ const auth = require("../middlewares/auth");
 
 router.get("/messages/:id", auth, messageControllers.getMessages);
 router.get("/getChatContacts", auth, messageControllers.getContacts);
+router.post("/searchContacts", messageControllers.searchContacts);
 
 module.exports = router;

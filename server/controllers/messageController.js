@@ -37,4 +37,19 @@ messageControllers.getContacts = async (req, res) => {
   }
 };
 
+messageControllers.searchContacts = async (req, res) => {
+  try {
+    const name = req.body.search;
+    const searchRegex = new RegExp(name, "i");
+    const users = await User.find({ name: searchRegex }).select(
+      "name imageUrl"
+    );
+    console.log(users);
+
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = messageControllers;

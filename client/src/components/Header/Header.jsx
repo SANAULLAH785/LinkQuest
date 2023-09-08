@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box } from "@mui/material";
-import { IoNotificationsSharp } from "react-icons/io5";
+import {
+  IoNotificationsSharp,
+  IoChatboxEllipsesOutline,
+} from "react-icons/io5";
 import { MdArrowDropDown } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +19,7 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userEmail = useSelector((state) => state.userState.email);
   const userid = useSelector((state) => state.userState.id);
-console.log(userid);
+  console.log(userid);
 
   const getPosts = async () => {
     const headers = {
@@ -54,7 +57,9 @@ console.log(userid);
   };
   return (
     <Box className="Header">
-      <h3 className="title">LinkQuest</h3>
+      <h3 className="title" onClick={() => navigate("/")}>
+        LinkQuest
+      </h3>
       <Box className="header-profile">
         <Box
           className="settings"
@@ -62,28 +67,33 @@ console.log(userid);
         >
           {userEmail ? (
             <>
+              <span className="chat-icon" onClick={() => navigate("/chat")}>
+                <IoChatboxEllipsesOutline size={30} />
+              </span>
               <IoNotificationsSharp size={30} />
-              <p>Account</p>
-              <MdArrowDropDown size={25} />
-              {isDropdownOpen && (
-                <Box
-                  className="dropdown-content"
-                  onMouseLeave={() => toggleDropdown(false)}
-                >
-                  <Box className="each-option">
-                    <p onClick={() => profilehandler()}>Profile</p>
-                    <BiChevronRight size={25} />
+              <Box className="accounts">
+                <p>Account</p>
+                <MdArrowDropDown size={25} />
+                {isDropdownOpen && (
+                  <Box
+                    className="dropdown-content"
+                    onMouseLeave={() => toggleDropdown(false)}
+                  >
+                    <Box className="each-option">
+                      <p onClick={() => profilehandler()}>Profile</p>
+                      <BiChevronRight size={25} />
+                    </Box>
+                    <Box className="each-option">
+                      <p>Settings</p>
+                      <BiChevronRight size={25} />
+                    </Box>
+                    <Box className="each-option">
+                      <p onClick={() => logoutHandler()}>Log out</p>
+                      <BiChevronRight size={25} />
+                    </Box>
                   </Box>
-                  <Box className="each-option">
-                    <p>Settings</p>
-                    <BiChevronRight size={25} />
-                  </Box>
-                  <Box className="each-option">
-                    <p onClick={() => logoutHandler()}>Log out</p>
-                    <BiChevronRight size={25} />
-                  </Box>
-                </Box>
-              )}
+                )}
+              </Box>
             </>
           ) : (
             <>

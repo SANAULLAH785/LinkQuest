@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const connectDB = require("./db/connect");
 const Message = require("./modals/messageSchema");
+const User = require("./modals/userSchema");
 const ws = require("ws");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
@@ -21,18 +22,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-// app.ws("/websocket", (ws, req) => {
-//   console.log("WebSocket connection established");
-
-//   ws.on("message", (message) => {
-//     console.log("Received message:", message);
-//   });
-
-//   ws.on("close", () => {
-//     console.log("WebSocket connection closed");
-//   });
-// });
-
 const start = async () => {
   try {
     await connectDB(url);
@@ -43,11 +32,9 @@ const start = async () => {
     const wss = new ws.WebSocketServer({ server });
     const jwtSecret = jwtsecret;
 
-    wss.on("connection", (connection, req) => {
-      console.log("connected");
-      const cookies = req.headers.cookie;
-
+    wss.on("connection", async (connection, req) => {
       // Decoding the Connected User Data from cookie token
+      const cookies = req.headers.cookie;
       if (cookies) {
         const tokenCookieString = cookies
           .split(";")
@@ -66,6 +53,46 @@ const start = async () => {
           }
         }
       }
+
+      const user = await User.findOne({ _id: connection.userId });
+      const contacts = user.contacts || [];
+
+      const notifyAboutOnlinePeople = () => {
+        const onlineContacts = [...wss.clients].filter((client) => {
+          return (
+            client !== connection &&
+            contacts.includes(client.userId) &&
+            client.isAlive
+          );
+        });
+
+        const onlineContactData = onlineContacts.map((client) => ({
+          userId: client.userId,
+          userName: client.userName,
+          imageUrl: client.imageUrl,
+          online: true,
+        }));
+
+        connection.send(
+          JSON.stringify({
+            online: onlineContactData,
+          })
+        );
+      };
+
+      connection.isAlive = true;
+      connection.timer = setInterval(() => {
+        connection.ping();
+        connection.deathTimer = setTimeout(() => {
+          connection.isAlive = false;
+          connection.terminate();
+          notifyAboutOnlinePeople();
+        }, 1000);
+      }, 5000);
+
+      connection.on("pong", () => {
+        clearTimeout(connection.deathTimer);
+      });
 
       connection.on("message", async (message) => {
         const parsedMessage = JSON.parse(message.toString());
@@ -110,24 +137,12 @@ const start = async () => {
       });
 
       // Sending the userData on establishing the contact
-
-      const clients = [...wss.clients];
-      clients.forEach((client) => {
-        client.send(
-          JSON.stringify({
-            online: [...wss.clients].map((c) => ({
-              userId: c.userId,
-              userName: c.userName,
-              imageUrl: c.imageUrl,
-              online: true,
-            })),
-          })
-        );
-      });
+      notifyAboutOnlinePeople();
     });
 
     wss.on("close", (data) => {
       console.log("disconncted", data);
+      onlineUsers.delete(connection.userId);
     });
   } catch (error) {
     console.log(error);

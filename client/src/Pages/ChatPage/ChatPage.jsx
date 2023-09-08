@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import Header from "../../components/Header/Header";
 import ChatForm from "./ChatForm";
 import { ApiCallGet } from "../../components/Api/ApiCall";
+import { BsSearch } from "react-icons/bs";
 import axios from "axios";
 import { Box, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -14,10 +15,13 @@ const ChatPage = () => {
 
   const [onlinePeople, setOnlinePeople] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [selectedName, setSelectedName] = useState(null);
   const [contacts, setContacts] = useState([]);
-
   const [messages, setMessages] = useState([]);
 
+  const [search, setSearch] = useState("");
+  const [searchedContacts, setSearchedContacts] = useState([]);
+  // console.log(searchedContacts);
   const divUnderMessages = useRef();
 
   const timeOptions = {
@@ -25,6 +29,40 @@ const ChatPage = () => {
     minute: "numeric",
     hour12: true,
   };
+
+  useEffect(() => {
+    let timer;
+
+    const getSearchResults = async () => {
+      if (search) {
+        try {
+          // console.log(search);
+          const response = await axios.post(
+            "http://localhost:8000/searchContacts",
+            { search }
+          );
+          setSearchedContacts(response.data.users);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setSearchedContacts([]);
+      }
+    };
+
+    const handleSearchChange = (newSearch) => {
+      clearTimeout(timer);
+
+      timer = setTimeout(() => {
+        getSearchResults();
+      }, 1000);
+    };
+    handleSearchChange(search);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [search]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -49,14 +87,26 @@ const ChatPage = () => {
     if ("online" in messageData) {
       showOnlinePeople(messageData);
     } else {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: messageData.messageData.chat,
-          sender: messageData.messageData.sender,
-          receiver: messageData.messageData.receiver,
-        },
-      ]);
+      if (
+        (messageData.messageData.sender === logedInUser &&
+          messageData.messageData.receiver === selectedContact) ||
+        (messageData.messageData.sender === selectedContact &&
+          messageData.messageData.receiver === logedInUser)
+      ) {
+        // console.log(
+        //   "inmessage",
+        //   messageData.messageData.sender,
+        //   selectedContact
+        // );
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: messageData.messageData.chat,
+            sender: messageData.messageData.sender,
+            receiver: messageData.messageData.receiver,
+          },
+        ]);
+      }
     }
   };
 
@@ -100,8 +150,8 @@ const ChatPage = () => {
           }
         );
 
-        console.log("respose", response.data.contacts);
-        console.log("online", onlinePeople);
+        // console.log("respose", response.data.contacts);
+        // console.log("online", onlinePeople);
 
         const onlineUserIds = new Set(onlinePeople.map((obj) => obj.userId));
 
@@ -118,8 +168,14 @@ const ChatPage = () => {
   }, [onlinePeople]);
 
   const selectContactHandler = (data) => {
-    setSelectedContact(data);
-    console.log(data);
+    const selectedId = data.userId !== undefined ? data.userId : data._id;
+    const selectName = data.userName !== undefined ? data.userName : data.name;
+    // console.log("selectedName", selectName);
+    setSelectedContact(selectedId);
+    // console.log(data);
+    setSelectedName(selectName);
+    setSearchedContacts([]);
+    setSearch("");
   };
 
   const excludeLogedUser = onlinePeople.filter((p) => p.userId !== logedInUser);
@@ -130,52 +186,90 @@ const ChatPage = () => {
 
       <Grid container spacing={2} className="chat-container">
         <Grid xs={3} item>
-          <Box className="sidebar">
-            Contact
-            <Box className="people-box">
-              <>
-                {excludeLogedUser.map((people, index) => {
-                  return (
-                    <Box
-                      className={`people ${
-                        people.userId === selectedContact ? "color-blue" : ""
-                      }`}
-                      key={index}
-                      onClick={() => selectContactHandler(people.userId)}
-                    >
-                      <Box className="avatar">
-                        {people.online && <Box className="online-dot"></Box>}
+          <Box className="sidebar-container">
+            <Box className="sidebar">
+              Contact
+              <Box className="contactSearchbar">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                {searchedContacts.length > 0 && (
+                  <Box className="searched-contacts-container">
+                    {searchedContacts
+                      .filter((people) => people._id !== logedInUser)
+                      .map((people, index) => {
+                        return (
+                          <Box
+                            className={`people ${
+                              people.userId === selectedContact
+                                ? "color-blue"
+                                : ""
+                            }`}
+                            key={index}
+                            onClick={() => selectContactHandler(people)}
+                          >
+                            <Box className="avatar">
+                              {people.online && (
+                                <Box className="online-dot"></Box>
+                              )}
 
-                        <img src={people.imageUrl} alt="" />
+                              <img src={people.imageUrl} alt="" />
+                            </Box>
+                            <p>{people.name}</p>
+                          </Box>
+                        );
+                      })}
+                  </Box>
+                )}
+              </Box>
+              <Box className="people-box">
+                <>
+                  {excludeLogedUser.map((people, index) => {
+                    return (
+                      <Box
+                        className={`people ${
+                          people.userId === selectedContact ? "color-blue" : ""
+                        }`}
+                        key={index}
+                        onClick={() => selectContactHandler(people)}
+                      >
+                        <Box className="avatar">
+                          {people.online && <Box className="online-dot"></Box>}
+
+                          <img src={people.imageUrl} alt="" />
+                        </Box>
+                        <p>{people.userName}</p>
                       </Box>
-                      <p>{people.userName}</p>
-                    </Box>
-                  );
-                })}
-              </>
-              <>
-                {contacts.map((people, index) => {
-                  return (
-                    <Box
-                      className={`people ${
-                        people.userId === selectedContact ? "color-blue" : ""
-                      }`}
-                      key={index}
-                      onClick={() => selectContactHandler(people._id)}
-                    >
-                      <Box className="avatar">
-                        <img src={people.imageUrl} alt="" />
+                    );
+                  })}
+                </>
+                <>
+                  {contacts.map((people, index) => {
+                    return (
+                      <Box
+                        className={`people ${
+                          people.userId === selectedContact ? "color-blue" : ""
+                        }`}
+                        key={index}
+                        onClick={() => selectContactHandler(people)}
+                      >
+                        <Box className="avatar">
+                          <img src={people.imageUrl} alt="" />
+                        </Box>
+                        <p>{people.name}</p>
                       </Box>
-                      <p>{people.name}</p>
-                    </Box>
-                  );
-                })}
-              </>
+                    );
+                  })}
+                </>
+              </Box>
             </Box>
           </Box>
         </Grid>
         <Grid xs={9} item className="chatbar">
           <Box className="chatbox">
+            <p>{selectedName}</p>
             {selectedContact && (
               <>
                 <Box className="message-section">
