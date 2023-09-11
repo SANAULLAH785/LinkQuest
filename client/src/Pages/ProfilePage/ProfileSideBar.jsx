@@ -40,7 +40,7 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
         </Box>
         <Box
           className={`sidebar-content ${isOpenProfileSideBar ? "" : "onSideBarOpen"} ${
-            selectedOption === "profile" ? "bg-blue" : ""
+            selectedOption === "posts" ? "bg-blue" : ""
           }`}
           onClick={() => dispatch(profileBarOptionsHandler("posts"))}
         >
@@ -49,9 +49,9 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
         </Box>
         <Box
           className={`sidebar-content ${isOpenProfileSideBar ? "" : "onSideBarOpen"} ${
-            selectedOption === "profile" ? "bg-blue" : ""
+            selectedOption === "friends" ? "bg-blue" : ""
           }`}
-          onClick={() => dispatch(profileBarOptionsHandler("profile"))}
+          onClick={() => dispatch(profileBarOptionsHandler("friends"))}
         >
           <FaUserFriends size={25} />
           {isOpenProfileSideBar ? <p>Friends</p> : ""}

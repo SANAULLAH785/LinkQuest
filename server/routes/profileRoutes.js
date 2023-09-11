@@ -11,9 +11,9 @@ router.get("/personalDataShort", auth, profileControllers.GetPersonalDataShort);
 
 router.put("/personalData",auth,imagesaver, profileControllers.EditPersonalData);
 
-router.get("/personalData/workHistory", profileControllers.GetWorkHistory);
+router.get("/personalData/workHistory",auth, profileControllers.GetWorkHistory);
 
-router.post("/personalData/workHistory", profileControllers.AddWorkHistory);
+router.post("/personalData/workHistory", auth,profileControllers.AddWorkHistory);
 
 router.put("/personalData/workHistory", profileControllers.EditWorkHistory);
 
