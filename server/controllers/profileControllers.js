@@ -1,4 +1,7 @@
 const User = require("../modals/userSchema");
+const Company = require("../modals/companySchema");
+const mongoose = require("mongoose");
+
 const profileControllers = {};
 
 profileControllers.GetPersonalData = async (req, res) => {
@@ -32,33 +35,82 @@ profileControllers.GetPersonalDataShort = async (req, res) => {
   }
 };
 
-profileControllers.EditPersonalData = async(req, res) => {
- try{
-  console.log(req.body);
+profileControllers.EditPersonalData = async (req, res) => {
+  try {
+    // console.log(req.body);
+    const userId = req.userId;
+    // console.log(userId);
+    const { jobTitle, skills } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { jobTitle, skills, imageUrl: req.imageUrl }, // Update the fields you need
+      { new: true }
+    );
+
+    res.status(200).json({ user: updatedUser });
+    // console.log(updatedUser);
+  } catch (error) {
+    res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+profileControllers.GetWorkHistory = async(req, res) => {
+  try{
   const userId=req.userId;
-  console.log(userId);
-  const {jobTitle,skills}=req.body;
-  
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { jobTitle, skills, imageUrl: req.imageUrl,}, // Update the fields you need
-    { new: true }
+  if(!userId){
+    return res.status(404).json({ message: "User not found" });
+
+  }
+  const user = await User.findById(userId).select(
+    "workHistory"
   );
+  res.status(200).json(user);
+  }catch(error){
+    res.status(500).send({ message: "Internal server error" });
 
-  res.status(200).json({user:updatedUser});
-  console.log(updatedUser);
- }catch(error){
-  res.status(500).send({message:"Internal server error"});
+  }
 
- }
 };
 
-profileControllers.GetWorkHistory = (req, res) => {
-  res.send("Get Work History");
-};
+profileControllers.AddWorkHistory = async (req, res) => {
+  try {
+    const { company, jobTitle, dateOfJoining, isPresentEmployee, dateOfLeft } =
+      req.body;
+    const userId = req.userId;
+    const foundCompany = await Company.findOne({ name: company });
 
-profileControllers.AddWorkHistory = (req, res) => {
-  res.send("Add Work History");
+    if (!foundCompany) {
+      return res.status(404).json({ message: "Company not found" });
+    }
+
+    const newWorkHistory = {
+      company: foundCompany._id,
+      jobTitle,
+      dateOfJoining: new Date(dateOfJoining),
+      isPresentEmployee,
+      dateOfLeft: isPresentEmployee ? null : new Date(dateOfLeft),
+    };
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: { workHistory: newWorkHistory },
+      },
+      { new: true } 
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.save();
+
+    res.status(201).json({ message: "Work history added successfully", user });
+   
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 profileControllers.EditWorkHistory = (req, res) => {
