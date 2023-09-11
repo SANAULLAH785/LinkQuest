@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useCookies } from "react-cookie";
 import Header from "../../components/Header/Header";
 import ChatForm from "./ChatForm";
-import { ApiCallGet } from "../../components/Api/ApiCall";
-import { BsSearch } from "react-icons/bs";
 import axios from "axios";
 import { Box, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -76,7 +73,7 @@ const ChatPage = () => {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [messages]);
 
   const showOnlinePeople = (people) => {
     setOnlinePeople(people.online);
@@ -84,6 +81,7 @@ const ChatPage = () => {
 
   const handleMessage = (e) => {
     const messageData = JSON.parse(e.data);
+    // console.log(messageData);
     if ("online" in messageData) {
       showOnlinePeople(messageData);
     } else {
