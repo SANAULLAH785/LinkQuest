@@ -1,22 +1,54 @@
+// .mainbox{
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     margin:10px 10px;
+//     height: auto;
+//     width: 100%;
+//     background-color: #282a37;
+//     border-radius: 15px;
+//     padding-top: 10px;
+//     .sub{
+//         color: white;
+//         width: 100%;
+//     }
 .mainbox{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin:10px 10px;
-    height: auto;
+  height: auto;
+  width: 100%;
+  .sub{
     width: 100%;
-    background-color: #282a37;
-    border-radius: 15px;
-    padding-top: 10px;
-    .sub{
-        color: white;
-        width: 100%;
+    color: #f7f7f7;
+  }
+    .button-sections {
+      display: flex;
+      justify-content: end;
+      margin-bottom: 10px;
+      margin-right: 8%;
+    
+      button {
+        outline: none;
+        border: none;
+        color: whitesmoke;
+        background-color: #1d90f4;
+        filter: drop-shadow(5px 5px 10px black);
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 5px;
+    
+        &:hover {
+          cursor: pointer;
+          filter: drop-shadow(8px 8px 15px black);
+          background-color: #282a37;
+          transition: all 0.3s ease;
+        }
+      }
     }
+  }
     .fields-container {
         display: flex;
         justify-content: space-between;
         width: 100%;
-      
+        background-color: #282a37;
         .MuiTextField-root {
           width: calc(100% - 10px); /* Change the width to 100% minus 10px for the gap */
           margin-bottom: 10px;
@@ -91,5 +123,5 @@
               // background-color: hsl(220, 3%, 21%);
               background-color: #282a37;
             }
-            }    }
-}
+            }  
+            }

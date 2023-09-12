@@ -7,38 +7,56 @@ import "./ProfileSection.scss";
 import { useSelector, useDispatch } from "react-redux";
 import WorkHistory from "./WorkHistory";
 import Posts from "./Posts";
+import { addNewWorkHistory } from "../../Store/Slices/workhistorySlice";
+import AddNewWorkHistory from "./AddNewWorkHistory";
+import Header from "../../components/Header/Header";
 
 const ProfileSection = () => {
   const dispatch = useDispatch();
   const [isOpenProfileSideBar, setIsOpenProfileSideBar] = useState(true);
   const [profileSideBarWidth, setProfileSideBarWidth] = useState(2);
-  const [middleBarWidth, setMiddleBarWidth] = useState(10);
+  const [middleBarWidth, setMiddleBarWidth] = useState(7);
+  const [rightBarWidth,setRightBarWidth]=useState(3);
   const [screenWidth, setScreenWidth] = useState(useWindowSize().width);
 
-
+  const  workhistoryStatebar=useSelector((state)=>state.workhistoryState.addnewworkhistory);
   const selectedOption = useSelector(
     (state) => state.functionalityState.profileBarOptions
   );
 
   
  
+  useEffect(()=>{
+    if(workhistoryStatebar){
+      setMiddleBarWidth(6);
+      setRightBarWidth(4);
+      setProfileSideBarWidth(2);
+    }
+    else{
+      setMiddleBarWidth(7);
+      setRightBarWidth(3);
+      setProfileSideBarWidth(2); 
+    }
+  },[workhistoryStatebar])
 
   const profilesideBarHandler = () => {
+    dispatch(addNewWorkHistory(false));
     setIsOpenProfileSideBar(!isOpenProfileSideBar);
+    
 
     if (isOpenProfileSideBar) {
-      setProfileSideBarWidth(2);
-      setMiddleBarWidth(10);
+      setProfileSideBarWidth(1);
+      setMiddleBarWidth(8);
     } else {
       setProfileSideBarWidth(2);
-      setMiddleBarWidth(10);
+      setMiddleBarWidth(7);
     }
   };
 
   return (
     <>
       <Box className="homepages">
-        
+        <Header/>
 
         <Box className="app-sections">
           <Grid container spacing={2}>
@@ -58,6 +76,28 @@ const ProfileSection = () => {
               {selectedOption==="posts" && <Posts></Posts>}
             
             </Grid>
+            {screenWidth<900 ?(""):(
+              <>
+              {selectedOption==="workhistory" &&(
+                <Grid item md={rightBarWidth} className="sidebar">
+                  { workhistoryStatebar ?(
+                    <AddNewWorkHistory/>
+                  ):(
+                    <ProfileSideBar
+                    
+                    isOpenProfileSideBar={isOpenProfileSideBar}
+                    profilesideBarHandler={profilesideBarHandler}
+                    />
+                  )
+
+                  }
+
+
+                </Grid>
+              )}
+              </>
+            )}
+           
             
           </Grid>
         </Box>

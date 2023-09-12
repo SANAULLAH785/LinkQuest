@@ -1,0 +1,43 @@
+.container{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    // border: 1px gray solid;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #282a37;
+    filter: drop-shadow(5px 5px 10px black);
+    width: 90%;
+
+    .info-row {
+        display: flex;
+        gap: 8px;
+        font-size: 12px;
+        justify-content: space-between;
+        margin: 15px 0px;
+    
+        .location-info,
+        .size-info,
+        .industry-info {
+          display: flex;
+          flex-direction: column;
+          // align-items: center;
+          // text-align: center;
+    
+          p {
+            font-size: 12px;
+            margin: 0;
+            padding-right: 15px;
+          }
+    
+          .location-label,
+          .size-label,
+          .industry-label {
+            color: #1d90f4;
+          }
+        }
+      }
+      .industry-label {
+        color: #1d90f4;
+      }
+}

@@ -8,8 +8,8 @@ const ws = require("ws");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const jwtsecret = process.env.jwtSecret;
-const url = "mongodb://127.0.0.1:27017/LinkQuest";
-// const url = process.env.url;
+// const url = "mongodb://127.0.0.1:27017/LinkQuest";
+const url = process.env.url;
 const port = 8000;
 
 const routes = require("./routes");
