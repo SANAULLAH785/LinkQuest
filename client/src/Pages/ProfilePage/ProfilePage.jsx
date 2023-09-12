@@ -5,7 +5,7 @@ import { Box, TextField } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import userSlice, { addUserData } from "../../Store/Slices/userSlice";
+import  { addUserData } from "../../Store/Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.scss";
 import { ApiCallPosts, ApiCallPutwithData } from "../../components/Api/ApiCall";
@@ -14,8 +14,14 @@ const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [cloudinaryurl ,setCloudinarUrl]=useState(userData.imageUrl);
   const [imageFile, setImageFile] = useState(null);
+  const[isloading,setIsLoading]=useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (userData.id) {
+      setIsLoading(false); 
+    }
+  }, [userData]);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -36,19 +42,15 @@ const ProfilePage = () => {
       formik.setFieldValue("image", null);
     }
   };
-  
 console.log(userData);
-  console.log(userData.imageUrl);
-  console.log(userData.jobTitle);
-  console.log(userData.skills);
-  console.log(userData.userName);
+ 
 
 
   const initialValues = {
-    image: userData.imageUrl || null,
-    name:userData.userName || "",
-    jobTitle: userData.jobTitle || "",
-    skills: userData.skills || "",
+    image: userData? userData.imageUrl || null:null,
+    name: userData?  userData.userName || "":"",
+    jobTitle:userData? userData.jobTitle || "":"",
+    skills:userData?  userData.skills || "":"",
   };
   console.log(initialValues);
   const validationSchema = Yup.object({
@@ -91,7 +93,11 @@ console.log(userData);
   return (
     <Box className="wrappers">
       <Box className="containers">
-        <form onSubmit={formik.handleSubmit}>
+        {isloading? (
+          <p>data is loading</p>
+      
+        ):userData?(
+          <form onSubmit={formik.handleSubmit}>
           < Box className="image-previews">
             {selectedImage?(
               <>
@@ -144,9 +150,9 @@ console.log(userData);
            defaultValue={userData.email}
            onChange={formik.handleChange}
            InputLabelProps={{ className: "blue-label" }}
-
+   
            ></TextField>
-
+   
           </div>
           <div className="fields-container">
             <TextField
@@ -170,11 +176,17 @@ console.log(userData);
               InputLabelProps={{ className: "blue-label" }}
             />
           </div>
-
+   
           <div className="buttons">
             <button type="submit">Save</button>
           </div>
         </form>
+        ) : (
+          <p>No user data available.</p>
+        )
+
+        }
+       
       </Box>
     </Box>
   );

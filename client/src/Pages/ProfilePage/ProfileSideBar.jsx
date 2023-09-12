@@ -36,7 +36,7 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
           onClick={() => WorkhistorySectionHandler()}
         >
           <MdWorkHistory size={25} />
-          {isOpenProfileSideBar ? <p>WorkHistory</p> : ""}
+          {isOpenProfileSideBar ? <p>Work</p> : ""}
         </Box>
         <Box
           className={`sidebar-content ${isOpenProfileSideBar ? "" : "onSideBarOpen"} ${
