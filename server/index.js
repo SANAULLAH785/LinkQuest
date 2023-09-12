@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const jwtsecret = process.env.jwtSecret;
 const url = "mongodb://127.0.0.1:27017/LinkQuest";
 // const url = process.env.url;
+const passportSetup = require("./configs/passport-setup");
 const port = 8000;
 
 const routes = require("./routes");
