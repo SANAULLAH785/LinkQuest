@@ -62,10 +62,19 @@ profileControllers.GetWorkHistory = async(req, res) => {
     return res.status(404).json({ message: "User not found" });
 
   }
-  const user = await User.findById(userId).select(
-    "workHistory"
-  );
-  res.status(200).json(user);
+  const user = await User.findById(userId).populate("workHistory.company").select("workHistory");
+
+  console.log(user);
+  
+  const workHistoryWithCompanyNames = user.workHistory.map((entry) => ({
+    companyName: entry.company.name, 
+    jobTitle: entry.jobTitle,
+    dateOfJoining: entry.dateOfJoining,
+    isPresentEmployee: entry.isPresentEmployee,
+    dateOfLeft: entry.dateOfLeft,
+  }));
+
+  res.status(200).json({ workhistory: workHistoryWithCompanyNames });
   }catch(error){
     res.status(500).send({ message: "Internal server error" });
 
