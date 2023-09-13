@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useWindowSize from "../../utils/useWindowSize";
 import { Grid, Box, backdropClasses } from "@mui/material";
-import ProfilePage from "./ProfilePage";
+import ProfilePage from "./Profile/ProfilePage";
 import ProfileSideBar from "./ProfileSideBar";
 import "./ProfileSection.scss";
 import { useSelector, useDispatch } from "react-redux";
-import WorkHistory from "./WorkHistory";
-import Posts from "./Posts";
+import WorkHistory from "../ProfilePage/WorkHistory/WorkHistory";
+import Posts from "./Posts/Posts";
 import { addNewWorkHistory } from "../../Store/Slices/workhistorySlice";
-import AddNewWorkHistory from "./AddNewWorkHistory";
+import AddNewWorkHistory from "./WorkHistory/AddNewWorkHistory";
 import Header from "../../components/Header/Header";
+import HistoryModal from "./WorkHistory/HistoryModal";
 
 const ProfileSection = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ProfileSection = () => {
   const selectedOption = useSelector(
     (state) => state.functionalityState.profileBarOptions
   );
+  const historymodal=useSelector((state)=>state.workhistoryState.historymodal);
 
   
  
@@ -72,13 +74,13 @@ const ProfileSection = () => {
             )}
             <Grid item xs={12} md={middleBarWidth} className="sidebars">
               {selectedOption === "profile" && <ProfilePage />}
-              {selectedOption==="workhistory" &&<WorkHistory/>}
+              {selectedOption==="workhistory" &&(<>{historymodal? <HistoryModal/>:<WorkHistory/>}</>)}
               {selectedOption==="posts" && <Posts></Posts>}
             
             </Grid>
             {screenWidth<900 ?(""):(
               <>
-              {selectedOption==="workhistory" &&(
+              {selectedOption==="workhistory" && !historymodal &&(
                 <Grid item md={rightBarWidth} className="sidebar">
                   { workhistoryStatebar ?(
                     <AddNewWorkHistory/>

@@ -11,7 +11,16 @@
     .containers {
       color: white;
       width: 100%;
-
+    .loading-data{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: auto;
+      width: 100%;
+      background-color: #282a37;
+      border-radius: 15px;
+      padding-top: 10px;
+    }
       // background-color: blue;
     }
     .image-previews {

@@ -5,10 +5,10 @@ import { Box, TextField } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import  { addUserData } from "../../Store/Slices/userSlice";
+import  { addUserData } from "../../../Store/Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.scss";
-import { ApiCallPosts, ApiCallPutwithData } from "../../components/Api/ApiCall";
+import { ApiCallPosts, ApiCallPutwithData } from "../../../components/Api/ApiCall";
 const ProfilePage = () => {
   const userData = useSelector((state) => state.userState);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -17,11 +17,16 @@ const ProfilePage = () => {
   const[isloading,setIsLoading]=useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(userData);
+
   useEffect(() => {
     if (userData.id) {
       setIsLoading(false); 
     }
-  }, [userData]);
+    if(!selectedImage){
+    setSelectedImage(userData.imageUrl);
+    }
+  }, [userData,selectedImage]);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -42,15 +47,14 @@ const ProfilePage = () => {
       formik.setFieldValue("image", null);
     }
   };
-console.log(userData);
  
 
 
   const initialValues = {
-    image: userData? userData.imageUrl || null:null,
-    name: userData?  userData.userName || "":"",
-    jobTitle:userData? userData.jobTitle || "":"",
-    skills:userData?  userData.skills || "":"",
+    image: userData.imageUrl || null,
+    name:  userData.userName || "",
+    jobTitle: userData.jobTitle || "",
+    skills: userData.skills || "",
   };
   console.log(initialValues);
   const validationSchema = Yup.object({
@@ -60,7 +64,7 @@ console.log(userData);
     //   return value && value.type.startsWith("image/");
     // }),
 
-    jobTitle: Yup.string().required("A jobTitle is required"),
+    // jobTitle: Yup.string().required("A jobTitle is required"),
     // skills: Yup.string().required("A skills is required"),
   });
 
@@ -94,7 +98,7 @@ console.log(userData);
     <Box className="wrappers">
       <Box className="containers">
         {isloading? (
-          <p>data is loading</p>
+          <p className="loading-data">Loading Data Plaese Wait... </p>
       
         ):userData?(
           <form onSubmit={formik.handleSubmit}>

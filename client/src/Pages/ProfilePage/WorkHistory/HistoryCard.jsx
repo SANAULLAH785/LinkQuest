@@ -1,6 +1,11 @@
 import { Box } from "@mui/material";
 import React from "react";
 import "./HistoryCard.scss";
+import { useDispatch } from "react-redux";
+import {
+  setHistoryModal,
+  setSelectedHistoryData,
+} from "../../../Store/Slices/workhistorySlice";
 
 const HistoryCard = ({
   id,
@@ -10,8 +15,22 @@ const HistoryCard = ({
   dateOfLeft,
   companyName,
 }) => {
+  const dispatch = useDispatch();
+  const historyModalHandler = () => {
+    dispatch(setHistoryModal(true));
+    dispatch(
+      setSelectedHistoryData({
+        jobTitle,
+        dateOfJoining,
+        isPresentEmployee,
+        dateOfLeft,
+        companyName,
+      })
+    );
+  };
+
   return (
-    <Box className="container">
+    <Box className="container" onClick={() => historyModalHandler()}>
       <Box className="info-row">
         <div className="location-info">
           <p className="location-label">Company</p>

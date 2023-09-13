@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Box, Grid } from "@mui/material";
-import { ApiCallGet, ApiCallPosts } from "../../components/Api/ApiCall";
+import { ApiCallGet, ApiCallPosts } from "../../../components/Api/ApiCall";
 import "./WorkHistory.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import HistoryCard from "./HistoryCard";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewWorkHistory } from "../../Store/Slices/workhistorySlice";
+import { addNewWorkHistory } from "../../../Store/Slices/workhistorySlice";
 import AddNewWorkHistory from "./AddNewWorkHistory";
 const WorkHistory = () => {
   const dispatch = useDispatch();
