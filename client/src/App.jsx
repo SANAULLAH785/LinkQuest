@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "./components/Layout/Layout";
 import MainWrapper from "./MainWrapper";
 import store from "./Store";
@@ -28,6 +28,7 @@ const theme = createTheme({
 
 const App = () => {
   const token = localStorage.getItem("token");
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
