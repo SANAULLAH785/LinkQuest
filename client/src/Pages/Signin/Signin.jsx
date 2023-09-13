@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addUserData } from "../../Store/Slices/userSlice";
 import { ApiCallPosts } from "../../components/Api/ApiCall";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -12,6 +13,7 @@ import "./Signin.scss";
 const Signin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const clientId = process.env.REACT_APP_CLIENT_ID;
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -44,17 +46,30 @@ const Signin = () => {
       }
     },
   });
+  const googleAuthHandler = async (credentials) => {
+    try {
+      const response = await ApiCallPosts("/google", credentials);
+      console.log("helllloooooo", response);
+      const token = response.data.token;
+      const userData = response.data.user;
+      localStorage.setItem("token", token);
+      dispatch(addUserData(userData));
+      navigate("/");
+      window.location.reload();
+      toast.success("SignIn Successfully");
+    } catch (error) {}
+  };
 
   return (
-    <Box className="wrapper">
-      <Box className="container">
-        <Box className="inner-cointainer">
-          <Box className="header">
+    <Box className="auth-wrapper">
+      <Box className="auth-container">
+        <Box className="auth-inner-cointainer">
+          <Box className="auth-header">
             <h6 onClick={() => navigate("/")}>LinkQuest</h6>
             <p onClick={() => navigate("/")}>Home</p>
             <p onClick={() => navigate("/signup")}>Signup</p>
           </Box>
-          <Box className="body">
+          <Box className="auth-body">
             <h5>Enter and Connect</h5>
             <p className="login">
               Don't have an account?{" "}
@@ -63,7 +78,16 @@ const Signin = () => {
                 Join
               </p>
             </p>
-            <Box className="form">
+            <Box className="auth-form">
+              <GoogleOAuthProvider clientId={clientId}>
+                <GoogleLogin
+                  onSuccess={(credentials) => googleAuthHandler(credentials)}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </GoogleOAuthProvider>
+              <br />
               <form onSubmit={formik.handleSubmit}>
                 <Box className="body">
                   <input
