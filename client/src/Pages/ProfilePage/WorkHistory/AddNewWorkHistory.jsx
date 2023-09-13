@@ -1,17 +1,31 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ApiCallGet, ApiCallPosts } from "../../components/Api/ApiCall";
-import { addNewWorkHistory ,setGetHistory} from "../../Store/Slices/workhistorySlice";
+import { ApiCallGet, ApiCallPosts } from "../../../components/Api/ApiCall";
+import {
+  addNewWorkHistory,
+  setGetHistory,
+  setHistroyPath
+} from "../../../Store/Slices/workhistorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import "./AddNewWorkHistory.scss";
-import { TextField, Button, FormControlLabel,Checkbox, Autocomplete,Box} from "@mui/material";
+import {
+  TextField,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  Autocomplete,
+  Box,
+} from "@mui/material";
 import { MdClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const AddNewWorkHistory = () => {
   const [companydata, setCompanyData] = useState([]);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const navigate =useNavigate();
   const gethistory = useSelector((state) => state.workhistoryState.gethistory);
+  const [showAddCompanyButton, setShowAddCompanyButton] = useState(false);
   const getcompanies = async () => {
     try {
       const response = await ApiCallGet("/getcompanies");
@@ -52,23 +66,26 @@ const AddNewWorkHistory = () => {
         );
         console.log(response.data);
         dispatch(addNewWorkHistory(response.data.user));
-        dispatch(setGetHistory(gethistory+1));
+        dispatch(setGetHistory(gethistory + 1));
       } catch (error) {
-        console.log(error); 
+        console.log(error);
       }
     },
   });
-  const handeladdnewworkhistroy=()=>{
+  const handeladdnewworkhistroy = () => {
     dispatch(addNewWorkHistory(false));
+  };
+  const handelclick=()=>{
+    navigate('/addcompany');
+    dispatch(setHistroyPath("/profile"));
   }
 
   return (
     <>
-    
-      <form onSubmit={formik.handleSubmit} className="form"> 
-      <Box className="close-button">
-     <MdClose size={25} onClick={handeladdnewworkhistroy}></MdClose>
-    </Box>
+      <form onSubmit={formik.handleSubmit} className="form">
+        <Box className="close-button">
+          <MdClose size={25} onClick={handeladdnewworkhistroy}></MdClose>
+        </Box>
         <Autocomplete
           id="company"
           name="company"
@@ -76,18 +93,32 @@ const AddNewWorkHistory = () => {
           freeSolo
           onChange={(event, newValue) => {
             formik.setFieldValue("company", newValue);
+            if (!companydata.some((company) => company.name === newValue)) {
+              setShowAddCompanyButton(true); 
+            } else {
+              setShowAddCompanyButton(false); 
+            }
+            console.log(showAddCompanyButton);
           }}
           value={formik.values.company}
           renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Company"
-              margin="normal"
-              onChange={formik.handleChange}
-              error={formik.touched.company && Boolean(formik.errors.company)}
-              helperText={formik.touched.company && formik.errors.company}
-              InputLabelProps={{ className: "blue-label" }}
-            />
+            <div>
+              <TextField
+                {...params}
+                label="Company"
+                margin="normal"
+                onChange={formik.handleChange}
+                error={formik.touched.company && Boolean(formik.errors.company)}
+                helperText={formik.touched.company && formik.errors.company}
+                InputLabelProps={{ className: "blue-label" }}
+              />
+              {showAddCompanyButton && (
+                <div className="no-results">
+                  <p>No results found.</p>
+                  <button className="add-company"  onClick={handelclick}>Add Company</button>
+                </div>
+              )}
+            </div>
           )}
         />
         <TextField
@@ -100,7 +131,7 @@ const AddNewWorkHistory = () => {
           error={formik.touched.jobTitle && Boolean(formik.errors.jobTitle)}
           helperText={formik.touched.jobTitle && formik.errors.jobTitle}
           InputLabelProps={{ className: "blue-label" }}
-        />{" "}
+        />
         <TextField
           name="dateOfJoining"
           label="Date of Joining"

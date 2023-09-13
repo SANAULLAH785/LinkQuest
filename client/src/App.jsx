@@ -14,7 +14,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./styles/globals.scss";
 import AddReviews from "./components/Reviews/AddReviews";
 import AddCompany from "./components/Reviews/AddCompany";
-import ProfilePage from "./Pages/ProfilePage/ProfilePage";
+import ProfilePage from "./Pages/ProfilePage/Profile/ProfilePage";
 import ProfileSideBar from "./Pages/ProfilePage/ProfileSideBar";
 import ProfileSection from "./Pages/ProfilePage/ProfileSection";
 

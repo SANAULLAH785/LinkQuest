@@ -9,12 +9,15 @@ import { BsBox2HeartFill, BsTextLeft } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { setReviewModalOpen } from "../../Store/Slices/reviewSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNewCompany } from "../../Store/Slices/companySlice";
 import { setSelectedCompanyData } from "../../Store/Slices/reviewSlice";
-
+import { useNavigate } from "react-router-dom";
+import { setHistroyPath } from "../../Store/Slices/workhistorySlice";
 const AddCompany = ({ onClose, clearSearch }) => {
+  const historypath=useSelector ((state)=> state.workhistoryState.historypath);
   const dispatch=useDispatch();
+  const navigate=useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const handleImageChange = (event) => {
@@ -70,36 +73,41 @@ const AddCompany = ({ onClose, clearSearch }) => {
       .required("Website URL is required"),
   });
   
-
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (newCompanyData) => {
       console.log(" company Form newCompanyData:", newCompanyData);
-      await ApiCallPosts("/addcompany", newCompanyData, "multipart/form-data")
-        .then((res) => {
-          console.log(res);
+      try {
+        const res = await ApiCallPosts("/addcompany", newCompanyData, "multipart/form-data");
+        console.log(res);
+        if (historypath === "/profile") {
+          navigate("/profile");
+          dispatch(setHistroyPath(""));
+        } else {
           onClose();
           clearSearch();
           dispatch(setNewCompany(res.data.newcompany));
-          // dispatch(setNewCompany(res.data.newCompany.id))
-           dispatch(setReviewModalOpen(true));
-           dispatch(setSelectedCompanyData({
-            companyImage:res.data.newcompany.imageUrl,
-            company:res.data.newcompany.name,
-            rating:res.data.newcompany.rating,
-            contact:res.data.newcompany.contact,
-            address:res.data.newcompany.address,
-            companysize:res.data.newcompany.companysize,
-            industry:res.data.newcompany.industry,
-            id:res.data.newcompany._id       }))
-          // toast.success("Post added Successfully");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          dispatch(setReviewModalOpen(true));
+          dispatch(
+            setSelectedCompanyData({
+              companyImage: res.data.newcompany.imageUrl,
+              company: res.data.newcompany.name,
+              rating: res.data.newcompany.rating,
+              contact: res.data.newcompany.contact,
+              address: res.data.newcompany.address,
+              companysize: res.data.newcompany.companysize,
+              industry: res.data.newcompany.industry,
+              id: res.data.newcompany._id,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
+  
   // const handelClose=()=>{
   //   onClose();
   // }

@@ -1,0 +1,15 @@
+.main-boxs {
+  height: auto;
+  width: 100%;
+  .subs {
+    width: 100%;
+    color: #f7f7f7;
+  }
+  .form-edit {
+    background-color: #282a37;
+    border-radius: 5px;
+    padding: 10px;
+    filter: drop-shadow(5px 5px 10px black);
+    margin: 5px 5px;
+  }
+}

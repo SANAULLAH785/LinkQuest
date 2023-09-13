@@ -7,6 +7,7 @@ import {MdWorkHistory} from "react-icons/md"
 import {FaUserFriends} from "react-icons/fa";
 import './ProfileSideBar.scss';
 import { profileBarOptionsHandler } from '../../Store/Slices/functionalitySlice';
+import { setHistoryModal } from "../../Store/Slices/workhistorySlice";
 
 
 const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
@@ -15,7 +16,8 @@ const ProfileSideBar = ({isOpenProfileSideBar,profilesideBarHandler}) => {
     (state) => state.functionalityState.profileBarOptions
   );
   const WorkhistorySectionHandler=()=>{
-    dispatch(profileBarOptionsHandler("workhistory"))
+    dispatch(profileBarOptionsHandler("workhistory"));
+    dispatch(setHistoryModal(false));
   }
   return (
    <Box className="sidebar-containers">
