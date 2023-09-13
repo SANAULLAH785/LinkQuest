@@ -23,18 +23,25 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       const randomPassword = generatePassword.generate(passwordOptions);
-      new User({
-        name: profile.displayName,
-        email: profile.id,
-        password: randomPassword,
-        imageUrl: profile.photos.value,
-        socialLogin: true,
-      })
-        .save()
-        .then((newUser) => {
-          console.log(newUser);
-        });
-      console.log(profile);
+
+      User.findOne({ email: profile.id }).then((existingUser) => {
+        if (existingUser) {
+          console.log("user is", existingUser);
+        } else {
+          new User({
+            name: profile.displayName,
+            email: profile.id,
+            password: randomPassword,
+            imageUrl: profile.photos.value,
+            socialLogin: true,
+          })
+            .save()
+            .then((newUser) => {
+              console.log(newUser);
+            });
+          console.log(profile);
+        }
+      });
     }
   )
 );

@@ -1,9 +1,20 @@
 const authControllers = {};
 const User = require("../modals/userSchema");
 const bcrypt = require("bcrypt");
+const { response } = require("express");
 const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode");
 require("dotenv").config();
 const jstsecret = process.env.jwtSecret;
+const generatePassword = require("generate-password");
+
+const passwordOptions = {
+  length: 12,
+  numbers: true,
+  symbols: true,
+  uppercase: true,
+  excludeSimilarCharacters: true,
+};
 
 authControllers.SignUp = async (req, res) => {
   try {
@@ -31,7 +42,7 @@ authControllers.SignUp = async (req, res) => {
 authControllers.SignIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const existinguser = await User.findOne({ email });
+    const existinguser = await User.findOne({ email, socialLogin: false });
     if (!existinguser) {
       return res
         .status(400)
@@ -58,6 +69,53 @@ authControllers.SignIn = async (req, res) => {
     const token = jwt.sign(tokenPayload, jstsecret);
     res.status(200).send({ token, user: responsePayload });
   } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+authControllers.GoogleAuthHandler = async (req, res) => {
+  try {
+    const credential = req.body.credential;
+
+    let existinguser = null;
+    if (credential) {
+      const decoded = jwt_decode(credential);
+      const randomPassword = generatePassword.generate(passwordOptions);
+
+      const user = await User.findOne({ email: decoded.email });
+      if (user) {
+        existinguser = user;
+      } else {
+        const newUser = new User({
+          name: decoded.name,
+          email: decoded.email,
+          password: randomPassword,
+          imageUrl: decoded.picture,
+          socialLogin: true,
+        });
+        const savedUser = await newUser.save();
+        existinguser = savedUser;
+      }
+    }
+
+    const tokenPayload = {
+      userId: existinguser.id,
+      username: existinguser.name,
+      email: existinguser.email,
+      imageUrl: existinguser.imageUrl,
+      jobTitle: existinguser.jobTitle,
+    };
+
+    const responsePayload = {
+      username: existinguser.name,
+      email: existinguser.email,
+      imageUrl: existinguser.imageUrl,
+      jobTitle: existinguser.jobTitle,
+    };
+    const token = jwt.sign(tokenPayload, jstsecret);
+    res.status(200).send({ token, user: responsePayload });
+  } catch (error) {
+    console.log(error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
