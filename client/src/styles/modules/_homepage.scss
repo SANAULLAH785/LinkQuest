@@ -15,6 +15,17 @@
     padding-right: 10px;
   }
 
+  .sideBar-mobile {
+    position: sticky;
+    height: 100vh;
+    z-index: 90;
+
+    .sideBar-mobile-container {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
   .sidebar {
     transition: all 0.3s ease;
   }
