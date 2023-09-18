@@ -67,6 +67,7 @@ const AddNewWorkHistory = () => {
         console.log(response.data);
         dispatch(addNewWorkHistory(response.data.user));
         dispatch(setGetHistory(gethistory + 1));
+        dispatch(addNewWorkHistory(false));   
       } catch (error) {
         console.log(error);
       }
