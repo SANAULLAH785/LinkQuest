@@ -179,10 +179,10 @@ const ChatPage = () => {
   const excludeLogedUser = onlinePeople.filter((p) => p.userId !== logedInUser);
 
   return (
-    <Box className="container">
+    <Box className="chat-container">
       <Header />
 
-      <Grid container spacing={2} className="chat-container">
+      <Grid container spacing={2} className="chat-main-container">
         <Grid xs={3} item>
           <Box className="sidebar-container">
             <Box className="sidebar">
@@ -200,7 +200,7 @@ const ChatPage = () => {
                       .map((people, index) => {
                         return (
                           <Box
-                            className={`people ${
+                            className={`chat-people ${
                               people.userId === selectedContact
                                 ? "color-blue"
                                 : ""
@@ -222,12 +222,12 @@ const ChatPage = () => {
                   </Box>
                 )}
               </Box>
-              <Box className="people-box">
+              <Box className="chat-people-box">
                 <>
                   {excludeLogedUser.map((people, index) => {
                     return (
                       <Box
-                        className={`people ${
+                        className={`chat-people ${
                           people.userId === selectedContact ? "color-blue" : ""
                         }`}
                         key={index}
@@ -247,7 +247,7 @@ const ChatPage = () => {
                   {contacts.map((people, index) => {
                     return (
                       <Box
-                        className={`people ${
+                        className={`chat-people ${
                           people.userId === selectedContact ? "color-blue" : ""
                         }`}
                         key={index}
