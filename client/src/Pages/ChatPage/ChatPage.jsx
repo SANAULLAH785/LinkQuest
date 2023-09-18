@@ -81,7 +81,7 @@ const ChatPage = () => {
 
   const handleMessage = (e) => {
     const messageData = JSON.parse(e.data);
-    // console.log(messageData);
+    console.log(messageData);
     if ("online" in messageData) {
       showOnlinePeople(messageData);
     } else {
