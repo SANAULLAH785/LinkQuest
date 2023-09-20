@@ -1,10 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-const baseUrl = "http://localhost:8000";
+
 const token = localStorage.getItem("token");
+const baseUrl = process.env.REACT_APP_BASE_URL;
 console.log(token);
-// const headers = { "Content-Type": "multipart/form-data" };
-// const options = { headers: headers };
+
 
 const getError = (error) => {
   if (error.response) {
