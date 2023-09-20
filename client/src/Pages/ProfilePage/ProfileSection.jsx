@@ -57,22 +57,22 @@ const ProfileSection = () => {
 
   return (
     <>
-      <Box className="homepages">
+      <Box className="homepage">
         <Header/>
 
-        <Box className="app-sections">
+        <Box className="app-section">
           <Grid container spacing={2}>
             {screenWidth < 900 ? (
               ""
             ) : (
-              <Grid item md={profileSideBarWidth} className="sidebars">
+              <Grid item md={profileSideBarWidth} className="sidebar">
                 <ProfileSideBar
                   isOpenProfileSideBar={isOpenProfileSideBar}
                   profilesideBarHandler={profilesideBarHandler}
                 />
               </Grid>
             )}
-            <Grid item xs={12} md={middleBarWidth} className="sidebars">
+            <Grid item xs={12} md={middleBarWidth} className="sidebar">
               {selectedOption === "profile" && <ProfilePage />}
               {selectedOption==="workhistory" &&(<>{historymodal? <HistoryModal/>:<WorkHistory/>}</>)}
               {selectedOption==="posts" && <Posts></Posts>}

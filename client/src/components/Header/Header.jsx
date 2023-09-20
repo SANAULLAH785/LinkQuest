@@ -1,16 +1,17 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box } from "@mui/material";
-import {
-  IoNotificationsSharp,
-  IoChatboxEllipsesOutline,
-} from "react-icons/io5";
+import { IoNotificationsSharp, IoChatboxEllipsesOutline,} from "react-icons/io5";
 import { MdArrowDropDown } from "react-icons/md";
 import { BiChevronRight } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserData, removeUserData } from "../../Store/Slices/userSlice";
 import { useNavigate } from "react-router-dom";
+
+import { addUserData, removeUserData } from "../../Store/Slices/userSlice";
 import "./Header.scss";
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 
 const Header = () => {
   const token = localStorage.getItem("token");
@@ -28,7 +29,7 @@ const Header = () => {
     };
     try {
       const response = await axios.get(
-        "http://localhost:8000/personalDataShort",
+        `${baseUrl}/personalDataShort`,
         { headers }
       );
       const userData = response.data;
