@@ -62,7 +62,7 @@ const start = async () => {
           return (
             client !== connection &&
             contacts.includes(client.userId) &&
-            client.isAlive  
+            client.isAlive
           );
         });
 

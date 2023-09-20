@@ -1,17 +1,17 @@
 .wrappers {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin:10px 10px;
-    height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 10px;
+  height: auto;
+  width: 100%;
+  background-color: #282a37;
+  border-radius: 15px;
+  padding-top: 10px;
+  .containers {
+    color: white;
     width: 100%;
-    background-color: #282a37;
-    border-radius: 15px;
-    padding-top: 10px;
-    .containers {
-      color: white;
-      width: 100%;
-    .loading-data{
+    .loading-data {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -21,86 +21,139 @@
       border-radius: 15px;
       padding-top: 10px;
     }
-      // background-color: blue;
-    }
-    .image-previews {
-      position: relative;
-      display: flex;
+    // background-color: blue;
+  }
+  .image-previews {
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+    img {
+      max-width: 300px;
+      height: 311px;
       margin-bottom: 10px;
-      justify-content: center;
-      img {
-        max-width: 300px;
-        height: 311px;
-        margin-bottom: 10px;
-        object-fit: contain;
-        border: 1px solid black;
+      object-fit: contain;
+      border: 1px solid black;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      &:hover {
+        cursor: pointer;
       }
-      
-      .close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        &:hover {
-          cursor: pointer;
+    }
+  }
+  .input-image {
+    display: inline-block;
+    width: 100%;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+    .error {
+      font-size: 12px;
+      color: tomato;
+    }
+
+    .icon-wrapper {
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    p {
+      font-size: 14px;
+      color: gray;
+      margin: 0;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  }
+
+  .MuiInputBase-input {
+    outline: none;
+    border: gray solid 1px;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .profile-fields-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: white;
+
+    .MuiInputBase-input {
+      outline: none;
+      border: gray solid 1px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .profile-input-text {
+      color: white;
+      &::placeholder {
+        color: white;
+      }
+    }
+
+    .MuiTextField-root {
+      width: calc(46% - 10px);
+      margin-bottom: 10px;
+      outline: transparent;
+      border-color: transparent;
+      border: none;
+      margin-left: 2%;
+      margin-right: 2%;
+      color: white;
+      &::placeholder {
+        color: white;
+      }
+      .MuiInputBase-input {
+        color: white;
+        &::placeholder {
+          color: white;
         }
       }
     }
-    .input-image {
-      display: inline-block;
-      width: 100%;
-      padding-top: 10px;
-      margin-bottom: 10px;
-      text-align: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: border-color 0.3s, background-color 0.3s;
-      .error {
-        font-size: 12px;
-        color: tomato;
-      }
 
-      .icon-wrapper {
-        margin-bottom: 10px;
+    .MuiFormControl-root {
+      .MuiFormLabel-root {
         color: white;
       }
 
-      p {
-        font-size: 14px;
-        color: gray;
-        margin: 0;
+      .MuiInputBase-root {
+        color: white;
       }
 
-      input[type="file"] {
-        display: none;
+      .MuiOutlinedInput-root {
+        label {
+          color: wheat;
+        }
+
+        fieldset {
+          border-color: white;
+          border-width: 1px;
+          border-radius: 10px;
+          color: white;
+          &::placeholder {
+            color: white;
+          }
+        }
       }
     }
-  
-    .fields-container {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      
-      .MuiTextField-root {
-          width: calc(46% - 10px); 
-          margin-bottom: 10px;
-          outline: transparent;
-          border-color: transparent;
-          border: none;
-          margin-left: 2%;
-          margin-right: 2%;
-          .MuiInputBase-input {
-            color: #1d90f4; /* Change this to your desired text color */
-          }
-          
-      }
-     
-      .blue-label{
-        color: #f7f7f7;
-        margin-bottom: 5px;
 
-      }
+    .blue-label {
+      color: #f7f7f7;
+      margin-bottom: 5px;
+    }
   }
-  .buttons{
+  .buttons {
     button {
       background-color: #1d90f4;
       color: #f7f7f7;
@@ -125,5 +178,4 @@
       }
     }
   }
-  }
-  
+}

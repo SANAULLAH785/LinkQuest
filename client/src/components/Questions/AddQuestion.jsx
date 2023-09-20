@@ -86,7 +86,7 @@ const AddQuestion = ({ getQuestions, setGetQuestions }) => {
             {({ errors, touched, setFieldValue }) => (
               <Form>
                 <Box className="add-comment">
-                  <p className="helper-text">
+                  <p className="question-helper-text">
                     Be specific and imagine you’re asking a question to another
                     person.
                   </p>
@@ -139,7 +139,7 @@ const AddQuestion = ({ getQuestions, setGetQuestions }) => {
                     </label>
                   )}
 
-                  <p className="helper-text">
+                  <p className="question-helper-text">
                     Introduce the problem and expand on what you put in the
                     title. Minimum 20 characters.
                   </p>
@@ -159,7 +159,7 @@ const AddQuestion = ({ getQuestions, setGetQuestions }) => {
                       </Box>
                     )}
                   </Field>
-                  <p className="helper-text">
+                  <p className="question-helper-text">
                     Add comma-separated tags to help others search for this
                     question.
                   </p>

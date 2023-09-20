@@ -15,9 +15,11 @@ import { setSelectedCompanyData } from "../../Store/Slices/reviewSlice";
 import { useNavigate } from "react-router-dom";
 import { setHistroyPath } from "../../Store/Slices/workhistorySlice";
 const AddCompany = ({ onClose, clearSearch }) => {
-  const historypath=useSelector ((state)=> state.workhistoryState.historypath);
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const historypath = useSelector(
+    (state) => state.workhistoryState.historypath
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const handleImageChange = (event) => {
@@ -45,7 +47,6 @@ const AddCompany = ({ onClose, clearSearch }) => {
     industry: "",
     companysize: 0,
     websiteUrl: "",
-    
   };
 
   const validationSchema = Yup.object({
@@ -72,14 +73,18 @@ const AddCompany = ({ onClose, clearSearch }) => {
       // .url("Invalid URL")
       .required("Website URL is required"),
   });
-  
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (newCompanyData) => {
       console.log(" company Form newCompanyData:", newCompanyData);
       try {
-        const res = await ApiCallPosts("/addcompany", newCompanyData, "multipart/form-data");
+        const res = await ApiCallPosts(
+          "/addcompany",
+          newCompanyData,
+          "multipart/form-data"
+        );
         console.log(res);
         if (historypath === "/profile") {
           navigate("/profile");
@@ -107,23 +112,22 @@ const AddCompany = ({ onClose, clearSearch }) => {
       }
     },
   });
-  
+
   // const handelClose=()=>{
   //   onClose();
   // }
   return (
     <Box className="main">
-       <Box
-          className="close-icon"
-          onClick={() => {
-            onClose();
-            clearSearch();
-          }}
-        >
-          <MdClose size={25} />
-        </Box>
+      <Box
+        className="close-icon"
+        onClick={() => {
+          onClose();
+          clearSearch();
+        }}
+      >
+        <MdClose size={25} />
+      </Box>
       <form onSubmit={formik.handleSubmit}>
-       
         <Box className="image-preview">
           {selectedImage && (
             <>
@@ -153,7 +157,7 @@ const AddCompany = ({ onClose, clearSearch }) => {
             <p className="error">{formik.errors.image}</p>
           )}
         </label>
-        <div className="fields-container">
+        <Box className="fields-container">
           <TextField
             id="name"
             name="name"
@@ -162,7 +166,6 @@ const AddCompany = ({ onClose, clearSearch }) => {
             onChange={formik.handleChange}
             error={formik.touched.name && Boolean(formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
-            InputLabelProps={{ className: 'blue-label' }} 
           />
           <TextField
             id="companysize"
@@ -174,9 +177,8 @@ const AddCompany = ({ onClose, clearSearch }) => {
               formik.touched.companysize && Boolean(formik.errors.companysize)
             }
             helperText={formik.touched.companysize && formik.errors.companysize}
-            InputLabelProps={{ className: 'blue-label' }} 
           />
-        </div>
+        </Box>
         <div className="fields-container">
           <TextField
             id="address"
@@ -186,7 +188,6 @@ const AddCompany = ({ onClose, clearSearch }) => {
             onChange={formik.handleChange}
             error={formik.touched.address && Boolean(formik.errors.address)}
             helperText={formik.touched.address && formik.errors.address}
-            InputLabelProps={{ className: 'blue-label' }}
           />
           <TextField
             id="contact"
@@ -196,10 +197,9 @@ const AddCompany = ({ onClose, clearSearch }) => {
             onChange={formik.handleChange}
             error={formik.touched.contact && Boolean(formik.errors.contact)}
             helperText={formik.touched.contact && formik.errors.contact}
-            InputLabelProps={{ className: 'blue-label' }} 
           />
         </div>
-       
+
         <div className="fields-container">
           <TextField
             id="industry"
@@ -209,7 +209,6 @@ const AddCompany = ({ onClose, clearSearch }) => {
             onChange={formik.handleChange}
             error={formik.touched.industry && Boolean(formik.errors.industry)}
             helperText={formik.touched.industry && formik.errors.industry}
-            InputLabelProps={{ className: 'blue-label' }} 
           />
           <TextField
             id="websiteUrl"
@@ -221,7 +220,6 @@ const AddCompany = ({ onClose, clearSearch }) => {
               formik.touched.websiteUrl && Boolean(formik.errors.websiteUrl)
             }
             helperText={formik.touched.websiteUrl && formik.errors.websiteUrl}
-            InputLabelProps={{ className: 'blue-label' }} 
           />
         </div>
         <div className="description">
@@ -235,9 +233,7 @@ const AddCompany = ({ onClose, clearSearch }) => {
               formik.touched.description && Boolean(formik.errors.description)
             }
             helperText={formik.touched.description && formik.errors.description}
-            InputLabelProps={{ className: 'blue-label' }} 
           />
-         
         </div>
         <div className="buttons">
           <button type="submit">Add Company</button>

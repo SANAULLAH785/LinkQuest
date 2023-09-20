@@ -75,10 +75,15 @@
       border: none;
       border-radius: 4px;
       background-color: transparent;
-      color: #f7f7f7;
+      // color: #f7f7f7;
+      color: white;
       font-size: 16px;
       resize: none;
       outline: none;
+
+      &::placeholder {
+        color: white;
+      }
 
       &::-webkit-scrollbar {
         width: 8px;
@@ -177,7 +182,8 @@
 
       p {
         font-size: 14px;
-        color: gray;
+        // color: gray;
+        color: white;
         margin: 0;
       }
 
@@ -196,10 +202,15 @@
       border: none;
       border-radius: 4px;
       background-color: transparent;
-      color: #f7f7f7;
+      // color: #f7f7f7;
+      color: white;
       font-size: 16px;
       resize: none;
       outline: none;
+
+      &::placeholder {
+        color: white;
+      }
 
       &::-webkit-scrollbar {
         width: 8px;
