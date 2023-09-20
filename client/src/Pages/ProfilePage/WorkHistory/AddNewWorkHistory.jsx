@@ -5,10 +5,9 @@ import { ApiCallGet, ApiCallPosts } from "../../../components/Api/ApiCall";
 import {
   addNewWorkHistory,
   setGetHistory,
-  setHistroyPath
+  setHistroyPath,
 } from "../../../Store/Slices/workhistorySlice";
 import { useDispatch, useSelector } from "react-redux";
-import "./AddNewWorkHistory.scss";
 import {
   TextField,
   Button,
@@ -19,11 +18,12 @@ import {
 } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import "./AddNewWorkHistory.scss";
 
 const AddNewWorkHistory = () => {
   const [companydata, setCompanyData] = useState([]);
   const dispatch = useDispatch();
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const gethistory = useSelector((state) => state.workhistoryState.gethistory);
   const [showAddCompanyButton, setShowAddCompanyButton] = useState(false);
   const getcompanies = async () => {
@@ -67,7 +67,7 @@ const AddNewWorkHistory = () => {
         console.log(response.data);
         dispatch(addNewWorkHistory(response.data.user));
         dispatch(setGetHistory(gethistory + 1));
-        dispatch(addNewWorkHistory(false));   
+        dispatch(addNewWorkHistory(false));
       } catch (error) {
         console.log(error);
       }
@@ -76,10 +76,10 @@ const AddNewWorkHistory = () => {
   const handeladdnewworkhistroy = () => {
     dispatch(addNewWorkHistory(false));
   };
-  const handelclick=()=>{
-    navigate('/addcompany');
+  const handelclick = () => {
+    navigate("/addcompany");
     dispatch(setHistroyPath("/profile"));
-  }
+  };
 
   return (
     <>
@@ -95,9 +95,9 @@ const AddNewWorkHistory = () => {
           onChange={(event, newValue) => {
             formik.setFieldValue("company", newValue);
             if (!companydata.some((company) => company.name === newValue)) {
-              setShowAddCompanyButton(true); 
+              setShowAddCompanyButton(true);
             } else {
-              setShowAddCompanyButton(false); 
+              setShowAddCompanyButton(false);
             }
             console.log(showAddCompanyButton);
           }}
@@ -116,7 +116,9 @@ const AddNewWorkHistory = () => {
               {showAddCompanyButton && (
                 <div className="no-results">
                   <p>No results found.</p>
-                  <button className="add-company"  onClick={handelclick}>Add Company</button>
+                  <button className="add-company" onClick={handelclick}>
+                    Add Company
+                  </button>
                 </div>
               )}
             </div>
@@ -142,13 +144,13 @@ const AddNewWorkHistory = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.dateOfJoining}
+          InputLabelProps={{ shrink: true }}
           error={
             formik.touched.dateOfJoining && Boolean(formik.errors.dateOfJoining)
           }
           helperText={
             formik.touched.dateOfJoining && formik.errors.dateOfJoining
           }
-          InputLabelProps={{ className: "blue-label" }}
         />
         <FormControlLabel
           control={
@@ -176,7 +178,7 @@ const AddNewWorkHistory = () => {
               formik.touched.dateOfLeft && Boolean(formik.errors.dateOfLeft)
             }
             helperText={formik.touched.dateOfLeft && formik.errors.dateOfLeft}
-            InputLabelProps={{ className: "blue-label" }}
+            InputLabelProps={{ shrink: true }}
           />
         )}
         <Button type="submit" className="addbutton">

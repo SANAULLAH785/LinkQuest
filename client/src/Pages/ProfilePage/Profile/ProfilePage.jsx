@@ -5,28 +5,31 @@ import { Box, TextField } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import  { addUserData } from "../../../Store/Slices/userSlice";
+import { addUserData } from "../../../Store/Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import "./ProfilePage.scss";
-import { ApiCallPosts, ApiCallPutwithData } from "../../../components/Api/ApiCall";
+import {
+  ApiCallPosts,
+  ApiCallPutwithData,
+} from "../../../components/Api/ApiCall";
 const ProfilePage = () => {
   const userData = useSelector((state) => state.userState);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [cloudinaryurl ,setCloudinarUrl]=useState(userData.imageUrl);
+  const [cloudinaryurl, setCloudinarUrl] = useState(userData.imageUrl);
   const [imageFile, setImageFile] = useState(null);
-  const[isloading,setIsLoading]=useState(true);
+  const [isloading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(userData);
 
   useEffect(() => {
     if (userData.id) {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
-    if(!selectedImage){
-    setSelectedImage(userData.imageUrl);
+    if (!selectedImage) {
+      setSelectedImage(userData.imageUrl);
     }
-  }, [userData,selectedImage]);
+  }, [userData, selectedImage]);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -40,19 +43,16 @@ const ProfilePage = () => {
   const clearSelectedImage = () => {
     if (cloudinaryurl) {
       setCloudinarUrl(null);
-
     } else {
       setSelectedImage(null);
       setImageFile(null);
       formik.setFieldValue("image", null);
     }
   };
- 
-
 
   const initialValues = {
     image: userData.imageUrl || null,
-    name:  userData.userName || "",
+    name: userData.userName || "",
     jobTitle: userData.jobTitle || "",
     skills: userData.skills || "",
   };
@@ -63,7 +63,6 @@ const ProfilePage = () => {
     // .test("fileType", "Only image files are allowed", (value) => {
     //   return value && value.type.startsWith("image/");
     // }),
-
     // jobTitle: Yup.string().required("A jobTitle is required"),
     // skills: Yup.string().required("A skills is required"),
   });
@@ -97,100 +96,98 @@ const ProfilePage = () => {
   return (
     <Box className="wrappers">
       <Box className="containers">
-        {isloading? (
+        {isloading ? (
           <p className="loading-data">Loading Data Plaese Wait... </p>
-      
-        ):userData?(
+        ) : userData ? (
           <form onSubmit={formik.handleSubmit}>
-          < Box className="image-previews">
-            {selectedImage?(
-              <>
-              <img src={selectedImage} alt="Selected" />
-              <Box className="close-button">
-                <MdClose size={25} onClick={clearSelectedImage} />
-              </Box>
-            </>
-            ):( <>
-              <img src={cloudinaryurl} alt="Selected" />
-              <Box className="close-button">
-                <MdClose size={25} onClick={clearSelectedImage} />
-              </Box>
-            </>)}
-          
-          </Box>
-          <label htmlFor="image" className="input-image">
-            <div className="icon-wrapper">
-              <BsCardImage size={35} />
+            <Box className="image-previews">
+              {selectedImage ? (
+                <>
+                  <img src={selectedImage} alt="Selected" />
+                  <Box className="close-button">
+                    <MdClose size={25} onClick={clearSelectedImage} />
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <img src={cloudinaryurl} alt="Selected" />
+                  <Box className="close-button">
+                    <MdClose size={25} onClick={clearSelectedImage} />
+                  </Box>
+                </>
+              )}
+            </Box>
+            <label htmlFor="image" className="input-image">
+              <div className="icon-wrapper">
+                <BsCardImage size={35} />
+              </div>
+              <p>Add New Image</p>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                onChange={(event) => {
+                  formik.setFieldValue("image", event.currentTarget.files[0]);
+                  handleImageChange(event);
+                }}
+              />
+              {formik.errors.image && formik.touched.image && (
+                <p className="error">{formik.errors.image}</p>
+              )}
+            </label>
+            <div className="profile-fields-container">
+              <TextField
+                id="userName"
+                name="userName"
+                label="UserName"
+                className="profile-input-text"
+                defaultValue={userData.userName}
+                onChange={formik.handleChange}
+                InputLabelProps={{ className: "blue-label" }}
+              ></TextField>
+
+              <TextField
+                id="email"
+                name="email"
+                label="Email"
+                defaultValue={userData.email}
+                onChange={formik.handleChange}
+                InputLabelProps={{ className: "blue-label" }}
+              ></TextField>
             </div>
-            <p>Add New Image</p>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={(event) => {
-                formik.setFieldValue("image", event.currentTarget.files[0]);
-                handleImageChange(event);
-              }}
-            />
-            {formik.errors.image && formik.touched.image && (
-              <p className="error">{formik.errors.image}</p>
-            )}
-          </label>
-          <div className="fields-container">
-            <TextField
-            id="userName"
-            name="userName"
-            label="UserName"
-            defaultValue={userData.userName}
-            onChange={formik.handleChange}
-            InputLabelProps={{className:"blue-label"}}
-            ></TextField>      
-            
-           <TextField
-           id="email"
-           name="email"
-           label="Email"
-           defaultValue={userData.email}
-           onChange={formik.handleChange}
-           InputLabelProps={{ className: "blue-label" }}
-   
-           ></TextField>
-   
-          </div>
-          <div className="fields-container">
-            <TextField
-              id="jobTitle"
-              name="jobTitle"
-              label=" JobTitle"
-              defaultValue={userData.jobTitle}
-              onChange={formik.handleChange}
-              error={formik.touched.jobTitle && Boolean(formik.errors.jobTitle)}
-              helperText={formik.touched.jobTitle && formik.errors.jobTitle}
-              InputLabelProps={{ className: "blue-label" }}
-            />
-            <TextField
-              id="skills"
-              name="skills"
-              label="Add Your skills"
-              defaultValue={userData.skills}
-              onChange={formik.handleChange}
-              error={formik.touched.skills && Boolean(formik.errors.skills)}
-              helperText={formik.touched.skills && formik.errors.skills}
-              InputLabelProps={{ className: "blue-label" }}
-            />
-          </div>
-   
-          <div className="buttons">
-            <button type="submit">Save</button>
-          </div>
-        </form>
+            <div className="profile-fields-container">
+              <TextField
+                id="jobTitle"
+                name="jobTitle"
+                label=" JobTitle"
+                defaultValue={userData.jobTitle}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.jobTitle && Boolean(formik.errors.jobTitle)
+                }
+                helperText={formik.touched.jobTitle && formik.errors.jobTitle}
+                InputLabelProps={{ className: "blue-label" }}
+              />
+              <TextField
+                id="skills"
+                name="skills"
+                label="Add Your skills"
+                defaultValue={userData.skills}
+                onChange={formik.handleChange}
+                error={formik.touched.skills && Boolean(formik.errors.skills)}
+                helperText={formik.touched.skills && formik.errors.skills}
+                InputLabelProps={{ className: "blue-label" }}
+              />
+            </div>
+
+            <div className="buttons">
+              <button type="submit">Save</button>
+            </div>
+          </form>
         ) : (
           <p>No user data available.</p>
-        )
-
-        }
-       
+        )}
       </Box>
     </Box>
   );
