@@ -1,8 +1,8 @@
 import React from "react";
-import axios from "axios";
 import { Box } from "@mui/material";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+
 import {ApiCallPost} from '../Api/ApiCall';
 
 const ReplyForm = ({ commentId, loadReplies, commentUserName }) => {

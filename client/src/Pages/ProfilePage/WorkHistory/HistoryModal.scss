@@ -5,11 +5,73 @@
     width: 100%;
     color: #f7f7f7;
   }
+  .close-button {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
   .form-edit {
     background-color: #282a37;
     border-radius: 5px;
     padding: 10px;
     filter: drop-shadow(5px 5px 10px black);
     margin: 5px 5px;
+    .close-button {
+      display: flex;
+      justify-content: flex-end;
+    }
+  
+    .MuiFormControlLabel-root {
+      .MuiButtonBase-root {
+        color: white;
+      }
+    }
+  
+    .MuiFormControl-root {
+      .MuiFormLabel-root {
+        color: white;
+      }
+  
+      .MuiInputBase-root {
+        color: white;
+      }
+  
+      .MuiOutlinedInput-root {
+        label {
+          color: wheat;
+        }
+  
+        fieldset {
+          border-color: white;
+          border-width: 1px;
+          border-radius: 10px;
+          color: white;
+          &::placeholder {
+            color: white;
+          }
+        }
+      }
+    }
+  
+    .addbutton {
+      background-color: #1d90f4;
+      color: #f7f7f7;
+      outline: none;
+      border: none;
+      text-align: center;
+      margin-top: 5px;
+      width: 100%;
+      border: 1px white solid;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+      &:checked {
+        opacity: 1;
+      }
+      &:hover {
+        cursor: pointer;
+        opacity: 100%;
+        background-color: #282a37;
+      }
+    }
   }
 }

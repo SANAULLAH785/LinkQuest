@@ -6,10 +6,9 @@ import { formatDistanceToNow } from "date-fns";
 import { SlOptionsVertical } from "react-icons/sl";
 import { BiComment } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import {
-  setPostModalOpen,
-  setSelectedPost,
-} from "../../Store/Slices/postSlice";
+
+
+import { setPostModalOpen,setSelectedPost} from "../../Store/Slices/postSlice";
 import { ApiCallPut } from "../Api/ApiCall";
 import "./PostCard.scss";
 

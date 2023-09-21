@@ -17,7 +17,7 @@ router.post("/personalData/workHistory", auth,profileControllers.AddWorkHistory)
 
 router.put("/personalData/workHistory", profileControllers.EditWorkHistory);
 
-router.get("/personalData/posts", profileControllers.GetPersonalPosts);
+router.get("/personalData/posts",auth, profileControllers.GetPersonalPosts);
 
 router.get("/personalData/post/:id", profileControllers.GetSinglePersonalPost);
 

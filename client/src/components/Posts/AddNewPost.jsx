@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Grid, Box, TextField } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { BiImageAdd } from "react-icons/bi";
-import { BsBox2HeartFill, BsTextLeft } from "react-icons/bs";
+import { BsTextLeft } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { BsCardImage } from "react-icons/bs";
 import { useDispatch } from "react-redux";
+
 import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { ApiCallPost } from "../Api/ApiCall";
 import "./AddNewPost.scss";
-import { toast } from "react-hot-toast";
 
 const AddNewPost = () => {
   const dispatch = useDispatch();
