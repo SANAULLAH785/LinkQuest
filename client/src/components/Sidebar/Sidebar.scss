@@ -1,6 +1,5 @@
 .sidebar-container {
-  position: sticky;
-  top: 100px;
+  position: sticky !important;
   display: flex;
   flex-direction: column;
   height: 80vh;
@@ -19,6 +18,10 @@
     padding: 0;
   }
 
+  @media (min-width: 901px) {
+    top: 100px !important;
+  }
+
   .close-button {
     position: absolute;
     top: 5px;
@@ -27,9 +30,6 @@
     &:hover {
       cursor: pointer;
       color: gray;
-    }
-    @media (max-width: 900px) {
-      display: none;
     }
   }
 
