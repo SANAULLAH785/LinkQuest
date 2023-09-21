@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import PostCard from "./PostCard";
-import PostModal from "./PostModal";
 import { Box, Grid } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import { useNavigate } from "react-router-dom";
-import { ApiCallGet } from "../Api/ApiCall";
 import { toast } from "react-hot-toast";
 import _ from "lodash";
+
+import PostCard from "./PostCard";
+import PostModal from "./PostModal";
+import { ApiCallGet } from "../Api/ApiCall";
+import { addNewPostHandler } from "../../Store/Slices/postSlice";
 import "./PostSection.scss";
 
 const PostSection = () => {

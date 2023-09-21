@@ -1,5 +1,6 @@
 const User = require("../modals/userSchema");
 const Company = require("../modals/companySchema");
+const Post = require("../modals/postSchema");
 const mongoose = require("mongoose");
 
 const profileControllers = {};
@@ -64,7 +65,7 @@ profileControllers.GetWorkHistory = async(req, res) => {
   }
   const user = await User.findById(userId).populate("workHistory.company").select("workHistory");
 
-  console.log(user);
+  // console.log(user);
   
   const workHistoryWithCompanyNames = user.workHistory.map((entry) => ({
     companyName: entry.company.name, 
@@ -126,8 +127,28 @@ profileControllers.EditWorkHistory = (req, res) => {
   res.send("Edit Work History");
 };
 
-profileControllers.GetPersonalPosts = (req, res) => {
-  res.send("Get Personal Posts");
+profileControllers.GetPersonalPosts = async(req, res) => {
+  try{
+    const userId=req.userId;
+
+    if(!userId){
+      return res.status(404).json({ message: "User not found" });
+
+    }
+  const user = await User.findById(userId).populate({
+    path: "posts",
+    model: "Post",
+  }
+  );
+// const imageUrls = user.posts.map(post => post.imageUrl);
+
+console.log(user)
+res.status(200).json(user);
+
+
+  }catch(error){
+    res.status(500).json({message:"Internal Server Error"})
+  }
 };
 
 profileControllers.GetSinglePersonalPost = (req, res) => {

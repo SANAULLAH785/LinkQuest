@@ -1,9 +1,8 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Box } from "@mui/material";
-import { toast } from "react-hot-toast";
+
 import { ApiCallPost } from "../Api/ApiCall";
 
 const CommentForm = ({ postId, setReFetchComment, reFetchComments }) => {

@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box } from "@mui/material";
 import { MdClose } from "react-icons/md";
 import { setPostModalOpen } from "../../Store/Slices/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
+
 import { ApiCallGet } from "../Api/ApiCall";
 import ReplyForm from "./ReplyForm";
 import "./PostModal.scss";

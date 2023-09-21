@@ -1,6 +1,7 @@
 const Post = require("../modals/postSchema");
 const Comment = require("../modals/commentSchema");
 const Reply = require("../modals/replySchema");
+const User = require("../modals/userSchema");
 const postControllers = {};
 
 postControllers.GetAllPosts = async (req, res) => {
@@ -129,8 +130,13 @@ postControllers.AddPost = async (req, res) => {
       imageUrl: req.imageUrl,
       user: req.userId,
     });
-
+  
     await newPost.save();
+    await User.findByIdAndUpdate(
+      req.userId, 
+      { $push: { posts: newPost._id } },
+      { new: true } 
+    );
     res.status(201).json({ message: "Post created successfully" });
   } catch (err) {
     console.error(err);
@@ -147,6 +153,11 @@ postControllers.AddTextPost = async (req, res) => {
     });
 
     await newPost.save();
+    await User.findByIdAndUpdate(
+      req.userId, 
+      { $push: { posts: newPost._id } },
+      { new: true } 
+    );
     res.status(200).json({ message: "Post created successfully" });
   } catch (err) {
     console.error(err);
