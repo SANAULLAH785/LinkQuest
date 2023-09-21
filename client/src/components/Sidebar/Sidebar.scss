@@ -1,6 +1,6 @@
 .sidebar-container {
   position: sticky;
-  // top: 100px;
+  top: 100px;
   display: flex;
   flex-direction: column;
   height: 80vh;
@@ -15,7 +15,7 @@
     flex-direction: row;
     height: auto;
     padding: 0px 10px;
-    top: 88vh;
+    // top: calc(710px - 80px);
     padding: 0;
   }
 

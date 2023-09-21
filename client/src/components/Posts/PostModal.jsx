@@ -27,9 +27,7 @@ const PostModal = () => {
     setReplyLoadCommentId(commentId);
     setReplyCommentId(commentId);
     try {
-      const response = await ApiCallGet(
-        `/post/comment/replies/${commentId}`
-      );
+      const response = await ApiCallGet(`/post/comment/replies/${commentId}`);
       setRepliesData(response.data.replies);
     } catch (error) {
       console.log(error);
@@ -41,7 +39,6 @@ const PostModal = () => {
     setReplyData({ commentId: commentId, commentUserName: commenter });
   };
   // setCommentData(response.data);
-
 
   const getComments = async () => {
     try {
@@ -62,7 +59,7 @@ const PostModal = () => {
   const dateString = postData.date;
   const dateObject = parseISO(dateString);
   const formattedDate = format(dateObject, "dd MMMM 'at' hh:mm a");
-console.log(commentData);
+  console.log(commentData);
   return (
     <>
       <Box
@@ -72,8 +69,17 @@ console.log(commentData);
       <Box className="main-container">
         <Box className="post-container">
           <Box className="image-container">
-            <img src={postData.imageUrl} alt="" />
+            {postData.imageUrl ? (
+              <img src={postData.imageUrl} alt="" />
+            ) : (
+              <Box className="description-container">
+                <p className="description-container-paragrap">
+                  {postData.description}
+                </p>
+              </Box>
+            )}
           </Box>
+
           <Box className="content-container">
             <Box className="post-header">
               <Box className="profile-section">

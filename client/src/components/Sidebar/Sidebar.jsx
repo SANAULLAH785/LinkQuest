@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useWindowSize from "../../utils/useWindowSize";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
@@ -12,7 +13,8 @@ import { setReviewModalOpen } from "../../Store/Slices/reviewSlice";
 import "./Sidebar.scss";
 
 const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
-  // sx={{ width: "100px" }}
+  const [screenWidth, setScreenWidth] = useState(useWindowSize().width);
+  const [screenHeight, setScreenHeight] = useState(useWindowSize().height - 80);
   const userData = useSelector((state) => state.userState);
   const firstName = userData.userName?.split(" ")[0];
   const selectedOption = useSelector(
@@ -24,13 +26,16 @@ const Sidebar = ({ isOpenSideBar, sideBarHandler }) => {
     dispatch(sideBarOptionsHandler("questions"));
     dispatch(setQuestionModalOpen(false));
   };
-  const reviewSectionHandler=()=>{
+  const reviewSectionHandler = () => {
     dispatch(sideBarOptionsHandler("reviews"));
     dispatch(setReviewModalOpen(false));
-  }
+  };
 
   return (
-    <Box className="sidebar-container">
+    <Box
+      className="sidebar-container"
+      style={{ top: screenWidth < 900 ? `${screenHeight}px` : "auto" }}
+    >
       <Box className="close-button " onClick={() => sideBarHandler(false)}>
         {isOpenSideBar ? (
           <BiChevronLeft size={25} />
